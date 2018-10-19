@@ -1,1 +1,1 @@
-include ':comb'
+include ':comb', ':locker'
