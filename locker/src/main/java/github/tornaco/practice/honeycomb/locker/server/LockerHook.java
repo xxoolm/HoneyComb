@@ -2,7 +2,9 @@ package github.tornaco.practice.honeycomb.locker.server;
 
 import android.content.Context;
 
+import org.newstand.logger.LogAdapter;
 import org.newstand.logger.Logger;
+import org.newstand.logger.Settings;
 
 import java.util.Set;
 
@@ -11,19 +13,26 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import github.tornaco.practice.honeycomb.locker.BuildConfig;
 
 public class LockerHook implements IXposedHookLoadPackage {
 
-    private Locker locker;
+    private final static Locker LOCKER = new Locker();
 
-    public LockerHook(Locker locker) {
-        this.locker = locker;
+    static {
+        Logger.config(Settings.builder()
+                .tag("Locker")
+                .logAdapter(new XposedBridgeLogAdapter())
+                .logLevel(BuildConfig.DEBUG ? Logger.LogLevel.ALL : Logger.LogLevel.WARN)
+                .build());
     }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        hookAMSStart(lpparam);
-        hookAMSSystemReady(lpparam);
+        if ("android".equals(lpparam.packageName)) {
+            hookAMSStart(lpparam);
+            hookAMSSystemReady(lpparam);
+        }
     }
 
     private void hookAMSStart(XC_LoadPackage.LoadPackageParam lpparam) {
@@ -36,7 +45,7 @@ public class LockerHook implements IXposedHookLoadPackage {
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
                     Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                    locker.onStart(context);
+                    LOCKER.onStart(context);
                 }
             });
             Logger.i("hookAMSStart OK:" + unHooks);
@@ -54,12 +63,44 @@ public class LockerHook implements IXposedHookLoadPackage {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    locker.systemReady();
+                    LOCKER.systemReady();
                 }
             });
             Logger.i("hookAMSSystemReady OK:" + unHooks);
         } catch (Throwable e) {
             Logger.wtf("Fail hookAMSSystemReady %s", e);
+        }
+    }
+
+    private static class XposedBridgeLogAdapter implements LogAdapter {
+        @Override
+        public void d(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void e(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void w(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void i(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void v(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void wtf(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
         }
     }
 }
