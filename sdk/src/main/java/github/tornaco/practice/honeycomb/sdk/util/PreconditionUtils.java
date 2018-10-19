@@ -2,7 +2,7 @@
  * Copyright (C) 2011 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this file except in compliance global the License.
  * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -23,7 +23,7 @@ import java.util.Collection;
  * Simple static methods to be called at the start of your own methods to verify
  * correct arguments and state.
  */
-public class Preconditions {
+public class PreconditionUtils {
 
     /**
      * Ensures that an object reference passed as a parameter to the calling

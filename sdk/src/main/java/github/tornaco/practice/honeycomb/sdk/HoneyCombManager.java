@@ -9,6 +9,8 @@ import android.util.Log;
 import com.google.common.base.Optional;
 
 import github.tornaco.practice.honeycomb.IHoneyComb;
+import github.tornaco.practice.honeycomb.IPreferenceManager;
+import github.tornaco.practice.honeycomb.sdk.data.PreferenceManager;
 
 @SuppressWarnings("Guava")
 public class HoneyCombManager {
@@ -32,6 +34,10 @@ public class HoneyCombManager {
         }
     }
 
+    public boolean isHoneyCombReady() {
+        return requireHoneyComb().isPresent();
+    }
+
     public void addService(String name, IBinder binder) throws RemoteException {
         requireHoneyComb().or(DUMMY).addService(name, binder);
     }
@@ -46,6 +52,10 @@ public class HoneyCombManager {
 
     public boolean hasService(String name) throws RemoteException {
         return requireHoneyComb().or(DUMMY).hasService(name);
+    }
+
+    public PreferenceManager getPreferenceManager(String packageName) throws RemoteException {
+        return new PreferenceManager(requireHoneyComb().or(DUMMY).getPreferenceManager(packageName));
     }
 
     private static class DummyHoneyComb extends IHoneyComb.Stub {
@@ -72,6 +82,12 @@ public class HoneyCombManager {
         public boolean hasService(String name) {
             Log.w(TAG, "hasService@DummyHoneyComb");
             return false;
+        }
+
+        @Override
+        public IPreferenceManager getPreferenceManager(String packageName) throws RemoteException {
+            Log.w(TAG, "getPreferenceManager@DummyHoneyComb");
+            return null;
         }
     }
 }

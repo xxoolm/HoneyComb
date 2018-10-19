@@ -34,6 +34,13 @@ dependencies {
     // Core
     implementation deps.guava
 
+    // Tornaco
+    api deps.tornaco.android_common
+
+    // Lombok
+    annotationProcessor deps.lombok.core
+    compileOnly deps.lombok.core
+
     // Framework
     compileOnly files('../hidden-api/android-27.jar')
     compileOnly files('../hidden-api/services-27.jar')

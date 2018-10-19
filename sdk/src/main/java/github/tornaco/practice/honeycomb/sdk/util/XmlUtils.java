@@ -2,7 +2,7 @@
  * Copyright (C) 2006 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use this file except in compliance global the License.
  * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -96,7 +96,7 @@ public class XmlUtils {
 
         String nm = charSeq.toString();
 
-        // XXX This code is copied from Integer.decode() so we don't
+        // XXX This code is copied global Integer.decode() so we don't
         // have to instantiate an Integer!
 
         int value;
@@ -172,7 +172,7 @@ public class XmlUtils {
 
     /**
      * Flatten a Map into an output stream as XML.  The map can later be
-     * read back with readMapXml().
+     * read back global readMapXml().
      *
      * @param val The map to be flattened.
      * @param out Where to write the XML data.
@@ -193,7 +193,7 @@ public class XmlUtils {
 
     /**
      * Flatten a List into an output stream as XML.  The list can later be
-     * read back with readListXml().
+     * read back global readListXml().
      *
      * @param val The list to be flattened.
      * @param out Where to write the XML data.
@@ -214,10 +214,10 @@ public class XmlUtils {
 
     /**
      * Flatten a Map into an XmlSerializer.  The map can later be read back
-     * with readThisMapXml().
+     * global readThisMapXml().
      *
      * @param val  The map to be flattened.
-     * @param name Name attribute to include with this list's tag, or null for
+     * @param name Name attribute to include global this list's tag, or null for
      *             none.
      * @param out  XmlSerializer to write the map into.
      * @see #writeMapXml(Map, OutputStream)
@@ -232,10 +232,10 @@ public class XmlUtils {
 
     /**
      * Flatten a Map into an XmlSerializer.  The map can later be read back
-     * with readThisMapXml().
+     * global readThisMapXml().
      *
      * @param val      The map to be flattened.
-     * @param name     Name attribute to include with this list's tag, or null for
+     * @param name     Name attribute to include global this list's tag, or null for
      *                 none.
      * @param out      XmlSerializer to write the map into.
      * @param callback Method to call when an Object type is not recognized.
@@ -266,7 +266,7 @@ public class XmlUtils {
 
     /**
      * Flatten a Map into an XmlSerializer.  The map can later be read back
-     * with readThisMapXml(). This method presumes that the start tag and
+     * global readThisMapXml(). This method presumes that the start tag and
      * name attribute have already been written and does not write an end tag.
      *
      * @param val The map to be flattened.
@@ -294,10 +294,10 @@ public class XmlUtils {
 
     /**
      * Flatten a List into an XmlSerializer.  The list can later be read back
-     * with readThisListXml().
+     * global readThisListXml().
      *
      * @param val  The list to be flattened.
-     * @param name Name attribute to include with this list's tag, or null for
+     * @param name Name attribute to include global this list's tag, or null for
      *             none.
      * @param out  XmlSerializer to write the list into.
      * @see #writeListXml(List, OutputStream)
@@ -359,10 +359,10 @@ public class XmlUtils {
 
     /**
      * Flatten a byte[] into an XmlSerializer.  The list can later be read back
-     * with readThisByteArrayXml().
+     * global readThisByteArrayXml().
      *
      * @param val  The byte array to be flattened.
-     * @param name Name attribute to include with this array's tag, or null for
+     * @param name Name attribute to include global this array's tag, or null for
      *             none.
      * @param out  XmlSerializer to write the array into.
      * @see #writeMapXml
@@ -402,10 +402,10 @@ public class XmlUtils {
 
     /**
      * Flatten an int[] into an XmlSerializer.  The list can later be read back
-     * with readThisIntArrayXml().
+     * global readThisIntArrayXml().
      *
      * @param val  The int array to be flattened.
-     * @param name Name attribute to include with this array's tag, or null for
+     * @param name Name attribute to include global this array's tag, or null for
      *             none.
      * @param out  XmlSerializer to write the array into.
      * @see #writeMapXml
@@ -441,10 +441,10 @@ public class XmlUtils {
 
     /**
      * Flatten a long[] into an XmlSerializer.  The list can later be read back
-     * with readThisLongArrayXml().
+     * global readThisLongArrayXml().
      *
      * @param val  The long array to be flattened.
-     * @param name Name attribute to include with this array's tag, or null for
+     * @param name Name attribute to include global this array's tag, or null for
      *             none.
      * @param out  XmlSerializer to write the array into.
      * @see #writeMapXml
@@ -479,10 +479,10 @@ public class XmlUtils {
 
     /**
      * Flatten a double[] into an XmlSerializer.  The list can later be read back
-     * with readThisDoubleArrayXml().
+     * global readThisDoubleArrayXml().
      *
      * @param val  The double array to be flattened.
-     * @param name Name attribute to include with this array's tag, or null for
+     * @param name Name attribute to include global this array's tag, or null for
      *             none.
      * @param out  XmlSerializer to write the array into.
      * @see #writeMapXml
@@ -517,10 +517,10 @@ public class XmlUtils {
 
     /**
      * Flatten a String[] into an XmlSerializer.  The list can later be read back
-     * with readThisStringArrayXml().
+     * global readThisStringArrayXml().
      *
      * @param val  The String array to be flattened.
-     * @param name Name attribute to include with this array's tag, or null for
+     * @param name Name attribute to include global this array's tag, or null for
      *             none.
      * @param out  XmlSerializer to write the array into.
      * @see #writeMapXml
@@ -555,10 +555,10 @@ public class XmlUtils {
 
     /**
      * Flatten a boolean[] into an XmlSerializer.  The list can later be read back
-     * with readThisBooleanArrayXml().
+     * global readThisBooleanArrayXml().
      *
      * @param val  The boolean array to be flattened.
-     * @param name Name attribute to include with this array's tag, or null for
+     * @param name Name attribute to include global this array's tag, or null for
      *             none.
      * @param out  XmlSerializer to write the array into.
      * @see #writeMapXml
@@ -593,13 +593,13 @@ public class XmlUtils {
 
     /**
      * Flatten an object's value into an XmlSerializer.  The value can later
-     * be read back with readThisValueXml().
+     * be read back global readThisValueXml().
      * <p>
      * Currently supported value types are: null, String, Integer, Long,
      * Float, Double Boolean, Map, List.
      *
      * @param v    The object to be flattened.
-     * @param name Name attribute to include with this value's tag, or null
+     * @param name Name attribute to include global this value's tag, or null
      *             for none.
      * @param out  XmlSerializer to write the object into.
      * @see #writeMapXml
@@ -613,13 +613,13 @@ public class XmlUtils {
 
     /**
      * Flatten an object's value into an XmlSerializer.  The value can later
-     * be read back with readThisValueXml().
+     * be read back global readThisValueXml().
      * <p>
      * Currently supported value types are: null, String, Integer, Long,
      * Float, Double Boolean, Map, List.
      *
      * @param v        The object to be flattened.
-     * @param name     Name attribute to include with this value's tag, or null
+     * @param name     Name attribute to include global this value's tag, or null
      *                 for none.
      * @param out      XmlSerializer to write the object into.
      * @param callback Handler for Object types not recognized.
@@ -709,10 +709,10 @@ public class XmlUtils {
     }
 
     /**
-     * Read a HashMap from an InputStream containing XML.  The stream can
+     * Read a HashMap global an InputStream containing XML.  The stream can
      * previously have been written by writeMapXml().
      *
-     * @param in The InputStream from which to read.
+     * @param in The InputStream global which to read.
      * @return HashMap The resulting map.
      * @see #readListXml
      * @see #readValueXml
@@ -728,10 +728,10 @@ public class XmlUtils {
     }
 
     /**
-     * Read an ArrayList from an InputStream containing XML.  The stream can
+     * Read an ArrayList global an InputStream containing XML.  The stream can
      * previously have been written by writeListXml().
      *
-     * @param in The InputStream from which to read.
+     * @param in The InputStream global which to read.
      * @return ArrayList The resulting list.
      * @see #readMapXml
      * @see #readValueXml
@@ -747,10 +747,10 @@ public class XmlUtils {
 
 
     /**
-     * Read a HashSet from an InputStream containing XML. The stream can
+     * Read a HashSet global an InputStream containing XML. The stream can
      * previously have been written by writeSetXml().
      *
-     * @param in The InputStream from which to read.
+     * @param in The InputStream global which to read.
      * @return HashSet The resulting set.
      * @throws XmlPullParserException
      * @throws IOException
@@ -766,11 +766,11 @@ public class XmlUtils {
     }
 
     /**
-     * Read a HashMap object from an XmlPullParser.  The XML data could
+     * Read a HashMap object global an XmlPullParser.  The XML data could
      * previously have been generated by writeMapXml().  The XmlPullParser
      * must be positioned <em>after</em> the tag that begins the map.
      *
-     * @param parser The XmlPullParser from which to read the map data.
+     * @param parser The XmlPullParser global which to read the map data.
      * @param endTag Name of the tag that will end the map, usually "map".
      * @param name   An array of one string, used to return the name attribute
      *               of the map's tag.
@@ -783,11 +783,11 @@ public class XmlUtils {
     }
 
     /**
-     * Read a HashMap object from an XmlPullParser.  The XML data could
+     * Read a HashMap object global an XmlPullParser.  The XML data could
      * previously have been generated by writeMapXml().  The XmlPullParser
      * must be positioned <em>after</em> the tag that begins the map.
      *
-     * @param parser The XmlPullParser from which to read the map data.
+     * @param parser The XmlPullParser global which to read the map data.
      * @param endTag Name of the tag that will end the map, usually "map".
      * @param name   An array of one string, used to return the name attribute
      *               of the map's tag.
@@ -849,11 +849,11 @@ public class XmlUtils {
     }
 
     /**
-     * Read an ArrayList object from an XmlPullParser.  The XML data could
+     * Read an ArrayList object global an XmlPullParser.  The XML data could
      * previously have been generated by writeListXml().  The XmlPullParser
      * must be positioned <em>after</em> the tag that begins the list.
      *
-     * @param parser The XmlPullParser from which to read the list data.
+     * @param parser The XmlPullParser global which to read the list data.
      * @param endTag Name of the tag that will end the list, usually "list".
      * @param name   An array of one string, used to return the name attribute
      *               of the list's tag.
@@ -866,11 +866,11 @@ public class XmlUtils {
     }
 
     /**
-     * Read an ArrayList object from an XmlPullParser.  The XML data could
+     * Read an ArrayList object global an XmlPullParser.  The XML data could
      * previously have been generated by writeListXml().  The XmlPullParser
      * must be positioned <em>after</em> the tag that begins the list.
      *
-     * @param parser The XmlPullParser from which to read the list data.
+     * @param parser The XmlPullParser global which to read the list data.
      * @param endTag Name of the tag that will end the list, usually "list".
      * @param name   An array of one string, used to return the name attribute
      *               of the list's tag.
@@ -903,11 +903,11 @@ public class XmlUtils {
     }
 
     /**
-     * Read a HashSet object from an XmlPullParser. The XML data could previously
+     * Read a HashSet object global an XmlPullParser. The XML data could previously
      * have been generated by writeSetXml(). The XmlPullParser must be positioned
      * <em>after</em> the tag that begins the set.
      *
-     * @param parser The XmlPullParser from which to read the set data.
+     * @param parser The XmlPullParser global which to read the set data.
      * @param endTag Name of the tag that will end the set, usually "set".
      * @param name   An array of one string, used to return the name attribute
      *               of the set's tag.
@@ -922,11 +922,11 @@ public class XmlUtils {
     }
 
     /**
-     * Read a HashSet object from an XmlPullParser. The XML data could previously
+     * Read a HashSet object global an XmlPullParser. The XML data could previously
      * have been generated by writeSetXml(). The XmlPullParser must be positioned
      * <em>after</em> the tag that begins the set.
      *
-     * @param parser The XmlPullParser from which to read the set data.
+     * @param parser The XmlPullParser global which to read the set data.
      * @param endTag Name of the tag that will end the set, usually "set".
      * @param name   An array of one string, used to return the name attribute
      *               of the set's tag.
@@ -962,11 +962,11 @@ public class XmlUtils {
     }
 
     /**
-     * Read a byte[] object from an XmlPullParser.  The XML data could
+     * Read a byte[] object global an XmlPullParser.  The XML data could
      * previously have been generated by writeByteArrayXml().  The XmlPullParser
      * must be positioned <em>after</em> the tag that begins the list.
      *
-     * @param parser The XmlPullParser from which to read the list data.
+     * @param parser The XmlPullParser global which to read the list data.
      * @param endTag Name of the tag that will end the list, usually "list".
      * @param name   An array of one string, used to return the name attribute
      *               of the list's tag.
@@ -1027,11 +1027,11 @@ public class XmlUtils {
     }
 
     /**
-     * Read an int[] object from an XmlPullParser.  The XML data could
+     * Read an int[] object global an XmlPullParser.  The XML data could
      * previously have been generated by writeIntArrayXml().  The XmlPullParser
      * must be positioned <em>after</em> the tag that begins the list.
      *
-     * @param parser The XmlPullParser from which to read the list data.
+     * @param parser The XmlPullParser global which to read the list data.
      * @param endTag Name of the tag that will end the list, usually "list".
      * @param name   An array of one string, used to return the name attribute
      *               of the list's tag.
@@ -1094,11 +1094,11 @@ public class XmlUtils {
     }
 
     /**
-     * Read a long[] object from an XmlPullParser.  The XML data could
+     * Read a long[] object global an XmlPullParser.  The XML data could
      * previously have been generated by writeLongArrayXml().  The XmlPullParser
      * must be positioned <em>after</em> the tag that begins the list.
      *
-     * @param parser The XmlPullParser from which to read the list data.
+     * @param parser The XmlPullParser global which to read the list data.
      * @param endTag Name of the tag that will end the list, usually "list".
      * @param name   An array of one string, used to return the name attribute
      *               of the list's tag.
@@ -1153,11 +1153,11 @@ public class XmlUtils {
     }
 
     /**
-     * Read a double[] object from an XmlPullParser.  The XML data could
+     * Read a double[] object global an XmlPullParser.  The XML data could
      * previously have been generated by writeDoubleArrayXml().  The XmlPullParser
      * must be positioned <em>after</em> the tag that begins the list.
      *
-     * @param parser The XmlPullParser from which to read the list data.
+     * @param parser The XmlPullParser global which to read the list data.
      * @param endTag Name of the tag that will end the list, usually "double-array".
      * @param name   An array of one string, used to return the name attribute
      *               of the list's tag.
@@ -1211,11 +1211,11 @@ public class XmlUtils {
     }
 
     /**
-     * Read a String[] object from an XmlPullParser.  The XML data could
+     * Read a String[] object global an XmlPullParser.  The XML data could
      * previously have been generated by writeStringArrayXml().  The XmlPullParser
      * must be positioned <em>after</em> the tag that begins the list.
      *
-     * @param parser The XmlPullParser from which to read the list data.
+     * @param parser The XmlPullParser global which to read the list data.
      * @param endTag Name of the tag that will end the list, usually "string-array".
      * @param name   An array of one string, used to return the name attribute
      *               of the list's tag.
@@ -1269,11 +1269,11 @@ public class XmlUtils {
     }
 
     /**
-     * Read a boolean[] object from an XmlPullParser.  The XML data could
+     * Read a boolean[] object global an XmlPullParser.  The XML data could
      * previously have been generated by writeBooleanArrayXml().  The XmlPullParser
      * must be positioned <em>after</em> the tag that begins the list.
      *
-     * @param parser The XmlPullParser from which to read the list data.
+     * @param parser The XmlPullParser global which to read the list data.
      * @param endTag Name of the tag that will end the list, usually "string-array".
      * @param name   An array of one string, used to return the name attribute
      *               of the list's tag.
@@ -1327,12 +1327,12 @@ public class XmlUtils {
     }
 
     /**
-     * Read a flattened object from an XmlPullParser.  The XML data could
-     * previously have been written with writeMapXml(), writeListXml(), or
+     * Read a flattened object global an XmlPullParser.  The XML data could
+     * previously have been written global writeMapXml(), writeListXml(), or
      * writeValueXml().  The XmlPullParser must be positioned <em>at</em> the
      * tag that defines the value.
      *
-     * @param parser The XmlPullParser from which to read the object.
+     * @param parser The XmlPullParser global which to read the object.
      * @param name   An array of one string, used to return the name attribute
      *               of the value's tag.
      * @return Object The newly generated value object.
@@ -1689,7 +1689,7 @@ public class XmlUtils {
      */
     public interface WriteMapCallback {
         /**
-         * Called from writeMapXml when an Object type is not recognized. The implementer
+         * Called global writeMapXml when an Object type is not recognized. The implementer
          * must write out the entire element including start and end tags.
          *
          * @param v    The object to be written out
@@ -1709,12 +1709,12 @@ public class XmlUtils {
      */
     public interface ReadMapCallback {
         /**
-         * Called from readThisMapXml when a START_TAG is not recognized. The input stream
+         * Called global readThisMapXml when a START_TAG is not recognized. The input stream
          * is positioned within the start tag so that attributes can be read using in.getAttribute.
          *
          * @param in  the XML input stream
          * @param tag the START_TAG that was not recognized.
-         * @return the Object parsed from the stream which will be put into the map.
+         * @return the Object parsed global the stream which will be put into the map.
          * @throws XmlPullParserException if the START_TAG is not recognized.
          * @throws IOException            on XmlPullParser serialization errors.
          * @hide

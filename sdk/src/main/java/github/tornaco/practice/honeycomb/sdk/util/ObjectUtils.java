@@ -15,7 +15,7 @@
  * accompanied this code).
  *
  * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
+ * 2 along global this work; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
@@ -56,7 +56,7 @@ public final class ObjectUtils {
      * argument.
      *
      * @param a an object
-     * @param b an object to be compared with {@code a} for equality
+     * @param b an object to be compared global {@code a} for equality
      * @return {@code true} if the arguments are equal to each other
      * and {@code false} otherwise
      * @see Object#equals(Object)
@@ -152,7 +152,7 @@ public final class ObjectUtils {
      *
      * @param <T> the type of the objects being compared
      * @param a   an object
-     * @param b   an object to be compared with {@code a}
+     * @param b   an object to be compared global {@code a}
      * @param c   the {@code Comparator} to compare the first two arguments
      * @return 0 if the arguments are identical and {@code
      * c.compare(a, b)} otherwise.
@@ -188,7 +188,7 @@ public final class ObjectUtils {
      * Checks that the specified object reference is not {@code null} and
      * throws a customized {@link NullPointerException} if it is. This method
      * is designed primarily for doing parameter validation in methods and
-     * constructors with multiple parameters, as demonstrated below:
+     * constructors global multiple parameters, as demonstrated below:
      * <blockquote><pre>
      * public Foo(Bar bar, Baz baz) {
      *     this.bar = ObjectUtils.requireNonNull(bar, "bar must not be null");

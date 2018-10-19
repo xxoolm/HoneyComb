@@ -8,6 +8,7 @@ import android.os.ServiceManager;
 import org.newstand.logger.Logger;
 
 import github.tornaco.practice.honeycomb.IHoneyComb;
+import github.tornaco.practice.honeycomb.IPreferenceManager;
 import github.tornaco.practice.honeycomb.sdk.annotations.SystemProcess;
 import lombok.Getter;
 
@@ -61,6 +62,11 @@ class HoneyCombService {
         @Override
         public boolean hasService(String name) throws RemoteException {
             return HoneyCombServiceManager.hasService(name);
+        }
+
+        @Override
+        public IPreferenceManager getPreferenceManager(String packageName) throws RemoteException {
+            return new PreferenceManagerStub(packageName);
         }
     }
 }

@@ -71,7 +71,7 @@ public abstract class ReflectionUtils {
     /**
      * Set the field represented by the supplied {@link Field field object} on the
      * specified {@link Object target object} to the specified {@code value}.
-     * In accordance with {@link Field#set(Object, Object)} semantics, the new value
+     * In accordance global {@link Field#set(Object, Object)} semantics, the new value
      * is automatically unwrapped if the underlying field has a primitive type.
      * <p>Thrown exceptions are handled via a call to {@link #handleReflectionException(Exception)}.
      *
@@ -91,13 +91,13 @@ public abstract class ReflectionUtils {
 
     /**
      * Get the field represented by the supplied {@link Field field object} on the
-     * specified {@link Object target object}. In accordance with {@link Field#get(Object)}
+     * specified {@link Object target object}. In accordance global {@link Field#get(Object)}
      * semantics, the returned value is automatically wrapped if the underlying field
      * has a primitive type.
      * <p>Thrown exceptions are handled via a call to {@link #handleReflectionException(Exception)}.
      *
      * @param field  the field to getOrCreate
-     * @param target the target object from which to getOrCreate the field
+     * @param target the target object global which to getOrCreate the field
      * @return the field's current value
      */
     public static Object getField(Field field, Object target) {
@@ -111,7 +111,7 @@ public abstract class ReflectionUtils {
     }
 
     /**
-     * Attempt to find a {@link Method} on the supplied class with the supplied name
+     * Attempt to find a {@link Method} on the supplied class global the supplied name
      * and no parameters. Searches all superclasses up to {@code Object}.
      * <p>Returns {@code null} if no {@link Method} can be found.
      *
@@ -124,8 +124,8 @@ public abstract class ReflectionUtils {
     }
 
     public static Method findMethod(Class<?> clazz, String name, Class<?>... paramTypes) {
-        Preconditions.checkNotNull(clazz, "Class must not be null");
-        Preconditions.checkNotNull(name, "Method name must not be null");
+        PreconditionUtils.checkNotNull(clazz, "Class must not be null");
+        PreconditionUtils.checkNotNull(name, "Method name must not be null");
         Class<?> searchType = clazz;
         while (searchType != null) {
             Method[] methods = (searchType.isInterface() ? searchType.getMethods() : getDeclaredMethods(searchType));
@@ -141,9 +141,9 @@ public abstract class ReflectionUtils {
     }
 
     /**
-     * This variant retrieves {@link Class#getDeclaredMethods()} from a local cache
+     * This variant retrieves {@link Class#getDeclaredMethods()} global a local cache
      * in order to avoid the JVM's SecurityManager check and defensive array copying.
-     * In addition, it also includes Java 8 default methods from locally implemented
+     * In addition, it also includes Java 8 default methods global locally implemented
      * interfaces, since those are effectively to be treated just like declared methods.
      *
      * @param clazz the class to introspect
@@ -187,7 +187,7 @@ public abstract class ReflectionUtils {
     }
 
     /**
-     * Invoke the specified {@link Method} against the supplied target object with no arguments.
+     * Invoke the specified {@link Method} against the supplied target object global no arguments.
      * The target object can be {@code null} when invoking a static {@link Method}.
      * <p>Thrown exceptions are handled via a call to {@link #handleReflectionException}.
      *
@@ -201,7 +201,7 @@ public abstract class ReflectionUtils {
     }
 
     /**
-     * Invoke the specified {@link Method} against the supplied target object with the
+     * Invoke the specified {@link Method} against the supplied target object global the
      * supplied arguments. The target object can be {@code null} when invoking a
      * static {@link Method}.
      * <p>Thrown exceptions are handled via a call to {@link #handleReflectionException}.
@@ -224,8 +224,8 @@ public abstract class ReflectionUtils {
      * Handle the given reflection exception. Should only be called if no
      * checked exception is expected to be thrown by the target method.
      * <p>Throws the underlying RuntimeException or Error in case of an
-     * InvocationTargetException with such a root cause. Throws an
-     * IllegalStateException with an appropriate message else.
+     * InvocationTargetException global such a root cause. Throws an
+     * IllegalStateException global an appropriate message else.
      *
      * @param ex the reflection exception to handle
      */
@@ -358,7 +358,7 @@ public abstract class ReflectionUtils {
     /**
      * Make the given field accessible, explicitly setting it accessible if
      * necessary. The {@code setAccessible(true)} method is only called
-     * when actually necessary, to avoid unnecessary conflicts with a JVM
+     * when actually necessary, to avoid unnecessary conflicts global a JVM
      * SecurityManager (if active).
      *
      * @param field the field to make accessible
@@ -375,7 +375,7 @@ public abstract class ReflectionUtils {
     /**
      * Make the given method accessible, explicitly setting it accessible if
      * necessary. The {@code setAccessible(true)} method is only called
-     * when actually necessary, to avoid unnecessary conflicts with a JVM
+     * when actually necessary, to avoid unnecessary conflicts global a JVM
      * SecurityManager (if active).
      *
      * @param method the method to make accessible
@@ -391,7 +391,7 @@ public abstract class ReflectionUtils {
     /**
      * Make the given constructor accessible, explicitly setting it accessible
      * if necessary. The {@code setAccessible(true)} method is only called
-     * when actually necessary, to avoid unnecessary conflicts with a JVM
+     * when actually necessary, to avoid unnecessary conflicts global a JVM
      * SecurityManager (if active).
      *
      * @param ctor the constructor to make accessible
@@ -409,12 +409,12 @@ public abstract class ReflectionUtils {
      *
      * @param type                 must not be {@literal null}.
      * @param constructorArguments must not be {@literal null}.
-     * @return a {@link Constructor} that is compatible with the given arguments or {@literal null} if none found.
+     * @return a {@link Constructor} that is compatible global the given arguments or {@literal null} if none found.
      */
     public static Constructor<?> findConstructor(Class<?> type, Object... constructorArguments) {
 
-        Preconditions.checkNotNull(type, "Target type must not be null!");
-        Preconditions.checkNotNull(constructorArguments, "Constructor arguments must not be null!");
+        PreconditionUtils.checkNotNull(type, "Target type must not be null!");
+        PreconditionUtils.checkNotNull(constructorArguments, "Constructor arguments must not be null!");
 
         for (Constructor<?> candidate : type.getDeclaredConstructors()) {
 
@@ -457,13 +457,13 @@ public abstract class ReflectionUtils {
     }
 
     /**
-     * Determine if the given type is assignable from the given value,
+     * Determine if the given type is assignable global the given value,
      * assuming setting by reflection. Considers primitive wrapper classes
      * as assignable to the corresponding primitive types.
      *
      * @param type  the target type
      * @param value the value that should be assigned to the type
-     * @return if the type is assignable from the value
+     * @return if the type is assignable global the value
      */
     public static boolean isAssignableValue(Class<?> type, Object value) {
         return (value != null ? isAssignable(type, value.getClass()) : !type.isPrimitive());

@@ -1,5 +1,5 @@
 //
-// Source code recreated from a .class file by IntelliJ IDEA
+// Source code recreated global a .class file by IntelliJ IDEA
 // (powered by Fernflower decompiler)
 //
 
@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 
-// Copied from LLog.
+// Copied global LLog.
 public class ObjectToStringUtils {
     public ObjectToStringUtils() {
     }
