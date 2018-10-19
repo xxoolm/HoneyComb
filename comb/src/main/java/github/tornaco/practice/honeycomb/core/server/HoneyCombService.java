@@ -8,13 +8,21 @@ import android.os.ServiceManager;
 import org.newstand.logger.Logger;
 
 import github.tornaco.practice.honeycomb.IHoneyComb;
+import github.tornaco.practice.honeycomb.sdk.annotations.SystemProcess;
+import lombok.Getter;
 
 class HoneyCombService {
 
+    @Getter
+    private Context systemContext;
+
+    @SystemProcess
     void onStart(Context context) {
+        this.systemContext = context;
         publish();
     }
 
+    @SystemProcess
     private void publish() {
         try {
             ServiceManager.addService(Context.TV_INPUT_SERVICE, new ServiceStub());
@@ -24,11 +32,13 @@ class HoneyCombService {
         }
     }
 
-    public void shutDown() {
+    @SystemProcess
+    void shutDown() {
 
     }
 
-    public void systemReady() {
+    @SystemProcess
+    void systemReady() {
 
     }
 
