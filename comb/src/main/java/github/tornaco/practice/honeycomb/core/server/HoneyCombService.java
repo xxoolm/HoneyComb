@@ -18,6 +18,7 @@ class HoneyCombService {
     private void publish() {
         try {
             ServiceManager.addService(Context.TV_INPUT_SERVICE, new ServiceStub());
+            Logger.w("HoneyCombService publish success %s", this.toString());
         } catch (Throwable e) {
             Logger.e(e, "Fail publish HoneyCombService");
         }
