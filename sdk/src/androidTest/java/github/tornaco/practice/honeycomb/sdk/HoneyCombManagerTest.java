@@ -1,10 +1,9 @@
-package github.tornaco.practice.honeycomb.core;
+package github.tornaco.practice.honeycomb.sdk;
 
 import android.os.Binder;
 import android.os.RemoteException;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

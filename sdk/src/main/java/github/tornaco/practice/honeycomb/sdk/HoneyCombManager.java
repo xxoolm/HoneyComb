@@ -1,13 +1,12 @@
-package github.tornaco.practice.honeycomb.core;
+package github.tornaco.practice.honeycomb.sdk;
 
 import android.content.Context;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.os.ServiceManager;
+import android.util.Log;
 
 import com.google.common.base.Optional;
-
-import org.newstand.logger.Logger;
 
 import github.tornaco.practice.honeycomb.IHoneyComb;
 
@@ -51,25 +50,27 @@ public class HoneyCombManager {
 
     private static class DummyHoneyComb extends IHoneyComb.Stub {
 
+        private static final String TAG = "DummyHoneyComb";
+
         @Override
         public void addService(String name, IBinder binder) {
-            Logger.w("addService@DummyHoneyComb");
+            Log.w(TAG, "addService@DummyHoneyComb");
         }
 
         @Override
         public void deleteService(String name) {
-            Logger.w("deleteService@DummyHoneyComb");
+            Log.w(TAG, "deleteService@DummyHoneyComb");
         }
 
         @Override
         public IBinder getService(String name) {
-            Logger.w("getService@DummyHoneyComb");
+            Log.w(TAG, "getService@DummyHoneyComb");
             return null;
         }
 
         @Override
         public boolean hasService(String name) {
-            Logger.w("hasService@DummyHoneyComb");
+            Log.w(TAG, "hasService@DummyHoneyComb");
             return false;
         }
     }

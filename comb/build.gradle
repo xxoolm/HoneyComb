@@ -53,6 +53,9 @@ dependencies {
     // Framework
     compileOnly files('../hidden-api/android-27.jar')
     compileOnly files('../hidden-api/services-27.jar')
+    
+    // Sdk
+    implementation project(":sdk")
 }
 
 preBuild {
