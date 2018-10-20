@@ -1,4 +1,4 @@
-package github.tornaco.practice.honeycomb.locker.server;
+package github.tornaco.practice.honeycomb.locker.server.hooks;
 
 import android.content.Context;
 
@@ -14,10 +14,13 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import github.tornaco.practice.honeycomb.locker.BuildConfig;
+import github.tornaco.practice.honeycomb.locker.server.Locker;
+import lombok.AllArgsConstructor;
 
-public class LockerHook implements IXposedHookLoadPackage {
+@AllArgsConstructor
+public class AMSCoreHook implements IXposedHookLoadPackage {
 
-    private final static Locker LOCKER = new Locker();
+    private final Locker locker;
 
     static {
         Logger.config(Settings.builder()
@@ -45,7 +48,7 @@ public class LockerHook implements IXposedHookLoadPackage {
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
                     Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                    LOCKER.onStart(context);
+                    locker.onStart(context);
                 }
             });
             Logger.i("hookAMSStart OK:" + unHooks);
@@ -63,7 +66,7 @@ public class LockerHook implements IXposedHookLoadPackage {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    LOCKER.systemReady();
+                    locker.systemReady();
                 }
             });
             Logger.i("hookAMSSystemReady OK:" + unHooks);
