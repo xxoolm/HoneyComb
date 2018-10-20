@@ -2,7 +2,6 @@ package github.tornaco.practice.honeycomb.sdk;
 
 import android.content.Context;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.util.Log;
 
@@ -11,6 +10,7 @@ import com.google.common.base.Optional;
 import github.tornaco.practice.honeycomb.IHoneyComb;
 import github.tornaco.practice.honeycomb.IPreferenceManager;
 import github.tornaco.practice.honeycomb.sdk.data.PreferenceManager;
+import lombok.SneakyThrows;
 
 @SuppressWarnings("Guava")
 public class HoneyCombManager {
@@ -38,29 +38,56 @@ public class HoneyCombManager {
         return requireHoneyComb().isPresent();
     }
 
-    public void addService(String name, IBinder binder) throws RemoteException {
+    @SneakyThrows
+    public String getVersion() {
+        return requireHoneyComb().or(DUMMY).getVersion();
+    }
+
+    @SneakyThrows
+    public int getStatus() {
+        return requireHoneyComb().or(DUMMY).getStatus();
+    }
+
+    @SneakyThrows
+    public void addService(String name, IBinder binder) {
         requireHoneyComb().or(DUMMY).addService(name, binder);
     }
 
-    public void deleteService(String name) throws RemoteException {
+    @SneakyThrows
+    public void deleteService(String name) {
         requireHoneyComb().or(DUMMY).deleteService(name);
     }
 
-    public IBinder getService(String name) throws RemoteException {
+    @SneakyThrows
+    public IBinder getService(String name) {
         return requireHoneyComb().or(DUMMY).getService(name);
     }
 
-    public boolean hasService(String name) throws RemoteException {
+    @SneakyThrows
+    public boolean hasService(String name) {
         return requireHoneyComb().or(DUMMY).hasService(name);
     }
 
-    public PreferenceManager getPreferenceManager(String packageName) throws RemoteException {
+    @SneakyThrows
+    public PreferenceManager getPreferenceManager(String packageName) {
         return new PreferenceManager(requireHoneyComb().or(DUMMY).getPreferenceManager(packageName));
     }
 
     private static class DummyHoneyComb extends IHoneyComb.Stub {
 
         private static final String TAG = "DummyHoneyComb";
+
+        @Override
+        public String getVersion() {
+            Log.w(TAG, "getStatus@DummyHoneyComb");
+            return null;
+        }
+
+        @Override
+        public int getStatus() {
+            Log.w(TAG, "getStatus@DummyHoneyComb");
+            return 0;
+        }
 
         @Override
         public void addService(String name, IBinder binder) {
@@ -85,7 +112,7 @@ public class HoneyCombManager {
         }
 
         @Override
-        public IPreferenceManager getPreferenceManager(String packageName) throws RemoteException {
+        public IPreferenceManager getPreferenceManager(String packageName) {
             Log.w(TAG, "getPreferenceManager@DummyHoneyComb");
             return null;
         }

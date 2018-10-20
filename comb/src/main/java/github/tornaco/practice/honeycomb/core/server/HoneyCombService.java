@@ -7,6 +7,7 @@ import android.os.ServiceManager;
 
 import org.newstand.logger.Logger;
 
+import github.tornaco.practice.honeycomb.BuildConfig;
 import github.tornaco.practice.honeycomb.IHoneyComb;
 import github.tornaco.practice.honeycomb.IPreferenceManager;
 import github.tornaco.practice.honeycomb.sdk.annotations.SystemProcess;
@@ -44,6 +45,16 @@ class HoneyCombService {
     }
 
     private static class ServiceStub extends IHoneyComb.Stub {
+        @Override
+        public String getVersion() throws RemoteException {
+            return BuildConfig.VERSION_NAME;
+        }
+
+        @Override
+        public int getStatus() throws RemoteException {
+            return 0;
+        }
+
         @Override
         public void addService(String name, IBinder binder) throws RemoteException {
             HoneyCombServiceManager.addService(name, binder);
