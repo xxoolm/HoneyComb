@@ -1,5 +1,4 @@
-// IPreferenceManager.aidl
-package github.tornaco.practice.honeycomb;
+package github.tornaco.practice.honeycomb.data;
 
 interface IPreferenceManager {
    boolean putInt(String key, int value);

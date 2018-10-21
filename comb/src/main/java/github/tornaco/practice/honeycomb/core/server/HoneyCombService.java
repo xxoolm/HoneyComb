@@ -2,25 +2,41 @@ package github.tornaco.practice.honeycomb.core.server;
 
 import android.content.Context;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.os.ServiceManager;
 
 import org.newstand.logger.Logger;
 
 import github.tornaco.practice.honeycomb.BuildConfig;
 import github.tornaco.practice.honeycomb.IHoneyComb;
-import github.tornaco.practice.honeycomb.IPreferenceManager;
+import github.tornaco.practice.honeycomb.am.IActivityManager;
+import github.tornaco.practice.honeycomb.core.server.am.ActivityManagerService;
+import github.tornaco.practice.honeycomb.core.server.data.PreferenceManagerService;
+import github.tornaco.practice.honeycomb.core.server.device.PowerManagerService;
+import github.tornaco.practice.honeycomb.core.server.i.HoneyComb;
+import github.tornaco.practice.honeycomb.core.server.pm.PackageManagerService;
+import github.tornaco.practice.honeycomb.data.IPreferenceManager;
+import github.tornaco.practice.honeycomb.device.IPowerManager;
+import github.tornaco.practice.honeycomb.pm.IPackageManager;
 import github.tornaco.practice.honeycomb.sdk.annotations.SystemProcess;
 import lombok.Getter;
 
-class HoneyCombService {
+public class HoneyCombService implements HoneyComb {
 
     @Getter
     private Context systemContext;
+    @Getter
+    private IActivityManager activityManager;
+    @Getter
+    private IPowerManager powerManager;
+    @Getter
+    private IPackageManager packageManager;
 
     @SystemProcess
-    void onStart(Context context) {
+    public void onStart(Context context) {
         this.systemContext = context;
+        this.activityManager = new ActivityManagerService();
+        this.powerManager = new PowerManagerService();
+        this.packageManager = new PackageManagerService();
         publish();
     }
 
@@ -35,49 +51,64 @@ class HoneyCombService {
     }
 
     @SystemProcess
-    void shutDown() {
+    public void systemReady() {
 
     }
 
     @SystemProcess
-    void systemReady() {
+    public void shutDown() {
 
     }
 
-    private static class ServiceStub extends IHoneyComb.Stub {
+    private class ServiceStub extends IHoneyComb.Stub {
         @Override
-        public String getVersion() throws RemoteException {
+        public String getVersion() {
             return BuildConfig.VERSION_NAME;
         }
 
         @Override
-        public int getStatus() throws RemoteException {
+        public int getStatus() {
             return 0;
         }
 
         @Override
-        public void addService(String name, IBinder binder) throws RemoteException {
+        public void addService(String name, IBinder binder) {
             HoneyCombServiceManager.addService(name, binder);
         }
 
         @Override
-        public void deleteService(String name) throws RemoteException {
+        public void deleteService(String name) {
             HoneyCombServiceManager.deleteService(name);
         }
 
         @Override
-        public IBinder getService(String name) throws RemoteException {
+        public IBinder getService(String name) {
             return HoneyCombServiceManager.getService(name);
         }
 
         @Override
-        public boolean hasService(String name) throws RemoteException {
+        public boolean hasService(String name) {
             return HoneyCombServiceManager.hasService(name);
         }
 
         @Override
-        public IPreferenceManager getPreferenceManager(String packageName) throws RemoteException {
-            return new PreferenceManagerStub(packageName);
+        public IPreferenceManager getPreferenceManager(String packageName) {
+            return new PreferenceManagerService(packageName);
+        }
+
+        @Override
+        public IActivityManager getActivityManager() {
+            return HoneyCombService.this.getActivityManager();
+        }
+
+        @Override
+        public IPowerManager getPowerManager() {
+            return HoneyCombService.this.getPowerManager();
+        }
+
+        @Override
+        public IPackageManager getPackageManager() {
+            return HoneyCombService.this.getPackageManager();
         }
     }
 }

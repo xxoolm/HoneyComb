@@ -1,4 +1,4 @@
-package github.tornaco.practice.honeycomb.core.server;
+package github.tornaco.practice.honeycomb.core.server.hooks;
 
 import android.content.Context;
 
@@ -14,10 +14,13 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import github.tornaco.practice.honeycomb.BuildConfig;
+import github.tornaco.practice.honeycomb.core.server.i.HoneyComb;
+import lombok.AllArgsConstructor;
 
-public class HoneyCombHook implements IXposedHookLoadPackage {
+@AllArgsConstructor
+public class AMSCoreHook implements IXposedHookLoadPackage {
 
-    private static final HoneyCombService HONEY_COMB_SERVICE = new HoneyCombService();
+    private final HoneyComb honeyComb;
 
     static {
         Logger.config(Settings.builder()
@@ -45,7 +48,7 @@ public class HoneyCombHook implements IXposedHookLoadPackage {
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
                     Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
-                    HONEY_COMB_SERVICE.onStart(context);
+                    honeyComb.onStart(context);
                 }
             });
             Logger.i("hookAMSStart OK:" + unHooks);
@@ -63,7 +66,7 @@ public class HoneyCombHook implements IXposedHookLoadPackage {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    HONEY_COMB_SERVICE.systemReady();
+                    honeyComb.systemReady();
                 }
             });
             Logger.i("hookAMSSystemReady OK:" + unHooks);
@@ -81,7 +84,7 @@ public class HoneyCombHook implements IXposedHookLoadPackage {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    HONEY_COMB_SERVICE.shutDown();
+                    honeyComb.shutDown();
                 }
             });
             Logger.i("hookAMSShutdown OK:" + unHooks);

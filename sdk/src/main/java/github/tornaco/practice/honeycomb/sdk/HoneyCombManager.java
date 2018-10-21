@@ -2,13 +2,17 @@ package github.tornaco.practice.honeycomb.sdk;
 
 import android.content.Context;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.util.Log;
 
 import com.google.common.base.Optional;
 
 import github.tornaco.practice.honeycomb.IHoneyComb;
-import github.tornaco.practice.honeycomb.IPreferenceManager;
+import github.tornaco.practice.honeycomb.am.IActivityManager;
+import github.tornaco.practice.honeycomb.data.IPreferenceManager;
+import github.tornaco.practice.honeycomb.device.IPowerManager;
+import github.tornaco.practice.honeycomb.pm.IPackageManager;
 import github.tornaco.practice.honeycomb.sdk.data.PreferenceManager;
 import lombok.SneakyThrows;
 
@@ -73,6 +77,21 @@ public class HoneyCombManager {
         return new PreferenceManager(requireHoneyComb().or(DUMMY).getPreferenceManager(packageName));
     }
 
+    @SneakyThrows
+    public IActivityManager getActivityManager() {
+        return honeyComb.getActivityManager();
+    }
+
+    @SneakyThrows
+    public IPowerManager getPowerManager() {
+        return honeyComb.getPowerManager();
+    }
+
+    @SneakyThrows
+    public IPackageManager getPackageManager() {
+        return honeyComb.getPackageManager();
+    }
+
     private static class DummyHoneyComb extends IHoneyComb.Stub {
 
         private static final String TAG = "DummyHoneyComb";
@@ -114,6 +133,24 @@ public class HoneyCombManager {
         @Override
         public IPreferenceManager getPreferenceManager(String packageName) {
             Log.w(TAG, "getPreferenceManager@DummyHoneyComb");
+            return null;
+        }
+
+        @Override
+        public IActivityManager getActivityManager() {
+            Log.w(TAG, "getActivityManager@DummyHoneyComb");
+            return null;
+        }
+
+        @Override
+        public IPowerManager getPowerManager() {
+            Log.w(TAG, "getPowerManager@DummyHoneyComb");
+            return null;
+        }
+
+        @Override
+        public IPackageManager getPackageManager() {
+            Log.w(TAG, "getPackageManager@DummyHoneyComb");
             return null;
         }
     }

@@ -1,7 +1,9 @@
-// IHoneyComb.aidl
 package github.tornaco.practice.honeycomb;
 
-import github.tornaco.practice.honeycomb.IPreferenceManager;
+import github.tornaco.practice.honeycomb.data.IPreferenceManager;
+import github.tornaco.practice.honeycomb.am.IActivityManager;
+import github.tornaco.practice.honeycomb.device.IPowerManager;
+import github.tornaco.practice.honeycomb.pm.IPackageManager;
 
 interface IHoneyComb {
     // Base info
@@ -14,6 +16,8 @@ interface IHoneyComb {
     IBinder getService(String name);
     boolean hasService(String name);
 
-    // Pref
     IPreferenceManager getPreferenceManager(String packageName);
+    IActivityManager getActivityManager();
+    IPowerManager getPowerManager();
+    IPackageManager getPackageManager();
 }
