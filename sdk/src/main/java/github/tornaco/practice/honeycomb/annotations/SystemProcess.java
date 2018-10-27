@@ -1,4 +1,4 @@
-package github.tornaco.practice.honeycomb.sdk.annotations;
+package github.tornaco.practice.honeycomb.annotations;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

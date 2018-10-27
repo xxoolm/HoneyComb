@@ -17,7 +17,7 @@ import github.tornaco.practice.honeycomb.core.server.pm.PackageManagerService;
 import github.tornaco.practice.honeycomb.data.IPreferenceManager;
 import github.tornaco.practice.honeycomb.device.IPowerManager;
 import github.tornaco.practice.honeycomb.pm.IPackageManager;
-import github.tornaco.practice.honeycomb.sdk.annotations.SystemProcess;
+import github.tornaco.practice.honeycomb.annotations.SystemProcess;
 import lombok.Getter;
 
 public class HoneyCombService implements HoneyComb {

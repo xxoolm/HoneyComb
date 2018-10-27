@@ -11,7 +11,7 @@ import java.util.UUID;
 
 import androidx.test.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
-import github.tornaco.practice.honeycomb.sdk.data.PreferenceManager;
+import github.tornaco.practice.honeycomb.data.PreferenceManager;
 
 @RunWith(AndroidJUnit4.class)
 public class HoneyCombManagerTest {

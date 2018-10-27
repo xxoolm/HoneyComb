@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package github.tornaco.practice.honeycomb.sdk.util;
+package github.tornaco.practice.honeycomb.util;
 
 import android.os.Looper;
 

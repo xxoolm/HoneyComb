@@ -1,4 +1,4 @@
-package github.tornaco.practice.honeycomb.sdk.util;
+package github.tornaco.practice.honeycomb.util;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

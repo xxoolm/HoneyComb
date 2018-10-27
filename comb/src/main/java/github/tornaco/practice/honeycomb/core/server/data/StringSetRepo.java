@@ -16,8 +16,8 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
 import github.tornaco.practice.honeycomb.core.server.data.i.SetRepo;
-import github.tornaco.practice.honeycomb.sdk.util.FileUtils;
-import github.tornaco.practice.honeycomb.sdk.util.XmlUtils;
+import github.tornaco.practice.honeycomb.util.FileUtils;
+import github.tornaco.practice.honeycomb.util.XmlUtils;
 import lombok.Cleanup;
 import org.newstand.logger.Logger;
 

@@ -43,8 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import github.tornaco.practice.honeycomb.BuildConfig;
-import github.tornaco.practice.honeycomb.sdk.util.CloserUtils;
-import github.tornaco.practice.honeycomb.sdk.util.ObjectUtils;
+import github.tornaco.practice.honeycomb.util.CloserUtils;
+import github.tornaco.practice.honeycomb.util.ObjectUtils;
 
 
 /**

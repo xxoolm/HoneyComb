@@ -1,44 +1,32 @@
-package github.tornaco.practice.honeycomb.sdk;
+package github.tornaco.practice.honeycomb;
 
-import android.content.Context;
 import android.os.IBinder;
-import android.os.RemoteException;
-import android.os.ServiceManager;
 import android.util.Log;
 
 import com.google.common.base.Optional;
 
-import github.tornaco.practice.honeycomb.IHoneyComb;
 import github.tornaco.practice.honeycomb.am.IActivityManager;
 import github.tornaco.practice.honeycomb.data.IPreferenceManager;
+import github.tornaco.practice.honeycomb.data.PreferenceManager;
 import github.tornaco.practice.honeycomb.device.IPowerManager;
 import github.tornaco.practice.honeycomb.pm.IPackageManager;
-import github.tornaco.practice.honeycomb.sdk.data.PreferenceManager;
 import lombok.SneakyThrows;
 
 @SuppressWarnings("Guava")
 public class HoneyCombManager {
 
-    private volatile static HoneyCombManager sMe;
     private static final IHoneyComb DUMMY = new DummyHoneyComb();
     private IHoneyComb honeyComb;
 
-    public synchronized static HoneyCombManager global() {
-        if (sMe == null) sMe = new HoneyCombManager();
-        return sMe;
+    public HoneyCombManager(IHoneyComb honeyComb) {
+        this.honeyComb = honeyComb;
     }
 
     private Optional<IHoneyComb> requireHoneyComb() {
-        synchronized (this) {
-            if (honeyComb == null || !honeyComb.asBinder().isBinderAlive()) {
-                honeyComb = IHoneyComb.Stub.asInterface(
-                        ServiceManager.getService(Context.TV_INPUT_SERVICE));
-            }
-            return Optional.fromNullable(honeyComb);
-        }
+        return Optional.fromNullable(honeyComb);
     }
 
-    public boolean isHoneyCombReady() {
+    public boolean isPresent() {
         return requireHoneyComb().isPresent();
     }
 

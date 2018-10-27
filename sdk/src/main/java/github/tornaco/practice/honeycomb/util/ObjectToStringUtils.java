@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package github.tornaco.practice.honeycomb.sdk.util;
+package github.tornaco.practice.honeycomb.util;
 
 import android.content.ClipData;
 import android.content.ComponentName;

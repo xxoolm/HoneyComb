@@ -1,4 +1,4 @@
-package github.tornaco.practice.honeycomb.sdk.util;
+package github.tornaco.practice.honeycomb.util;
 
 /**
  * Created by guohao4 on 2017/12/28.

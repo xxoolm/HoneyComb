@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import github.tornaco.practice.honeycomb.sdk.HoneyCombManager;
+import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -13,9 +13,10 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         TextView statusText = findViewById(R.id.status);
-        statusText.setText(HoneyCombManager.global()
-                .isHoneyCombReady()
-                ? R.string.status_active :
-                R.string.status_not_active);
+        statusText.setText(
+                HoneyCombContext.createContext().getHoneyCombManager()
+                        .isPresent()
+                        ? R.string.status_active :
+                        R.string.status_not_active);
     }
 }

@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package github.tornaco.practice.honeycomb.sdk.util;
+package github.tornaco.practice.honeycomb.util;
 
 /**
  * Singleton helper class for lazily initialization.
- * <p>
- * Modeled after frameworks/base/include/utils/Singleton.h
  */
-public abstract class Singleton<T> {
+public abstract class Singleton1<T, P> {
     private T mInstance;
 
-    protected abstract T create();
+    protected abstract T create(P p);
 
-    public final T get() {
+    public final T get(P p) {
         synchronized (this) {
             if (mInstance == null) {
-                mInstance = create();
+                mInstance = create(p);
             }
             return mInstance;
         }

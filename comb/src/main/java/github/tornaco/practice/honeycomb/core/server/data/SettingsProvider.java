@@ -7,7 +7,7 @@ import android.util.Log;
 import java.io.File;
 
 import github.tornaco.practice.honeycomb.BuildConfig;
-import github.tornaco.practice.honeycomb.sdk.util.Singleton1;
+import github.tornaco.practice.honeycomb.util.Singleton1;
 
 import static github.tornaco.practice.honeycomb.core.server.data.DataConfigs.getBaseDataDir;
 

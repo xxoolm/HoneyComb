@@ -23,7 +23,7 @@
  * questions.
  */
 
-package github.tornaco.practice.honeycomb.sdk.util;
+package github.tornaco.practice.honeycomb.util;
 
 import android.annotation.SuppressLint;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package github.tornaco.practice.honeycomb.sdk.util;
+package github.tornaco.practice.honeycomb.util;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;

@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import github.tornaco.practice.honeycomb.sdk.util.Singleton;
+import github.tornaco.practice.honeycomb.util.Singleton;
 
 public class RepoFactory {
 

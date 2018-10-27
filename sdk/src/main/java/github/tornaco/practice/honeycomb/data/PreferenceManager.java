@@ -1,6 +1,5 @@
-package github.tornaco.practice.honeycomb.sdk.data;
+package github.tornaco.practice.honeycomb.data;
 
-import github.tornaco.practice.honeycomb.data.IPreferenceManager;
 import lombok.AllArgsConstructor;
 import lombok.experimental.Delegate;
 

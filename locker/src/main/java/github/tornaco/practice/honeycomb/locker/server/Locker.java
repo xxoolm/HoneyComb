@@ -4,8 +4,9 @@ import android.content.Context;
 
 import org.newstand.logger.Logger;
 
+import github.tornaco.practice.honeycomb.HoneyCombManager;
+import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.locker.server.verify.Verifier;
-import github.tornaco.practice.honeycomb.sdk.HoneyCombManager;
 
 public class Locker {
 
@@ -16,9 +17,11 @@ public class Locker {
     }
 
     public void systemReady() {
-        if (HoneyCombManager.global().isHoneyCombReady()) {
+        HoneyCombContext honeyCombContext = HoneyCombContext.createContext();
+        HoneyCombManager honeyCombManager = honeyCombContext.getHoneyCombManager();
+        if (honeyCombManager.isPresent()) {
             try {
-                HoneyCombManager.global().addService("locker", lockerServer);
+                honeyCombManager.addService("locker", lockerServer);
                 Logger.i("locker service published~");
             } catch (Exception e) {
                 Logger.e(e, "Fail publish locker service");
