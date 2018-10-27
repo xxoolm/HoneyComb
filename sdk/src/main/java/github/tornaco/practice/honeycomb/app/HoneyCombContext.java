@@ -1,5 +1,7 @@
 package github.tornaco.practice.honeycomb.app;
 
+import android.annotation.Nullable;
+
 import github.tornaco.practice.honeycomb.HoneyCombManager;
 import github.tornaco.practice.honeycomb.annotations.AvailableAfterSystemReady;
 import github.tornaco.practice.honeycomb.pm.PackageManager;
@@ -11,6 +13,7 @@ public interface HoneyCombContext {
 
     HoneyCombManager getHoneyCombManager();
 
+    @Nullable
     PackageManager getPackageManager();
 
     @AvailableAfterSystemReady

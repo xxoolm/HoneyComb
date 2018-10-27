@@ -14,6 +14,8 @@ import lombok.Setter;
 @Setter
 public class AppInfo implements Parcelable {
 
+    public static final int FLAGS_NONE = 0;
+
     private String pkgName;
     private String appLabel;
     private int versionCode;

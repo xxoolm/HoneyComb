@@ -7,11 +7,16 @@ import github.tornaco.practice.honeycomb.pm.PackageManager;
 public class AppsRepo implements AppDataSource {
 
     @Override
+    public boolean isLockerEnabled() {
+        return false;
+    }
+
+    @Override
     public void getApps(int flags, AppDataSource.AppsLoadCallback callback) {
         ExecutorUtils.worker().execute(() -> {
             HoneyCombContext honeyCombContext = HoneyCombContext.createContext();
             PackageManager packageManager = honeyCombContext.getPackageManager();
-            if (!packageManager.isPresent()) {
+            if (packageManager == null || !packageManager.isPresent()) {
                 callback.onDataNotAvailable();
                 return;
             }

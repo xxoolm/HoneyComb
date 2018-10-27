@@ -1,6 +1,6 @@
 package github.tornaco.practice.honeycomb.core.server.pm;
 
-import android.os.RemoteException;
+import com.google.common.collect.Lists;
 
 import java.util.List;
 
@@ -22,6 +22,8 @@ public class PackageManagerService extends IPackageManager.Stub {
 
     @Override
     public List<AppInfo> getInstalledApps(int flags) {
-        return null;
+        AppInfo appInfo = new AppInfo();
+        appInfo.setAppLabel("Dummy");
+        return Lists.newArrayList(appInfo);
     }
 }

@@ -12,6 +12,7 @@ import lombok.SneakyThrows;
 @SuppressWarnings("Guava")
 public class PackageManager {
 
+    private final static DummyPackageManagerServer DUMMY = new DummyPackageManagerServer();
     private IPackageManager server;
 
     public PackageManager(IPackageManager server) {
@@ -28,17 +29,17 @@ public class PackageManager {
 
     @SneakyThrows
     public void forceStop(String pkg) {
-        server.forceStop(pkg);
+        requirePackageManager().or(DUMMY).forceStop(pkg);
     }
 
     @SneakyThrows
     public void unInstall(String pkg, IPackageUnInstallCallback callback) {
-        server.unInstall(pkg, callback);
+        requirePackageManager().or(DUMMY).unInstall(pkg, callback);
     }
 
     @SneakyThrows
     public List<AppInfo> getInstalledApps(int flags) {
-        return server.getInstalledApps(flags);
+        return requirePackageManager().or(DUMMY).getInstalledApps(flags);
     }
 
     private static class DummyPackageManagerServer extends IPackageManager.Stub {
@@ -46,17 +47,17 @@ public class PackageManager {
 
         @Override
         public void forceStop(String pkg) {
-            Log.w(TAG, "getService@DummyHoneyComb");
+            Log.w(TAG, "forceStop@DummyPackageManagerServer");
         }
 
         @Override
         public void unInstall(String pkg, IPackageUnInstallCallback callback) {
-            Log.w(TAG, "getService@DummyHoneyComb");
+            Log.w(TAG, "unInstall@DummyPackageManagerServer");
         }
 
         @Override
         public List<AppInfo> getInstalledApps(int flags) {
-            Log.w(TAG, "getService@DummyHoneyComb");
+            Log.w(TAG, "getInstalledApps@DummyPackageManagerServer");
             return Lists.newArrayListWithCapacity(0);
         }
     }

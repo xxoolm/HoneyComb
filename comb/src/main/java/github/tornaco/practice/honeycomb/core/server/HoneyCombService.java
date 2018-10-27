@@ -9,6 +9,8 @@ import org.newstand.logger.Logger;
 import github.tornaco.practice.honeycomb.BuildConfig;
 import github.tornaco.practice.honeycomb.IHoneyComb;
 import github.tornaco.practice.honeycomb.am.IActivityManager;
+import github.tornaco.practice.honeycomb.annotations.SystemProcess;
+import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.core.server.am.ActivityManagerService;
 import github.tornaco.practice.honeycomb.core.server.data.PreferenceManagerService;
 import github.tornaco.practice.honeycomb.core.server.device.PowerManagerService;
@@ -17,7 +19,6 @@ import github.tornaco.practice.honeycomb.core.server.pm.PackageManagerService;
 import github.tornaco.practice.honeycomb.data.IPreferenceManager;
 import github.tornaco.practice.honeycomb.device.IPowerManager;
 import github.tornaco.practice.honeycomb.pm.IPackageManager;
-import github.tornaco.practice.honeycomb.annotations.SystemProcess;
 import lombok.Getter;
 
 public class HoneyCombService implements HoneyComb {
@@ -38,7 +39,19 @@ public class HoneyCombService implements HoneyComb {
         this.powerManager = new PowerManagerService();
         this.packageManager = new PackageManagerService();
         publish();
+        publishInternal();
     }
+
+    @SystemProcess
+    public void systemReady() {
+
+    }
+
+    @SystemProcess
+    public void shutDown() {
+
+    }
+
 
     @SystemProcess
     private void publish() {
@@ -51,13 +64,8 @@ public class HoneyCombService implements HoneyComb {
     }
 
     @SystemProcess
-    public void systemReady() {
-
-    }
-
-    @SystemProcess
-    public void shutDown() {
-
+    private void publishInternal() {
+        HoneyCombServiceManager.addService(HoneyCombContext.PACKAGE_MANAGER_SERVICE, packageManager.asBinder());
     }
 
     private class ServiceStub extends IHoneyComb.Stub {

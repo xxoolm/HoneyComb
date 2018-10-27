@@ -12,5 +12,7 @@ public interface AppDataSource {
         void onDataNotAvailable();
     }
 
+    boolean isLockerEnabled();
+
     void getApps(int flags, AppsLoadCallback callback);
 }
