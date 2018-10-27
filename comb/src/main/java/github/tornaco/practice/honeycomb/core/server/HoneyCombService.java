@@ -37,7 +37,7 @@ public class HoneyCombService implements HoneyComb {
         this.systemContext = context;
         this.activityManager = new ActivityManagerService();
         this.powerManager = new PowerManagerService();
-        this.packageManager = new PackageManagerService();
+        this.packageManager = new PackageManagerService(context);
         publish();
         publishInternal();
     }
