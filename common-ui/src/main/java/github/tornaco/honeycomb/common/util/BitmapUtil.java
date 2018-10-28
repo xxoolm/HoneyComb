@@ -1,4 +1,4 @@
-package github.tornaco.practice.honeycomb.locker.util;
+package github.tornaco.honeycomb.common.util;
 
 import android.annotation.TargetApi;
 import android.content.Context;

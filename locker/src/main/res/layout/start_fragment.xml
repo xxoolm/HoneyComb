@@ -17,11 +17,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ListView
-            android:id="@+id/list"
+        <github.tornaco.honeycomb.common.widget.SwitchBar
+            android:id="@+id/switch_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:items="@{viewmodel.apps}" />
+            android:layout_height="?actionBarSize"
+            android:background="@drawable/switchbar_background"
+            android:theme="?attr/switchBarTheme"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch_bar"
+            app:refreshing="@{viewmodel.isDataLoading}">
+
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewmodel.empty ? View.GONE : View.VISIBLE}"
+                app:items="@{viewmodel.apps}" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

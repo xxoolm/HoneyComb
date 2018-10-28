@@ -8,8 +8,6 @@ import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableList;
 import androidx.lifecycle.ViewModel;
-import github.tornaco.practice.honeycomb.locker.app.LockerContext;
-import github.tornaco.practice.honeycomb.locker.app.LockerManager;
 import github.tornaco.practice.honeycomb.locker.data.source.AppDataSource;
 import github.tornaco.practice.honeycomb.locker.data.source.AppsRepo;
 import github.tornaco.practice.honeycomb.pm.AppInfo;
@@ -21,6 +19,7 @@ public class StartViewModel extends ViewModel {
     public ObservableBoolean isLockerEnabled = new ObservableBoolean(false);
     public ObservableBoolean isDataLoading = new ObservableBoolean(false);
     public ObservableBoolean isDataLoadingError = new ObservableBoolean(false);
+    public final ObservableBoolean empty = new ObservableBoolean(false);
 
     public StartViewModel(AppsRepo appsRepo) {
         this.appsRepo = appsRepo;
@@ -32,9 +31,7 @@ public class StartViewModel extends ViewModel {
     }
 
     private void loadState() {
-        LockerContext context = LockerContext.createContext();
-        LockerManager lockerManager = context.getLockerManager();
-        isLockerEnabled.set(lockerManager.isEnabled());
+        isLockerEnabled.set(appsRepo.isLockerEnabled());
     }
 
     private void loadApps() {
@@ -47,6 +44,7 @@ public class StartViewModel extends ViewModel {
                 isDataLoadingError.set(false);
                 apps.clear();
                 apps.addAll(appInfoList);
+                empty.set(apps.isEmpty());
             }
 
             @Override

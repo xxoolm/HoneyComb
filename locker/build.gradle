@@ -66,8 +66,9 @@ dependencies {
     compileOnly files('../hidden-api/android-27.jar')
     compileOnly files('../hidden-api/services-27.jar')
 
-    // Sdk
+    // Projects
     implementation project(":sdk")
+    implementation project(":common-ui")
 }
 
 preBuild {

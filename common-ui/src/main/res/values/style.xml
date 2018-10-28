@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.Medium" parent="@style/TextAppearance.AppCompat.Medium" />
+
+    <style name="TextAppearance.Small" parent="@style/TextAppearance.AppCompat.Small" />
+
+    <style name="TextAppearance.Switch" parent="TextAppearance.Medium" />
+
+    <style name="TextAppearance.Small.SwitchBar">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- Used to color the switch bar controls -->
+    <style name="ThemeOverlay.SwitchBar" parent="ThemeOverlay.AppCompat">
+        <!-- Used by controls, e.g. CheckBox, ProgressBar, etc. -->
+        <item name="colorAccent">?attr/colorAccent</item>
+    </style>
+
+    <style name="SwitchBarDefaultTheme" parent="Widget.AppCompat.ActionBar">
+        <item name="switchBarMarginStart">@dimen/common_view_margin_middle</item>
+        <item name="switchBarMarginEnd">@dimen/common_view_margin_middle</item>
+        <item name="switchBarBackgroundColor">?colorPrimaryDark</item>
+        <item name="switchBarTextColor">@android:color/white</item>
+    </style>
+</resources>
