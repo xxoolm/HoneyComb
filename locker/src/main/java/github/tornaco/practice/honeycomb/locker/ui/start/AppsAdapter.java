@@ -85,6 +85,7 @@ public class AppsAdapter extends BaseAdapter {
             @Override
             public void onAppItemSwitchStateChange(AppInfo appInfo, boolean checked) {
                 Logger.v("onAppItemSwitchStateChange %s %s", appInfo, checked);
+                appInfo.setSelected(checked);
                 startViewModel.setPackageLocked(appInfo.getPkgName(), checked);
             }
         });

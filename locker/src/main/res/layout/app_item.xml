@@ -67,6 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:checked="@{app.isSelected}"
             app:switch_app="@{app}"
             app:switch_listener="@{listener}"
             android:layout_marginEnd="@dimen/common_view_margin_default" />

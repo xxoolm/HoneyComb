@@ -23,6 +23,8 @@ public class AppInfo implements Parcelable {
     private int versionCode;
     private String versionName;
     private int flags;
+    // Ignore Parcelable
+    private boolean isSelected;
 
     protected AppInfo(Parcel in) {
         pkgName = in.readString();
