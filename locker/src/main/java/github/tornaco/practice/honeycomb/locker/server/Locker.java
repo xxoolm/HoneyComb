@@ -14,10 +14,6 @@ public class Locker {
     private LockerServer lockerServer = new LockerServer();
 
     public void onStart(Context context) {
-        this.lockerServer.onStart(context);
-    }
-
-    public void systemReady() {
         HoneyCombContext honeyCombContext = HoneyCombContext.createContext();
         HoneyCombManager honeyCombManager = honeyCombContext.getHoneyCombManager();
         if (honeyCombManager.isPresent()) {
@@ -28,6 +24,11 @@ public class Locker {
                 Logger.e(e, "Fail publish locker service");
             }
         }
+        this.lockerServer.onStart(context, honeyCombContext);
+    }
+
+    public void systemReady() {
+        this.lockerServer.systemReady();
     }
 
     Verifier getVerifier() {

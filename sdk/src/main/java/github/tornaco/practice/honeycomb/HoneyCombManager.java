@@ -5,11 +5,6 @@ import android.util.Log;
 
 import com.google.common.base.Optional;
 
-import github.tornaco.practice.honeycomb.am.IActivityManager;
-import github.tornaco.practice.honeycomb.data.IPreferenceManager;
-import github.tornaco.practice.honeycomb.data.PreferenceManager;
-import github.tornaco.practice.honeycomb.device.IPowerManager;
-import github.tornaco.practice.honeycomb.pm.IPackageManager;
 import lombok.SneakyThrows;
 
 @SuppressWarnings("Guava")
@@ -60,26 +55,6 @@ public class HoneyCombManager {
         return requireHoneyComb().or(DUMMY).hasService(name);
     }
 
-    @SneakyThrows
-    public PreferenceManager getPreferenceManager(String packageName) {
-        return new PreferenceManager(requireHoneyComb().or(DUMMY).getPreferenceManager(packageName));
-    }
-
-    @SneakyThrows
-    public IActivityManager getActivityManager() {
-        return honeyComb.getActivityManager();
-    }
-
-    @SneakyThrows
-    public IPowerManager getPowerManager() {
-        return honeyComb.getPowerManager();
-    }
-
-    @SneakyThrows
-    public IPackageManager getPackageManager() {
-        return honeyComb.getPackageManager();
-    }
-
     private static class DummyHoneyComb extends IHoneyComb.Stub {
 
         private static final String TAG = "DummyHoneyComb";
@@ -116,30 +91,6 @@ public class HoneyCombManager {
         public boolean hasService(String name) {
             Log.w(TAG, "hasService@DummyHoneyComb");
             return false;
-        }
-
-        @Override
-        public IPreferenceManager getPreferenceManager(String packageName) {
-            Log.w(TAG, "getPreferenceManager@DummyHoneyComb");
-            return null;
-        }
-
-        @Override
-        public IActivityManager getActivityManager() {
-            Log.w(TAG, "getActivityManager@DummyHoneyComb");
-            return null;
-        }
-
-        @Override
-        public IPowerManager getPowerManager() {
-            Log.w(TAG, "getPowerManager@DummyHoneyComb");
-            return null;
-        }
-
-        @Override
-        public IPackageManager getPackageManager() {
-            Log.w(TAG, "getPackageManager@DummyHoneyComb");
-            return null;
         }
     }
 }

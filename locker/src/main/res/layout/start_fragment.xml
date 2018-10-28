@@ -22,14 +22,16 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:background="@drawable/switchbar_background"
-            android:theme="?attr/switchBarTheme"
+            android:theme="@style/SwitchBarDefaultTheme"
+            app:switch_bar_state="@{viewmodel}"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toBottomOf="@+id/switch_bar"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/switch_bar"
+            android:onRefresh = "@{viewmodel}"
             app:refreshing="@{viewmodel.isDataLoading}">
 
             <ListView

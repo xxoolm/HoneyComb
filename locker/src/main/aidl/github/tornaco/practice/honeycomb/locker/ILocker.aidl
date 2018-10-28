@@ -1,11 +1,13 @@
-// ILocker.aidl
 package github.tornaco.practice.honeycomb.locker;
 
-// Declare any non-default types here with import statements
+import github.tornaco.practice.honeycomb.locker.ILockerWatcher;
 
 interface ILocker {
-   void setEnabled();
+   void setEnabled(boolean enabled);
    boolean isEnabled();
+
+   void addWatcher(in ILockerWatcher w);
+   void deleteWatcher(in ILockerWatcher w);
 
    boolean isPackageLocked(String pkg);
    void setPackageLocked(String pkg, boolean locked);

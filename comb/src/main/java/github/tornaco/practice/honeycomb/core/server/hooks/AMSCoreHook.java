@@ -45,8 +45,8 @@ public class AMSCoreHook implements IXposedHookLoadPackage {
                     lpparam.classLoader);
             Set unHooks = XposedBridge.hookAllMethods(ams, "start", new XC_MethodHook() {
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
                     Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                     honeyComb.onStart(context);
                 }
@@ -64,8 +64,8 @@ public class AMSCoreHook implements IXposedHookLoadPackage {
                     lpparam.classLoader);
             Set unHooks = XposedBridge.hookAllMethods(ams, "systemReady", new XC_MethodHook() {
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
                     honeyComb.systemReady();
                 }
             });

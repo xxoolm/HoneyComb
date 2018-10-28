@@ -28,10 +28,11 @@
         android:gravity="center_vertical"
         android:maxLines="2"
         android:textAlignment="viewStart"
+        android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.Switch"
         android:textColor="@android:color/white" />
 
-    <github.tornaco.honeycomb.common.ToggleSwitch
+    <github.tornaco.honeycomb.common.widget.ToggleSwitch
         android:id="@+id/switch_widget"
         style="@style/SwitchBarDefaultTheme"
         android:layout_width="wrap_content"

@@ -75,6 +75,24 @@ public class AMSCoreHook implements IXposedHookLoadPackage {
         }
     }
 
+    private void hookComb(XC_LoadPackage.LoadPackageParam lpparam) {
+        Logger.d("hook HoneyCombService...");
+        try {
+            Class ams = XposedHelpers.findClass("github.tornaco.practice.honeycomb.core.server.HoneyCombService",
+                    lpparam.classLoader);
+            Set unHooks = XposedBridge.hookAllMethods(ams, "onStart", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    Logger.i("HoneyCombService start! ");
+                }
+            });
+            Logger.i("hook HoneyCombService OK:" + unHooks);
+        } catch (Throwable e) {
+            Logger.wtf("Fail hook HoneyCombService %s", e);
+        }
+    }
+
     private static class XposedBridgeLogAdapter implements LogAdapter {
         @Override
         public void d(String s, String s1) {

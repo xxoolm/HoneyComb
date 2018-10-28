@@ -54,7 +54,7 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
     private String mSummary;
 
     private ArrayList<OnSwitchChangeListener> mSwitchChangeListeners =
-            new ArrayList<OnSwitchChangeListener>();
+            new ArrayList<>();
 
     public SwitchBar(Context context) {
         this(context, null);
@@ -109,7 +109,8 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
 
         setOnClickListener(this);
 
-        setVisibility(GONE);
+        setVisibility(INVISIBLE);
+        show();
     }
 
     public void setTextViewLabel(boolean isChecked) {

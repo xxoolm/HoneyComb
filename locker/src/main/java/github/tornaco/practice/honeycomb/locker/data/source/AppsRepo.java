@@ -1,17 +1,10 @@
 package github.tornaco.practice.honeycomb.locker.data.source;
 
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
-import github.tornaco.practice.honeycomb.locker.app.LockerContext;
 import github.tornaco.practice.honeycomb.locker.util.ExecutorUtils;
 import github.tornaco.practice.honeycomb.pm.PackageManager;
 
 public class AppsRepo implements AppDataSource {
-
-    @Override
-    public boolean isLockerEnabled() {
-        LockerContext lockerContext = LockerContext.createContext();
-        return lockerContext.getLockerManager() != null && lockerContext.getLockerManager().isEnabled();
-    }
 
     @Override
     public void getApps(int flags, AppDataSource.AppsLoadCallback callback) {

@@ -21,6 +21,8 @@ import github.tornaco.practice.honeycomb.device.IPowerManager;
 import github.tornaco.practice.honeycomb.pm.IPackageManager;
 import lombok.Getter;
 
+import static github.tornaco.practice.honeycomb.core.server.util.PkgUtils.PACKAGE_NAME_ANDROID;
+
 public class HoneyCombService implements HoneyComb {
 
     @Getter
@@ -31,13 +33,17 @@ public class HoneyCombService implements HoneyComb {
     private IPowerManager powerManager;
     @Getter
     private IPackageManager packageManager;
+    private IPreferenceManager preferenceManager;
 
     @SystemProcess
     public void onStart(Context context) {
+        Logger.w("HoneyCombService start with context %s", context);
         this.systemContext = context;
         this.activityManager = new ActivityManagerService();
         this.powerManager = new PowerManagerService();
         this.packageManager = new PackageManagerService(context);
+        // TODO Split for diff pkg.
+        this.preferenceManager = new PreferenceManagerService(PACKAGE_NAME_ANDROID);
         publish();
         publishInternal();
     }
@@ -52,7 +58,6 @@ public class HoneyCombService implements HoneyComb {
 
     }
 
-
     @SystemProcess
     private void publish() {
         try {
@@ -66,6 +71,7 @@ public class HoneyCombService implements HoneyComb {
     @SystemProcess
     private void publishInternal() {
         HoneyCombServiceManager.addService(HoneyCombContext.PACKAGE_MANAGER_SERVICE, packageManager.asBinder());
+        HoneyCombServiceManager.addService(HoneyCombContext.PREFERENCE_MANAGER_SERVICE, preferenceManager.asBinder());
     }
 
     private class ServiceStub extends IHoneyComb.Stub {
@@ -97,26 +103,6 @@ public class HoneyCombService implements HoneyComb {
         @Override
         public boolean hasService(String name) {
             return HoneyCombServiceManager.hasService(name);
-        }
-
-        @Override
-        public IPreferenceManager getPreferenceManager(String packageName) {
-            return new PreferenceManagerService(packageName);
-        }
-
-        @Override
-        public IActivityManager getActivityManager() {
-            return HoneyCombService.this.getActivityManager();
-        }
-
-        @Override
-        public IPowerManager getPowerManager() {
-            return HoneyCombService.this.getPowerManager();
-        }
-
-        @Override
-        public IPackageManager getPackageManager() {
-            return HoneyCombService.this.getPackageManager();
         }
     }
 }

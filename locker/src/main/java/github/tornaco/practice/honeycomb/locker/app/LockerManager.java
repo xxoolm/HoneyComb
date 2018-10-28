@@ -1,10 +1,12 @@
 package github.tornaco.practice.honeycomb.locker.app;
 
+import android.os.RemoteException;
 import android.util.Log;
 
 import com.google.common.base.Optional;
 
 import github.tornaco.practice.honeycomb.locker.ILocker;
+import github.tornaco.practice.honeycomb.locker.ILockerWatcher;
 import lombok.SneakyThrows;
 
 @SuppressWarnings("Guava")
@@ -26,8 +28,8 @@ public class LockerManager {
     }
 
     @SneakyThrows
-    public void setEnabled() {
-        requireLocker().or(DUMMY).setEnabled();
+    public void setEnabled(boolean enabled) {
+        requireLocker().or(DUMMY).setEnabled(enabled);
     }
 
     @SneakyThrows
@@ -50,7 +52,7 @@ public class LockerManager {
         private static final String TAG = "DummyLMS";
 
         @Override
-        public void setEnabled() {
+        public void setEnabled(boolean enabled) {
             Log.w(TAG, "setEnabled@DummyLockerManagerService");
         }
 
@@ -58,6 +60,16 @@ public class LockerManager {
         public boolean isEnabled() {
             Log.w(TAG, "setEnabled@DummyLockerManagerService");
             return false;
+        }
+
+        @Override
+        public void addWatcher(ILockerWatcher w) throws RemoteException {
+            Log.w(TAG, "addWatcher@DummyLockerManagerService");
+        }
+
+        @Override
+        public void deleteWatcher(ILockerWatcher w) throws RemoteException {
+            Log.w(TAG, "deleteWatcher@DummyLockerManagerService");
         }
 
         @Override

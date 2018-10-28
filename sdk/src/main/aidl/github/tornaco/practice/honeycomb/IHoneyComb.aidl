@@ -15,9 +15,4 @@ interface IHoneyComb {
     void deleteService(String name);
     IBinder getService(String name);
     boolean hasService(String name);
-
-    IPreferenceManager getPreferenceManager(String packageName);
-    IActivityManager getActivityManager();
-    IPowerManager getPowerManager();
-    IPackageManager getPackageManager();
 }
