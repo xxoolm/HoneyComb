@@ -1,5 +1,6 @@
-package github.tornaco.practice.honeycomb.core.server.data;
+package github.tornaco.practice.honeycomb.data;
 
+import android.annotation.NonNull;
 import android.os.Handler;
 import android.util.AtomicFile;
 import android.util.Log;
@@ -19,8 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
-import androidx.annotation.NonNull;
-import github.tornaco.practice.honeycomb.core.server.data.i.MapRepo;
+import github.tornaco.practice.honeycomb.data.i.MapRepo;
 import github.tornaco.practice.honeycomb.util.CloserUtils;
 import github.tornaco.practice.honeycomb.util.FileUtils;
 import github.tornaco.practice.honeycomb.util.XmlUtils;
@@ -225,7 +225,7 @@ public class StringMapRepo implements MapRepo<String, String> {
 
     @NonNull
     @Override
-    public Set<Entry<String, String>> entrySet() {
+    public Set<Map.Entry<String, String>> entrySet() {
         return new HashSet<>(mStorage.entrySet());
     }
 }

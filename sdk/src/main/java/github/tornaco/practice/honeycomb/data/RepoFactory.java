@@ -1,4 +1,4 @@
-package github.tornaco.practice.honeycomb.core.server.data;
+package github.tornaco.practice.honeycomb.data;
 
 import android.os.Handler;
 import android.os.HandlerThread;

@@ -36,6 +36,7 @@ dependencies {
 
     // Tornaco
     api deps.tornaco.android_common
+    api deps.tornaco.logger
 
     // Lombok
     annotationProcessor deps.lombok.core

@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import org.newstand.logger.Logger;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -74,6 +76,18 @@ public class AppsAdapter extends BaseAdapter {
             binding = DataBindingUtil.getBinding(view);
         }
 
+        Objects.requireNonNull(binding).setListener(new AppItemViewActionListener() {
+            @Override
+            public void onAppItemClick(AppInfo appInfo) {
+                binding.itemSwitch.performClick();
+            }
+
+            @Override
+            public void onAppItemSwitchStateChange(AppInfo appInfo, boolean checked) {
+                Logger.v("onAppItemSwitchStateChange %s %s", appInfo, checked);
+                startViewModel.setPackageLocked(appInfo.getPkgName(), checked);
+            }
+        });
         Objects.requireNonNull(binding).setApp(apps.get(position));
         binding.executePendingBindings();
         return binding.getRoot();

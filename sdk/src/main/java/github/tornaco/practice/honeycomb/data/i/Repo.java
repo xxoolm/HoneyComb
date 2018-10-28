@@ -1,4 +1,4 @@
-package github.tornaco.practice.honeycomb.core.server.data.i;
+package github.tornaco.practice.honeycomb.data.i;
 
 public interface Repo {
     void reload();

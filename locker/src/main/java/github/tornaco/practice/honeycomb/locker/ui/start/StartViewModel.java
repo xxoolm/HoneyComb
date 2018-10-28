@@ -63,6 +63,11 @@ public class StartViewModel extends ViewModel {
         Objects.requireNonNull(lockerContext.getLockerManager()).setEnabled(enabled);
     }
 
+    public void setPackageLocked(String pkg, boolean locked) {
+        LockerContext lockerContext = LockerContext.createContext();
+        Objects.requireNonNull(lockerContext.getLockerManager()).setPackageLocked(pkg, locked);
+    }
+
     private boolean isLockerEnabled() {
         LockerContext lockerContext = LockerContext.createContext();
         return lockerContext.getLockerManager() != null && lockerContext.getLockerManager().isEnabled();

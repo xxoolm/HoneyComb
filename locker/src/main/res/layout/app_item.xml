@@ -24,30 +24,51 @@
             name="app"
             type="github.tornaco.practice.honeycomb.pm.AppInfo" />
 
+        <variable
+            name="listener"
+            type="github.tornaco.practice.honeycomb.locker.ui.start.AppItemViewActionListener" />
+
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?android:attr/listPreferredItemHeight"
-        android:orientation="horizontal">
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?selectableItemBackground"
+        android:onClick="@{() -> listener.onAppItemClick(app)}">
 
         <ImageView
             android:id="@+id/icon"
             android:layout_width="@dimen/list_item_app_icon_w"
             android:layout_height="@dimen/list_item_app_icon_h"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/common_view_margin_middle"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/common_view_margin_default"
             android:src="@mipmap/ic_launcher_round"
             app:pkg="@{app.pkgName}" />
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/common_view_margin_middle"
-            android:layout_marginEnd="@dimen/common_view_margin_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/common_view_margin_default"
+            android:layout_marginEnd="@dimen/common_view_margin_default"
+            android:layout_toStartOf="@id/item_switch"
+            android:layout_toEndOf="@id/icon"
+            android:gravity="center|start"
             android:text="@{app.appLabel}"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-    </LinearLayout>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/item_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            app:switch_app="@{app}"
+            app:switch_listener="@{listener}"
+            android:layout_marginEnd="@dimen/common_view_margin_default" />
+    </RelativeLayout>
 </layout>

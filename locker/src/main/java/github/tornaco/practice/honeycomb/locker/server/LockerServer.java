@@ -4,15 +4,19 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 
 import org.newstand.logger.Logger;
 
+import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.data.PreferenceManager;
+import github.tornaco.practice.honeycomb.data.RepoFactory;
+import github.tornaco.practice.honeycomb.data.i.SetRepo;
 import github.tornaco.practice.honeycomb.locker.ILocker;
 import github.tornaco.practice.honeycomb.locker.ILockerWatcher;
 import github.tornaco.practice.honeycomb.locker.server.verify.Verifier;
@@ -29,6 +33,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
     @Getter
     private HoneyCombContext honeyCombContext;
     private AtomicBoolean lockerEnabled = new AtomicBoolean(false);
+    private SetRepo<String> appRepo;
 
     private final RemoteCallbackList<ILockerWatcher> watcherRemoteCallbackList
             = new RemoteCallbackList<>();
@@ -42,6 +47,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
         PreferenceManager preferenceManager = honeyCombContext.getPreferenceManager();
         this.lockerEnabled.set(preferenceManager.getBoolean(KEY_LOCKER_ENABLED, false));
         Logger.i("LockerServer start, lock enabled? %s", lockerEnabled.get());
+        this.appRepo = RepoFactory.get().getOrCreateStringSetRepo(getAppRepoFile().getPath());
     }
 
     void systemReady() {
@@ -75,12 +81,17 @@ public class LockerServer extends ILocker.Stub implements Verifier {
 
     @Override
     public boolean isPackageLocked(String pkg) {
-        return false;
+        return this.appRepo.has(pkg);
     }
 
     @Override
     public void setPackageLocked(String pkg, boolean locked) {
-
+        Logger.v("setPackageLocked %s %s", pkg, locked);
+        if (locked) {
+            this.appRepo.add(pkg);
+        } else {
+            this.appRepo.remove(pkg);
+        }
     }
 
     @Override
@@ -119,5 +130,14 @@ public class LockerServer extends ILocker.Stub implements Verifier {
             }
         }
         watcherRemoteCallbackList.finishBroadcast();
+    }
+
+    private static File getAppRepoFile() {
+        return new File(getBaseDataDir(), "lock_apps");
+    }
+
+    private static File getBaseDataDir() {
+        File systemFile = new File(Environment.getDataDirectory(), "system");
+        return new File(systemFile, "locker");
     }
 }

@@ -1,10 +1,12 @@
-package github.tornaco.practice.honeycomb.core.server.data;
+package github.tornaco.practice.honeycomb.data;
 
 import android.os.Handler;
 import android.util.AtomicFile;
 import android.util.Log;
 
 import com.google.common.io.Files;
+
+import org.newstand.logger.Logger;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,11 +17,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
-import github.tornaco.practice.honeycomb.core.server.data.i.SetRepo;
+import github.tornaco.practice.honeycomb.data.i.SetRepo;
 import github.tornaco.practice.honeycomb.util.FileUtils;
 import github.tornaco.practice.honeycomb.util.XmlUtils;
 import lombok.Cleanup;
-import org.newstand.logger.Logger;
 
 /**
  * Created by guohao4 on 2017/12/11.
@@ -50,7 +51,7 @@ public class StringSetRepo implements SetRepo<String> {
             Logger.wtf("Fail createParentDirs for: " + file + "\n" + Log.getStackTraceString(e));
         }
 
-        Logger.d("StringSetRepo: " + name() + ", comes up");
+        Logger.d("StringSetRepo: " + name() + ", comes up @%s", file);
 
         reload();
     }
