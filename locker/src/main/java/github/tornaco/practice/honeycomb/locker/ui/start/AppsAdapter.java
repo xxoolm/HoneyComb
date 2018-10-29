@@ -84,13 +84,14 @@ public class AppsAdapter extends BaseAdapter {
 
             @Override
             public void onAppItemSwitchStateChange(AppInfo appInfo, boolean checked) {
-                Logger.v("onAppItemSwitchStateChange %s %s", appInfo, checked);
+                Logger.v("onAppItemSwitchStateChange %s %s %s", appInfo, checked, appInfo == getItem(position));
                 appInfo.setSelected(checked);
                 startViewModel.setPackageLocked(appInfo.getPkgName(), checked);
             }
         });
         Objects.requireNonNull(binding).setApp(apps.get(position));
         binding.executePendingBindings();
+        Logger.w("app %s", binding.getApp());
         return binding.getRoot();
     }
 

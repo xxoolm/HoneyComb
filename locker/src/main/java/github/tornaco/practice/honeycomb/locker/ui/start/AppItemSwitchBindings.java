@@ -22,10 +22,10 @@ import github.tornaco.practice.honeycomb.pm.AppInfo;
 
 public class AppItemSwitchBindings {
 
-    @BindingAdapter({"switch_app","switch_listener"})
+    @BindingAdapter({"switch_app", "switch_listener"})
     public static void setListener(SwitchCompat view, AppInfo appInfo,
                                    final AppItemViewActionListener listener) {
-        view.setOnCheckedChangeListener((compoundButton, b) -> listener.onAppItemSwitchStateChange(appInfo, view.isChecked()));
+        view.setOnClickListener((b) -> listener.onAppItemSwitchStateChange(appInfo, ((SwitchCompat) b).isChecked()));
     }
 
 }
