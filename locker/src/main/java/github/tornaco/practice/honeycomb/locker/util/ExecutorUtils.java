@@ -2,18 +2,29 @@ package github.tornaco.practice.honeycomb.locker.util;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class ExecutorUtils {
 
-    private static final Executor IO = Executors.newSingleThreadExecutor();
-    private static final Executor WORKER = Executors.newFixedThreadPool(
-            Runtime.getRuntime().availableProcessors() / 4);
+    private static volatile Executor io;
+    private static volatile Executor worker;
 
-    public static Executor io() {
-        return IO;
+    public synchronized static Executor io() {
+        if (io == null) {
+            io = Executors.newSingleThreadExecutor();
+        }
+        return io;
     }
 
-    public static Executor worker() {
-        return WORKER;
+    public synchronized static Executor worker() {
+        if (worker == null) {
+            int nThreads = Runtime.getRuntime().availableProcessors() / 4 + 1;
+            worker = new ThreadPoolExecutor(nThreads, nThreads,
+                    0L, TimeUnit.MILLISECONDS,
+                    new LinkedBlockingQueue<Runnable>());
+        }
+        return worker;
     }
 }
