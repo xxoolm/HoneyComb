@@ -47,6 +47,11 @@ public class LockerManager {
         requireLocker().or(DUMMY).setPackageLocked(pkg, locked);
     }
 
+    @SneakyThrows
+    public void setVerifyResult(int request, int result, int reason) {
+        requireLocker().or(DUMMY).setVerifyResult(request, result, reason);
+    }
+
     private static class DummyLockerManagerService extends ILocker.Stub {
 
         private static final String TAG = "DummyLMS";
@@ -63,12 +68,12 @@ public class LockerManager {
         }
 
         @Override
-        public void addWatcher(ILockerWatcher w) throws RemoteException {
+        public void addWatcher(ILockerWatcher w) {
             Log.w(TAG, "addWatcher@DummyLockerManagerService");
         }
 
         @Override
-        public void deleteWatcher(ILockerWatcher w) throws RemoteException {
+        public void deleteWatcher(ILockerWatcher w) {
             Log.w(TAG, "deleteWatcher@DummyLockerManagerService");
         }
 
@@ -81,6 +86,11 @@ public class LockerManager {
         @Override
         public void setPackageLocked(String pkg, boolean locked) {
             Log.w(TAG, "setEnabled@DummyLockerManagerService");
+        }
+
+        @Override
+        public void setVerifyResult(int request, int result, int reason) {
+            Log.w(TAG, "setVerifyResult@DummyLockerManagerService");
         }
     }
 }

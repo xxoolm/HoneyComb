@@ -132,7 +132,7 @@ class ActivityStartHook implements IXposedHookLoadPackage {
                         }
 
                         // Package has been passed.
-                        if (!getVerifier().shouldVerify(pkgName, "startActivityMayWait")) {
+                        if (!getVerifier().shouldVerify(componentName, "startActivityMayWait")) {
                             return;
                         }
 
@@ -146,7 +146,7 @@ class ActivityStartHook implements IXposedHookLoadPackage {
                         getVerifier().verify(options, pkgName, componentName, 0, 0,
                                 new VerifyCallback() {
                                     @Override
-                                    public void onVerifyResult(int verifyResult, String reason) {
+                                    public void onVerifyResult(int verifyResult, int reason) {
                                         if (verifyResult == VerifyResult.PASS) try {
                                             XposedBridge.invokeOriginalMethod(finalStartActivityMayWaitMethod,
                                                     param.thisObject, param.args);

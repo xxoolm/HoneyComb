@@ -12,7 +12,7 @@ public interface Verifier {
 
     Intent getCheckedActivityIntent(Intent intent);
 
-    boolean shouldVerify(String pkg, String source);
+    boolean shouldVerify(ComponentName componentName, String source);
 
     void verify(Bundle options, String pkg, ComponentName componentName,
                 int uid, int pid, VerifyCallback callback);

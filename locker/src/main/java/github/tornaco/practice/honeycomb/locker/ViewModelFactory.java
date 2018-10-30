@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import github.tornaco.practice.honeycomb.locker.data.source.AppsRepo;
 import github.tornaco.practice.honeycomb.locker.ui.start.StartViewModel;
+import github.tornaco.practice.honeycomb.locker.ui.verify.VerifyViewModel;
 
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @SuppressLint("StaticFieldLeak")
@@ -37,6 +38,10 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         if (modelClass.isAssignableFrom(StartViewModel.class)) {
             //noinspection unchecked
             return (T) new StartViewModel(application, appsRepo);
+        }
+        if (modelClass.isAssignableFrom(VerifyViewModel.class)) {
+            //noinspection unchecked
+            return (T) new VerifyViewModel(application);
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }
