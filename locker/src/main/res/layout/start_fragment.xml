@@ -23,15 +23,15 @@
             android:layout_height="?actionBarSize"
             android:background="@drawable/switchbar_background"
             android:theme="@style/SwitchBarDefaultTheme"
-            app:switch_bar_state="@{viewmodel}"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:switch_bar_state="@{viewmodel}" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:onRefresh="@{viewmodel}"
             app:layout_constraintTop_toBottomOf="@id/switch_bar"
-            android:onRefresh = "@{viewmodel}"
             app:refreshing="@{viewmodel.isDataLoading}">
 
             <ListView
@@ -42,6 +42,15 @@
                 app:items="@{viewmodel.apps}" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_view_margin_default"
+            android:visibility="@{viewmodel.debug ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@id/start"
+            app:layout_constraintEnd_toEndOf="@id/start"
+            android:onClick="@{viewmodel::onFabClick}" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -12,7 +12,6 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import github.tornaco.practice.honeycomb.locker.StartActivity;
 import github.tornaco.practice.honeycomb.locker.databinding.StartFragmentBinding;
 import github.tornaco.practice.honeycomb.pm.AppInfo;
 

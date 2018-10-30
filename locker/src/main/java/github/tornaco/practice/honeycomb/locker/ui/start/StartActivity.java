@@ -1,10 +1,12 @@
-package github.tornaco.practice.honeycomb.locker;
+package github.tornaco.practice.honeycomb.locker.ui.start;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
+import github.tornaco.practice.honeycomb.locker.R;
+import github.tornaco.practice.honeycomb.locker.ViewModelFactory;
 import github.tornaco.practice.honeycomb.locker.ui.start.StartFragment;
 import github.tornaco.practice.honeycomb.locker.ui.start.StartViewModel;
 

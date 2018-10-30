@@ -36,7 +36,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(StartViewModel.class)) {
             //noinspection unchecked
-            return (T) new StartViewModel(appsRepo);
+            return (T) new StartViewModel(application, appsRepo);
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }

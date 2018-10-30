@@ -91,7 +91,6 @@ public class AppsAdapter extends BaseAdapter {
         });
         Objects.requireNonNull(binding).setApp(apps.get(position));
         binding.executePendingBindings();
-        Logger.w("app %s", binding.getApp());
         return binding.getRoot();
     }
 

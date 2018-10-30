@@ -13,19 +13,29 @@
 
         <meta-data
             android:name="xposedmodule"
-            android:value="true"/>
+            android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="ZooKeeper"/>
+            android:value="ZooKeeper" />
         <meta-data
             android:name="xposedminversion"
-            android:value="53"/>
+            android:value="53" />
 
-        <activity android:name=".StartActivity">
+        <activity android:name=".ui.start.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.verify.VerifyActivity"
+            android:excludeFromRecents="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="github.tornaco.practice.honeycomb.locker.action.VERIFY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

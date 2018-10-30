@@ -35,6 +35,7 @@ public class AppsRepo implements AppDataSource {
             }
 
             Collections.sort(appInfoList, (a, b) -> Collator.getInstance(Locale.CHINESE).compare(a.getAppLabel(), b.getAppLabel()));
+            Collections.sort(appInfoList, (a, b) -> (a.isSelected() == b.isSelected() ? 0 : a.isSelected() ? -1 : 1));
 
             callback.onAppsLoaded(appInfoList);
         });

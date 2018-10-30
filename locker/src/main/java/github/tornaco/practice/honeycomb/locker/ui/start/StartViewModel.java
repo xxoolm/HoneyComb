@@ -1,20 +1,29 @@
 package github.tornaco.practice.honeycomb.locker.ui.start;
 
+import android.app.Application;
+import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import org.newstand.logger.Logger;
 
 import java.util.List;
 import java.util.Objects;
 
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableList;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.AndroidViewModel;
+import github.tornaco.honeycomb.common.util.ActivityUtils;
+import github.tornaco.practice.honeycomb.locker.BuildConfig;
 import github.tornaco.practice.honeycomb.locker.app.LockerContext;
 import github.tornaco.practice.honeycomb.locker.data.source.AppDataSource;
 import github.tornaco.practice.honeycomb.locker.data.source.AppsRepo;
+import github.tornaco.practice.honeycomb.locker.ui.verify.VerifyActivity;
 import github.tornaco.practice.honeycomb.pm.AppInfo;
 
-public class StartViewModel extends ViewModel {
+public class StartViewModel extends AndroidViewModel {
     private AppsRepo appsRepo;
 
     public ObservableList<AppInfo> apps = new ObservableArrayList<>();
@@ -22,8 +31,10 @@ public class StartViewModel extends ViewModel {
     public ObservableBoolean isDataLoading = new ObservableBoolean(false);
     public ObservableBoolean isDataLoadingError = new ObservableBoolean(false);
     public final ObservableBoolean empty = new ObservableBoolean(false);
+    public final ObservableBoolean debug = new ObservableBoolean(BuildConfig.DEBUG);
 
-    public StartViewModel(AppsRepo appsRepo) {
+    public StartViewModel(Application application, AppsRepo appsRepo) {
+        super(application);
         this.appsRepo = appsRepo;
     }
 
@@ -55,6 +66,10 @@ public class StartViewModel extends ViewModel {
                 isDataLoadingError.set(true);
             }
         });
+    }
+
+    public void onFabClick(View actionButton) {
+        ActivityUtils.startActivity(getApplication(), VerifyActivity.class);
     }
 
     public void setLockerEnabled(boolean enabled) {
