@@ -16,11 +16,14 @@
 
 package github.tornaco.practice.honeycomb.locker.ui.start;
 
-import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+
 import androidx.databinding.BindingAdapter;
-import github.tornaco.android.common.util.ApkUtil;
 import github.tornaco.practice.honeycomb.pm.AppInfo;
 
 /**
@@ -28,10 +31,15 @@ import github.tornaco.practice.honeycomb.pm.AppInfo;
  */
 public class AppIconBindings {
 
+    private final static DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .resetViewBeforeLoading(true)
+            .cacheOnDisk(true)
+            .displayer(new FadeInBitmapDisplayer(300))
+            .build();
+
     @SuppressWarnings("unchecked")
     @BindingAdapter("app:pkg")
     public static void setPkg(ImageView imageView, String pkg) {
-        Drawable d = ApkUtil.loadIconByPkgName(imageView.getContext(), pkg);
-        imageView.setImageDrawable(d);
+        ImageLoader.getInstance().displayImage("launcher://" + pkg, imageView, options);
     }
 }

@@ -4,6 +4,7 @@
     package="github.tornaco.practice.honeycomb.locker">
 
     <application
+        android:name=".LockerApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_round"
         android:roundIcon="@mipmap/ic_launcher_round"

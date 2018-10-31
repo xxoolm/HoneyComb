@@ -10,7 +10,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
@@ -23,7 +25,7 @@ import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
  * Email: Tornaco@163.com
  */
 
-public abstract class BitmapUtil {
+public abstract class BitmapUtils {
 
     public static byte[] drawableToByteArray(Drawable d, boolean resize) {
         Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
@@ -96,5 +98,11 @@ public abstract class BitmapUtil {
         } catch (Exception e) {
             return in;
         }
+    }
+
+    public static InputStream Bitmap2InputStream(Bitmap bm) {
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, b);
+        return new ByteArrayInputStream(b.toByteArray());
     }
 }

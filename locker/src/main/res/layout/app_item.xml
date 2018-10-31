@@ -59,7 +59,7 @@
             android:layout_toEndOf="@id/icon"
             android:gravity="center|start"
             android:text="@{app.appLabel}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/item_switch"

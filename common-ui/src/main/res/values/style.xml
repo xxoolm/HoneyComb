@@ -24,4 +24,6 @@
         <item name="switchBarBackgroundColor">?colorPrimaryDark</item>
         <item name="switchBarTextColor">@android:color/white</item>
     </style>
+
+
 </resources>

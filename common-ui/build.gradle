@@ -37,4 +37,6 @@ dependencies {
     // Lombok
     annotationProcessor deps.lombok.core
     compileOnly deps.lombok.core
+
+    api deps.tornaco.android_common
 }
