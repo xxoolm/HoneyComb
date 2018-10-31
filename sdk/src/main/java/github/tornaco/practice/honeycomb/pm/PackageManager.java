@@ -12,6 +12,8 @@ import lombok.SneakyThrows;
 @SuppressWarnings("Guava")
 public class PackageManager {
 
+    public static final int FLAGS_GET_APPS_HAS_ACTIVITY = 0x00000001;
+
     private final static DummyPackageManagerServer DUMMY = new DummyPackageManagerServer();
     private IPackageManager server;
 

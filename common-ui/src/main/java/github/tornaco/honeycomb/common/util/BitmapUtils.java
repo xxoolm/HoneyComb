@@ -102,7 +102,7 @@ public abstract class BitmapUtils {
 
     public static InputStream Bitmap2InputStream(Bitmap bm) {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, b);
+        bm.compress(Bitmap.CompressFormat.PNG, 100, b);
         return new ByteArrayInputStream(b.toByteArray());
     }
 }
