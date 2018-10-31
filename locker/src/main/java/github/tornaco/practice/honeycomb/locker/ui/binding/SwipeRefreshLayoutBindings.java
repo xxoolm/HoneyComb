@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package github.tornaco.practice.honeycomb.locker.ui.start;
+package github.tornaco.practice.honeycomb.locker.ui.binding;
 
 import androidx.databinding.BindingAdapter;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import github.tornaco.practice.honeycomb.locker.ui.start.StartViewModel;
 
 public class SwipeRefreshLayoutBindings {
 

@@ -29,6 +29,7 @@ import github.tornaco.practice.honeycomb.locker.ILockerWatcher;
 import github.tornaco.practice.honeycomb.locker.app.LockerContext;
 import github.tornaco.practice.honeycomb.locker.server.verify.Verifier;
 import github.tornaco.practice.honeycomb.locker.server.verify.VerifyCallback;
+import github.tornaco.practice.honeycomb.locker.server.verify.VerifyResult;
 import github.tornaco.practice.honeycomb.locker.util.KeyStoreUtils;
 import github.tornaco.practice.honeycomb.util.PreconditionUtils;
 import lombok.Builder;
@@ -144,15 +145,19 @@ public class LockerServer extends ILocker.Stub implements Verifier {
         Intent intent = new Intent(LockerContext.LockerIntents.LOCKER_VERIFY_ACTION);
         intent.putExtra(LockerContext.LockerIntents.LOCKER_VERIFY_EXTRA_PACKAGE, pkg);
         intent.putExtra(LockerContext.LockerIntents.LOCKER_VERIFY_EXTRA_REQUEST_CODE, record.requestCode);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         verifyRecords.put(record.requestCode, record);
-        systemContext.startActivity(intent);
+        systemContext.startActivity(intent, options);
     }
 
     @Override
     public void setVerifyResult(int request, int result, int reason) {
         if (verifyRecords.containsKey(request)) {
             VerifyRecord record = verifyRecords.remove(request);
-            verifiedComponents.add(record.componentName);
+            if (result == VerifyResult.PASS) {
+                verifiedComponents.add(record.componentName);
+            }
             record.verifyCallback.onVerifyResult(result, reason);
             //noinspection UnusedAssignment
             record = null;

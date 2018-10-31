@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package github.tornaco.practice.honeycomb.locker.ui.start;
+package github.tornaco.practice.honeycomb.locker.ui.binding;
 
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.Observable;
 import github.tornaco.honeycomb.common.widget.SwitchBar;
+import github.tornaco.practice.honeycomb.locker.ui.start.StartViewModel;
 
 public class SwitchBarBindings {
 

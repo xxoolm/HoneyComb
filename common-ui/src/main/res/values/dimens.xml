@@ -2,9 +2,11 @@
 <resources>
     <dimen name="common_view_margin_middle">6dp</dimen>
     <dimen name="common_view_margin_default">16dp</dimen>
+    <dimen name="common_view_margin_large">32dp</dimen>
 
     <dimen name="list_item_app_icon_w">36dp</dimen>
     <dimen name="list_item_app_icon_h">36dp</dimen>
 
-
+    <dimen name="verify_app_icon_w">48dp</dimen>
+    <dimen name="verify_app_icon_h">48dp</dimen>
 </resources>

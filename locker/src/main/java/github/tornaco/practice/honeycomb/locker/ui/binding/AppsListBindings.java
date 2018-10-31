@@ -14,32 +14,27 @@
  * limitations under the License.
  */
 
-package github.tornaco.practice.honeycomb.locker.ui.start;
+package github.tornaco.practice.honeycomb.locker.ui.binding;
 
-import android.widget.ImageView;
+import android.widget.ListView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import java.util.List;
 
 import androidx.databinding.BindingAdapter;
+import github.tornaco.practice.honeycomb.locker.ui.start.AppsAdapter;
 import github.tornaco.practice.honeycomb.pm.AppInfo;
 
 /**
  * Contains {@link BindingAdapter}s for the {@link AppInfo} list.
  */
-public class AppIconBindings {
-
-    private final static DisplayImageOptions options = new DisplayImageOptions.Builder()
-            .resetViewBeforeLoading(true)
-            .cacheOnDisk(true)
-            .displayer(new FadeInBitmapDisplayer(300))
-            .build();
+public class AppsListBindings {
 
     @SuppressWarnings("unchecked")
-    @BindingAdapter("app:pkg")
-    public static void setPkg(ImageView imageView, String pkg) {
-        ImageLoader.getInstance().displayImage("launcher://" + pkg, imageView, options);
+    @BindingAdapter("app:items")
+    public static void setItems(ListView listView, List<AppInfo> items) {
+        AppsAdapter adapter = (AppsAdapter) listView.getAdapter();
+        if (adapter != null) {
+            adapter.replaceData(items);
+        }
     }
 }

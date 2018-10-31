@@ -46,7 +46,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/common_view_margin_default"
             android:src="@mipmap/ic_launcher_round"
-            app:pkg="@{app.pkgName}" />
+            app:iconFromPackage="@{app.pkgName}" />
 
         <TextView
             android:id="@+id/title"

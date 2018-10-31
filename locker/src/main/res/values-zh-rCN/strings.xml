@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">X Locker</string>
+    <string name="verify_input_password">启动前需要解锁</string>
+</resources>
