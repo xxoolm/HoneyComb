@@ -20,7 +20,7 @@ public class VerifyActivity extends AppCompatActivity {
         setContentView(R.layout.verify_activity);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, VerifyFragment.newInstance())
+                    .replace(R.id.container, PatternLockVerifyFragment.newInstance())
                     .commitNow();
         }
     }

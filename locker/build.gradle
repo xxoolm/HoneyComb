@@ -69,6 +69,8 @@ dependencies {
     // Projects
     implementation project(":sdk")
     implementation project(":common-ui")
+    implementation project(":third-party:pinlockview")
+    implementation project(":third-party:patternlockview")
 }
 
 preBuild {

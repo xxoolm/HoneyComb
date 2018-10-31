@@ -14,9 +14,6 @@ import android.os.Debug;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
-import android.support.annotation.ColorInt;
-import android.support.annotation.Dimension;
-import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
@@ -34,6 +31,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.Dimension;
+import androidx.annotation.IntDef;
 
 import static com.andrognito.patternlockview.PatternLockView.AspectRatio.ASPECT_RATIO_HEIGHT_BIAS;
 import static com.andrognito.patternlockview.PatternLockView.AspectRatio.ASPECT_RATIO_SQUARE;

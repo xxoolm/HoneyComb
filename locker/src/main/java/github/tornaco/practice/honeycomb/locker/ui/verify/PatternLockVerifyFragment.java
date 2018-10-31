@@ -11,26 +11,26 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.Observable;
 import androidx.fragment.app.Fragment;
-import github.tornaco.practice.honeycomb.locker.databinding.VerifyFragmentBinding;
+import github.tornaco.practice.honeycomb.locker.databinding.PatternLockVerifyFragmentBinding;
 
-public class VerifyFragment extends Fragment {
+public class PatternLockVerifyFragment extends Fragment {
 
     private VerifyViewModel verifyViewModel;
-    private VerifyFragmentBinding verifyFragmentBinding;
+    private PatternLockVerifyFragmentBinding patternLockVerifyFragmentBinding;
 
-    public static VerifyFragment newInstance() {
-        return new VerifyFragment();
+    public static PatternLockVerifyFragment newInstance() {
+        return new PatternLockVerifyFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        verifyFragmentBinding = VerifyFragmentBinding.inflate(inflater, container, false);
+        patternLockVerifyFragmentBinding = PatternLockVerifyFragmentBinding.inflate(inflater, container, false);
         verifyViewModel = VerifyActivity.obtainViewModel(Objects.requireNonNull(getActivity()));
-        verifyFragmentBinding.setViewmodel(verifyViewModel);
+        patternLockVerifyFragmentBinding.setViewmodel(verifyViewModel);
         setHasOptionsMenu(true);
-        return verifyFragmentBinding.getRoot();
+        return patternLockVerifyFragmentBinding.getRoot();
     }
 
     @Override
