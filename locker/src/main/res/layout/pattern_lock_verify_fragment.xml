@@ -75,8 +75,18 @@
                             android:textColor="@color/md_white" />
 
                     </RelativeLayout>
+
+
                 </RelativeLayout>
 
+                <ProgressBar
+                    android:id="@+id/progress_horizontal"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@+id/info"
+                    android:max="100"
+                    android:progress="@{viewmodel.progress}" />
             </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -97,7 +107,7 @@
                     android:layout_centerHorizontal="true"
                     app:aspectRatio="square"
                     app:aspectRatioEnabled="true"
-                    app:correctStateColor="@color/colorAccent"
+                    app:correctStateColor="@color/md_green_800"
                     app:dotAnimationDuration="200"
                     app:dotCount="3"
                     app:dotNormalSize="12dp"
@@ -105,7 +115,7 @@
                     app:normalStateColor="@color/colorAccent"
                     app:pathEndAnimationDuration="100"
                     app:pathWidth="4dp"
-                    app:wrongStateColor="@color/colorAccent" />
+                    app:wrongStateColor="@color/md_amber_900" />
             </RelativeLayout>
         </LinearLayout>
 
