@@ -29,11 +29,14 @@ import github.tornaco.practice.honeycomb.locker.ILockerWatcher;
 import github.tornaco.practice.honeycomb.locker.app.LockerContext;
 import github.tornaco.practice.honeycomb.locker.server.verify.Verifier;
 import github.tornaco.practice.honeycomb.locker.server.verify.VerifyCallback;
+import github.tornaco.practice.honeycomb.locker.util.KeyStoreUtils;
+import github.tornaco.practice.honeycomb.util.PreconditionUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import static github.tornaco.practice.honeycomb.locker.app.LockerKeys.KEY_LOCKER_ENABLED;
+import static github.tornaco.practice.honeycomb.locker.app.LockerContext.LockerKeys.KEY_LOCKER_ENABLED;
+import static github.tornaco.practice.honeycomb.locker.app.LockerContext.LockerMethod.PIN;
 
 public class LockerServer extends ILocker.Stub implements Verifier {
 
@@ -138,9 +141,9 @@ public class LockerServer extends ILocker.Stub implements Verifier {
                 .verifyCallback(callback)
                 .componentName(componentName)
                 .build();
-        Intent intent = new Intent(LockerContext.LOCKER_VERIFY_ACTION);
-        intent.putExtra(LockerContext.LOCKER_VERIFY_EXTRA_PACKAGE, pkg);
-        intent.putExtra(LockerContext.LOCKER_VERIFY_EXTRA_REQUEST_CODE, record.requestCode);
+        Intent intent = new Intent(LockerContext.LockerIntents.LOCKER_VERIFY_ACTION);
+        intent.putExtra(LockerContext.LockerIntents.LOCKER_VERIFY_EXTRA_PACKAGE, pkg);
+        intent.putExtra(LockerContext.LockerIntents.LOCKER_VERIFY_EXTRA_REQUEST_CODE, record.requestCode);
         verifyRecords.put(record.requestCode, record);
         systemContext.startActivity(intent);
     }
@@ -157,6 +160,36 @@ public class LockerServer extends ILocker.Stub implements Verifier {
         } else {
             Logger.e("No such request %s", request);
         }
+    }
+
+    @Override
+    public void setLockerMethod(int method) {
+        PreconditionUtils.checkState(method == LockerContext.LockerMethod.PATTERN
+                || method == PIN, "Invalid method");
+        PreferenceManager preferenceManager = honeyCombContext.getPreferenceManager();
+        preferenceManager.putInt(LockerContext.LockerKeys.KEY_LOCKER_METHOD, method);
+    }
+
+    @Override
+    public int getLockerMethod() {
+        PreferenceManager preferenceManager = honeyCombContext.getPreferenceManager();
+        return preferenceManager.getInt(LockerContext.LockerKeys.KEY_LOCKER_METHOD, LockerContext.LockerMethod.NONE);
+    }
+
+    @Override
+    public void setLockerKey(int method, String key) {
+        PreconditionUtils.checkNotNull(key, "Key is null");
+        PreferenceManager preferenceManager = honeyCombContext.getPreferenceManager();
+        preferenceManager.putString(LockerContext.LockerKeys.KEY_LOCKER_KEY_PREFIX + method, KeyStoreUtils.encryptString(key));
+
+    }
+
+    @Override
+    public boolean isLockerKeyValid(int method, String key) {
+        PreferenceManager preferenceManager = honeyCombContext.getPreferenceManager();
+        return key.equals(KeyStoreUtils.decryptString(
+                preferenceManager.getString(
+                        LockerContext.LockerKeys.KEY_LOCKER_KEY_PREFIX + method, null)));
     }
 
     private void notifyWatcher() {

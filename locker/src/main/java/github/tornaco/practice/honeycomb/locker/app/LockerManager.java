@@ -1,6 +1,5 @@
 package github.tornaco.practice.honeycomb.locker.app;
 
-import android.os.RemoteException;
 import android.util.Log;
 
 import com.google.common.base.Optional;
@@ -52,6 +51,36 @@ public class LockerManager {
         requireLocker().or(DUMMY).setVerifyResult(request, result, reason);
     }
 
+    @SneakyThrows
+    public void addWatcher(ILockerWatcher w) {
+        requireLocker().or(DUMMY).addWatcher(w);
+    }
+
+    @SneakyThrows
+    public void deleteWatcher(ILockerWatcher w) {
+        requireLocker().or(DUMMY).deleteWatcher(w);
+    }
+
+    @SneakyThrows
+    public void setLockerMethod(int method) {
+        requireLocker().or(DUMMY).setLockerMethod(method);
+    }
+
+    @SneakyThrows
+    public int getLockerMethod() {
+        return requireLocker().or(DUMMY).getLockerMethod();
+    }
+
+    @SneakyThrows
+    public void setLockerKey(int method, String key) {
+        requireLocker().or(DUMMY).setLockerKey(method, key);
+    }
+
+    @SneakyThrows
+    public boolean isLockerKeyValid(int method, String key) {
+        return requireLocker().or(DUMMY).isLockerKeyValid(method, key);
+    }
+
     private static class DummyLockerManagerService extends ILocker.Stub {
 
         private static final String TAG = "DummyLMS";
@@ -91,6 +120,28 @@ public class LockerManager {
         @Override
         public void setVerifyResult(int request, int result, int reason) {
             Log.w(TAG, "setVerifyResult@DummyLockerManagerService");
+        }
+
+        @Override
+        public void setLockerMethod(int method) {
+            Log.w(TAG, "setLockerMethod@DummyLockerManagerService");
+        }
+
+        @Override
+        public int getLockerMethod() {
+            Log.w(TAG, "getLockerMethod@DummyLockerManagerService");
+            return 0;
+        }
+
+        @Override
+        public void setLockerKey(int method, String key) {
+            Log.w(TAG, "setLockerKey@DummyLockerManagerService");
+        }
+
+        @Override
+        public boolean isLockerKeyValid(int method, String key) {
+            Log.w(TAG, "isLockerKeyValid@DummyLockerManagerService");
+            return false;
         }
     }
 }

@@ -13,4 +13,10 @@ interface ILocker {
    void setPackageLocked(String pkg, boolean locked);
 
    void setVerifyResult(int request, int result, int reason);
+
+   void setLockerMethod(int method);
+   int getLockerMethod();
+
+   void setLockerKey(int method, String key);
+   boolean isLockerKeyValid(int method, String key);
 }

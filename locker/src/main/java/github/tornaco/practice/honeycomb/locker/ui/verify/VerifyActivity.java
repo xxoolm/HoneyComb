@@ -37,10 +37,10 @@ public class VerifyActivity extends AppCompatActivity {
     static void injectVerifyArgs(FragmentActivity activity, VerifyViewModel verifyViewModel) {
         Intent intent = activity.getIntent();
         PreconditionUtils.checkNotNull(intent, "Intent is null");
-        PreconditionUtils.checkState(intent.hasExtra(LockerContext.LOCKER_VERIFY_EXTRA_REQUEST_CODE), "No request code");
-        PreconditionUtils.checkState(intent.hasExtra(LockerContext.LOCKER_VERIFY_EXTRA_PACKAGE), "No pkg");
-        int requestCode = intent.getIntExtra(LockerContext.LOCKER_VERIFY_EXTRA_REQUEST_CODE, Integer.MIN_VALUE);
-        String pkg = intent.getStringExtra(LockerContext.LOCKER_VERIFY_EXTRA_PACKAGE);
+        PreconditionUtils.checkState(intent.hasExtra(LockerContext.LockerIntents.LOCKER_VERIFY_EXTRA_REQUEST_CODE), "No request code");
+        PreconditionUtils.checkState(intent.hasExtra(LockerContext.LockerIntents.LOCKER_VERIFY_EXTRA_PACKAGE), "No pkg");
+        int requestCode = intent.getIntExtra(LockerContext.LockerIntents.LOCKER_VERIFY_EXTRA_REQUEST_CODE, Integer.MIN_VALUE);
+        String pkg = intent.getStringExtra(LockerContext.LockerIntents.LOCKER_VERIFY_EXTRA_PACKAGE);
         verifyViewModel.setPkg(pkg);
         verifyViewModel.setRequestCode(requestCode);
     }
