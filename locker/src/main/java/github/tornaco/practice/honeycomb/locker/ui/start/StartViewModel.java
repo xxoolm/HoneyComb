@@ -3,21 +3,21 @@ package github.tornaco.practice.honeycomb.locker.ui.start;
 import android.app.Application;
 import android.view.View;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import org.newstand.logger.Logger;
 
 import java.util.List;
 import java.util.Objects;
 
-import androidx.databinding.BindingAdapter;
 import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
 import androidx.databinding.ObservableList;
 import androidx.lifecycle.AndroidViewModel;
 import github.tornaco.honeycomb.common.util.ActivityUtils;
 import github.tornaco.practice.honeycomb.locker.BuildConfig;
 import github.tornaco.practice.honeycomb.locker.app.LockerContext;
+import github.tornaco.practice.honeycomb.locker.data.source.AppCategories;
 import github.tornaco.practice.honeycomb.locker.data.source.AppDataSource;
 import github.tornaco.practice.honeycomb.locker.data.source.AppsRepo;
 import github.tornaco.practice.honeycomb.locker.ui.verify.VerifyActivity;
@@ -27,11 +27,13 @@ public class StartViewModel extends AndroidViewModel {
     private AppsRepo appsRepo;
 
     public ObservableList<AppInfo> apps = new ObservableArrayList<>();
+    public ObservableField<AppCategories> appCategories = new ObservableField<>(AppCategories.User);
     public ObservableBoolean isLockerEnabled = new ObservableBoolean(false);
     public ObservableBoolean isDataLoading = new ObservableBoolean(false);
     public ObservableBoolean isDataLoadingError = new ObservableBoolean(false);
+    public ObservableInt columnCount = new ObservableInt(1);
     public final ObservableBoolean empty = new ObservableBoolean(false);
-    public final ObservableBoolean debug = new ObservableBoolean(BuildConfig.DEBUG);
+    public final ObservableBoolean debug = new ObservableBoolean(false && BuildConfig.DEBUG);
 
     public StartViewModel(Application application, AppsRepo appsRepo) {
         super(application);
@@ -49,27 +51,34 @@ public class StartViewModel extends AndroidViewModel {
 
     public void loadApps() {
         isDataLoading.set(true);
-        appsRepo.getApps(AppInfo.FLAGS_NONE, new AppDataSource.AppsLoadCallback() {
-            @Override
-            public void onAppsLoaded(List<AppInfo> appInfoList) {
-                Logger.i("onAppsLoaded: " + appInfoList);
-                isDataLoading.set(false);
-                isDataLoadingError.set(false);
-                apps.clear();
-                apps.addAll(appInfoList);
-                empty.set(apps.isEmpty());
-            }
+        appsRepo.getApps(getApplication(),
+                appCategories.get() == AppCategories.User
+                        ? AppInfo.FLAGS_USER
+                        : AppInfo.FLAGS_SYSTEM, new AppDataSource.AppsLoadCallback() {
+                    @Override
+                    public void onAppsLoaded(List<AppInfo> appInfoList) {
+                        Logger.i("onAppsLoaded: " + appInfoList);
+                        isDataLoading.set(false);
+                        isDataLoadingError.set(false);
+                        apps.clear();
+                        apps.addAll(appInfoList);
+                        empty.set(apps.isEmpty());
+                    }
 
-            @Override
-            public void onDataNotAvailable() {
-                isDataLoading.set(false);
-                isDataLoadingError.set(true);
-            }
-        });
+                    @Override
+                    public void onDataNotAvailable() {
+                        isDataLoading.set(false);
+                        isDataLoadingError.set(true);
+                    }
+                });
     }
 
     public void onFabClick(View actionButton) {
         ActivityUtils.startActivity(getApplication(), VerifyActivity.class);
+    }
+
+    public void setAppCategories(AppCategories categories) {
+        this.appCategories.set(categories);
     }
 
     public void setLockerEnabled(boolean enabled) {

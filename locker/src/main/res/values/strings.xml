@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">locker</string>
     <string name="verify_input_password">Input password</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_sort">Sort</string>
+    <string name="menu_view">View</string>
+
+    <string name="user_installed_apps">用户应用</string>
+    <string name="system_installed_apps">系统应用</string>
 </resources>

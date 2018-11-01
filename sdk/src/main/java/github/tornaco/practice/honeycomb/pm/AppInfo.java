@@ -17,6 +17,8 @@ import lombok.ToString;
 public class AppInfo implements Parcelable {
 
     public static final int FLAGS_NONE = 0;
+    public static final int FLAGS_USER = 0x00000001;
+    public static final int FLAGS_SYSTEM = 0x00000002;
 
     private String pkgName;
     private String appLabel;

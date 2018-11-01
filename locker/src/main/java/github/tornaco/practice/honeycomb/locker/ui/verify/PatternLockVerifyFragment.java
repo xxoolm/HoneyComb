@@ -39,9 +39,17 @@ public class PatternLockVerifyFragment extends Fragment {
         verifyViewModel.verified.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                Objects.requireNonNull(getActivity()).finish();
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
             }
         });
         verifyViewModel.verify();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        verifyViewModel.destroy();
     }
 }

@@ -28,6 +28,11 @@
             name="listener"
             type="github.tornaco.practice.honeycomb.locker.ui.start.AppItemViewActionListener" />
 
+        <variable
+            name="viewmodel"
+            type="github.tornaco.practice.honeycomb.locker.ui.start.StartViewModel" />
+
+
     </data>
 
     <RelativeLayout
@@ -59,7 +64,8 @@
             android:layout_toEndOf="@id/icon"
             android:gravity="center|start"
             android:text="@{app.appLabel}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            app:textSize="@{viewmodel}" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/item_switch"
@@ -67,9 +73,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/common_view_margin_default"
             android:checked="@{app.isSelected}"
             app:switch_app="@{app}"
-            app:switch_listener="@{listener}"
-            android:layout_marginEnd="@dimen/common_view_margin_default" />
+            app:switch_listener="@{listener}" />
     </RelativeLayout>
 </layout>

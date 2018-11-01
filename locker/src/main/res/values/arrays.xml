@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="app_list_filter_categories">
+        <item>@string/user_installed_apps</item>
+        <item>@string/system_installed_apps</item>
+    </string-array>
+</resources>

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">X Locker</string>
     <string name="verify_input_password">启动前需要解锁</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_sort">Sort</string>
+    <string name="menu_view">View</string>
 </resources>

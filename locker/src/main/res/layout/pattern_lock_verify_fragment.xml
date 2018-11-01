@@ -85,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_below="@+id/info"
-                    android:max="100"
+                    android:max="@{viewmodel.progressMax}"
                     android:progress="@{viewmodel.progress}" />
             </com.google.android.material.appbar.AppBarLayout>
 

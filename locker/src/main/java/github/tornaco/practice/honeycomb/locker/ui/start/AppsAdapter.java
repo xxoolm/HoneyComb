@@ -17,28 +17,26 @@
 package github.tornaco.practice.honeycomb.locker.ui.start;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-
-import org.newstand.logger.Logger;
 
 import java.util.List;
 import java.util.Objects;
 
-import androidx.databinding.DataBindingUtil;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import github.tornaco.practice.honeycomb.locker.databinding.AppItemBinding;
 import github.tornaco.practice.honeycomb.pm.AppInfo;
+import lombok.Getter;
 
 
-public class AppsAdapter extends BaseAdapter {
+public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppItemViewHolder> {
 
     private final StartViewModel startViewModel;
 
     private List<AppInfo> apps;
 
-    public AppsAdapter(List<AppInfo> tasks,
-                       StartViewModel tasksViewModel) {
+    AppsAdapter(List<AppInfo> tasks,
+                StartViewModel tasksViewModel) {
         startViewModel = tasksViewModel;
         setList(tasks);
     }
@@ -47,35 +45,16 @@ public class AppsAdapter extends BaseAdapter {
         setList(tasks);
     }
 
+    @NonNull
     @Override
-    public int getCount() {
-        return apps != null ? apps.size() : 0;
+    public AppItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new AppItemViewHolder(AppItemBinding.inflate(
+                LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
-    public AppInfo getItem(int position) {
-        return apps.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, final View view, final ViewGroup viewGroup) {
-        AppItemBinding binding;
-        if (view == null) {
-            // Inflate
-            LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-
-            // Create the binding
-            binding = AppItemBinding.inflate(inflater, viewGroup, false);
-        } else {
-            // Recycling view
-            binding = DataBindingUtil.getBinding(view);
-        }
-
+    public void onBindViewHolder(@NonNull AppItemViewHolder holder, int position) {
+        AppItemBinding binding = holder.getBinding();
         Objects.requireNonNull(binding).setListener(new AppItemViewActionListener() {
             @Override
             public void onAppItemClick(AppInfo appInfo) {
@@ -84,19 +63,41 @@ public class AppsAdapter extends BaseAdapter {
 
             @Override
             public void onAppItemSwitchStateChange(AppInfo appInfo, boolean checked) {
-                Logger.v("onAppItemSwitchStateChange %s %s %s", appInfo, checked, appInfo == getItem(position));
                 appInfo.setSelected(checked);
                 startViewModel.setPackageLocked(appInfo.getPkgName(), checked);
             }
         });
         Objects.requireNonNull(binding).setApp(apps.get(position));
+        binding.setViewmodel(startViewModel);
         binding.executePendingBindings();
-        return binding.getRoot();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemCount() {
+        return apps != null ? apps.size() : 0;
+    }
 
     private void setList(List<AppInfo> tasks) {
         apps = tasks;
         notifyDataSetChanged();
+    }
+
+    @Getter
+    public class AppItemViewHolder extends RecyclerView.ViewHolder {
+        private final AppItemBinding binding;
+
+        AppItemViewHolder(AppItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        public void bind(Object obj) {
+            binding.executePendingBindings();
+        }
     }
 }

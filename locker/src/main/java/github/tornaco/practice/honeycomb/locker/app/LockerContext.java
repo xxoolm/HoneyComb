@@ -7,6 +7,7 @@ import github.tornaco.practice.honeycomb.locker.BuildConfig;
 public interface LockerContext {
 
     String LOCKER_SERVICE = "locker";
+    long LOCKER_VERIFY_TIMEOUT_MILLS = 60 * 1000;
 
     @Nullable
     LockerManager getLockerManager();

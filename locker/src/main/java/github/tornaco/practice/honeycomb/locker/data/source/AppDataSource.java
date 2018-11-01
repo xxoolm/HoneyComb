@@ -1,5 +1,7 @@
 package github.tornaco.practice.honeycomb.locker.data.source;
 
+import android.content.Context;
+
 import java.util.List;
 
 import github.tornaco.practice.honeycomb.pm.AppInfo;
@@ -12,5 +14,5 @@ public interface AppDataSource {
         void onDataNotAvailable();
     }
 
-    void getApps(int flags, AppsLoadCallback callback);
+    void getApps(Context context, int flags, AppsLoadCallback callback);
 }

@@ -33,17 +33,52 @@ public class PackageManagerService extends IPackageManager.Stub {
     @Override
     public List<AppInfo> getInstalledApps(int flags) {
         List<AppInfo> res = new ArrayList<>();
+        boolean user = (flags & AppInfo.FLAGS_USER) != 0;
+        if (user) res.addAll(getUserApps());
+        boolean system = (flags & AppInfo.FLAGS_SYSTEM) != 0;
+        if (system) res.addAll(getSystemApps());
+        return res;
+    }
+
+    private List<AppInfo> getUserApps() {
+        List<AppInfo> res = new ArrayList<>();
         final PackageManager pm = this.getSystemContext().getPackageManager();
         List<ApplicationInfo> applicationInfos =
                 android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N ?
                         pm.getInstalledApplications(android.content.pm.PackageManager.MATCH_UNINSTALLED_PACKAGES)
                         : pm.getInstalledApplications(android.content.pm.PackageManager.GET_UNINSTALLED_PACKAGES);
         for (ApplicationInfo applicationInfo : applicationInfos) {
+            if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+                continue;
+            }
             AppInfo appInfo = new AppInfo();
             appInfo.setPkgName(applicationInfo.packageName);
             String appLabel = String.valueOf(applicationInfo.loadLabel(pm));
             appInfo.setAppLabel(appLabel);
             appInfo.setVersionCode(applicationInfo.versionCode);
+            appInfo.setFlags(AppInfo.FLAGS_USER);
+            res.add(appInfo);
+        }
+        return res;
+    }
+
+    private List<AppInfo> getSystemApps() {
+        List<AppInfo> res = new ArrayList<>();
+        final PackageManager pm = this.getSystemContext().getPackageManager();
+        List<ApplicationInfo> applicationInfos =
+                android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N ?
+                        pm.getInstalledApplications(android.content.pm.PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                        : pm.getInstalledApplications(android.content.pm.PackageManager.GET_UNINSTALLED_PACKAGES);
+        for (ApplicationInfo applicationInfo : applicationInfos) {
+            if ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
+                continue;
+            }
+            AppInfo appInfo = new AppInfo();
+            appInfo.setPkgName(applicationInfo.packageName);
+            String appLabel = String.valueOf(applicationInfo.loadLabel(pm));
+            appInfo.setAppLabel(appLabel);
+            appInfo.setVersionCode(applicationInfo.versionCode);
+            appInfo.setFlags(AppInfo.FLAGS_SYSTEM);
             res.add(appInfo);
         }
         return res;

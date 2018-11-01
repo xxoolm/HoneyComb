@@ -23,7 +23,6 @@
             android:layout_height="?actionBarSize"
             android:background="@drawable/switchbar_background"
             android:theme="@style/SwitchBarDefaultTheme"
-            app:layout_constraintTop_toTopOf="parent"
             app:switch_bar_state="@{viewmodel}" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -31,26 +30,60 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:onRefresh="@{viewmodel}"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_container"
             app:layout_constraintTop_toBottomOf="@id/switch_bar"
             app:refreshing="@{viewmodel.isDataLoading}">
 
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="@{viewmodel.empty ? View.GONE : View.VISIBLE}"
-                app:items="@{viewmodel.apps}" />
+                app:items="@{viewmodel.apps}"
+                app:layoutView="@{viewmodel}" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_container"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="?colorPrimaryDark"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="0dp"
+                android:layout_height="?actionBarSize"
+                android:layout_weight="3"
+                app:spinnerItems="@{viewmodel}"/>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="?colorPrimary" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/bottom_toolbar"
+                android:layout_width="0dp"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_weight="2"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:toolbarAction="@{viewmodel}" />
+        </LinearLayout>
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/common_view_margin_default"
+            android:onClick="@{viewmodel::onFabClick}"
             android:visibility="@{viewmodel.debug ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@id/start"
-            app:layout_constraintEnd_toEndOf="@id/start"
-            android:onClick="@{viewmodel::onFabClick}" />
+            app:layout_constraintBottom_toTopOf="@id/bottom_container"
+            app:layout_constraintEnd_toEndOf="@id/start" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

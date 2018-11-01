@@ -9,4 +9,7 @@
 
     <dimen name="verify_app_icon_w">48dp</dimen>
     <dimen name="verify_app_icon_h">48dp</dimen>
+
+    <dimen name="list_item_main_text_size_normal">16sp</dimen>
+    <dimen name="list_item_main_text_size_small">12sp</dimen>
 </resources>
