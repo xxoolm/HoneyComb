@@ -42,6 +42,6 @@ public class PinLockVerifyFragment extends Fragment {
                 Objects.requireNonNull(getActivity()).finish();
             }
         });
-        verifyViewModel.verify();
+        verifyViewModel.start();
     }
 }

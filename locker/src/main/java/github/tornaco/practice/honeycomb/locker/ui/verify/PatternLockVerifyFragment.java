@@ -44,12 +44,12 @@ public class PatternLockVerifyFragment extends Fragment {
                 }
             }
         });
-        verifyViewModel.verify();
+        verifyViewModel.start();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        verifyViewModel.destroy();
+        verifyViewModel.cancel();
     }
 }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
+import android.text.TextUtils;
 
 import org.newstand.logger.Logger;
 
@@ -195,6 +196,13 @@ public class LockerServer extends ILocker.Stub implements Verifier {
         return key.equals(KeyStoreUtils.decryptString(
                 preferenceManager.getString(
                         LockerContext.LockerKeys.KEY_LOCKER_KEY_PREFIX + method, null)));
+    }
+
+    @Override
+    public boolean isLockerKeySet(int method) {
+        PreferenceManager preferenceManager = honeyCombContext.getPreferenceManager();
+        return !TextUtils.isEmpty(preferenceManager.getString(
+                LockerContext.LockerKeys.KEY_LOCKER_KEY_PREFIX + method, null));
     }
 
     private void notifyWatcher() {

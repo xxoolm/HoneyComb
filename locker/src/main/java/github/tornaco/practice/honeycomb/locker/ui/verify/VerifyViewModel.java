@@ -16,7 +16,7 @@ import github.tornaco.practice.honeycomb.locker.server.verify.VerifyResult;
 import lombok.Setter;
 
 import static github.tornaco.practice.honeycomb.locker.server.verify.VerifyResult.REASON_USER_CANCEL;
-import static github.tornaco.practice.honeycomb.locker.server.verify.VerifyResult.REASON_USER_INPUT_CORRECT;
+import static github.tornaco.practice.honeycomb.locker.server.verify.VerifyResult.REASON_USER_KEY_NOT_SET;
 
 public class VerifyViewModel extends AndroidViewModel {
     private static final long PROGRESS_MAX = LockerContext.LOCKER_VERIFY_TIMEOUT_MILLS;
@@ -24,33 +24,72 @@ public class VerifyViewModel extends AndroidViewModel {
     private int requestCode;
     @Setter
     public String pkg;
-    ObservableBoolean verified = new ObservableBoolean(false);
+    public ObservableBoolean verified = new ObservableBoolean(false);
     public ObservableInt progress = new ObservableInt((int) PROGRESS_MAX);
     public ObservableInt progressMax = new ObservableInt((int) PROGRESS_MAX);
+    public ObservableInt failCount = new ObservableInt(0);
 
     public VerifyViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public void verify() {
-        LockerContext lockerContext = LockerContext.createContext();
-        LockerManager lockerManager = lockerContext.getLockerManager();
-        Objects.requireNonNull(lockerManager).setVerifyResult(requestCode, VerifyResult.PASS, REASON_USER_INPUT_CORRECT);
-        verified.set(true);
+    public void start() {
+        if (!isCorrentLockMethodKeySet()) {
+            pass(REASON_USER_KEY_NOT_SET);
+            return;
+        }
         checkTimeout();
     }
 
-    public void cancel() {
+    public void verify(String input) {
+        if (!isInputCorrect(input)) {
+            failOnce();
+        }
+    }
+
+    public void pass(int reason) {
         LockerContext lockerContext = LockerContext.createContext();
         LockerManager lockerManager = lockerContext.getLockerManager();
-        Objects.requireNonNull(lockerManager).setVerifyResult(requestCode, VerifyResult.FAIL, REASON_USER_CANCEL);
+        Objects.requireNonNull(lockerManager).setVerifyResult(requestCode, VerifyResult.PASS, reason);
         verified.set(true);
     }
 
-    void destroy() {
+    public void failOnce() {
+        failCount.set(failCount.get() + 1);
+    }
+
+    public void failFinally(int reason) {
+        LockerContext lockerContext = LockerContext.createContext();
+        LockerManager lockerManager = lockerContext.getLockerManager();
+        Objects.requireNonNull(lockerManager).setVerifyResult(requestCode, VerifyResult.FAIL, reason);
+        verified.set(true);
+    }
+
+    public void cancel() {
         if (!verified.get()) {
-            cancel();
+            LockerContext lockerContext = LockerContext.createContext();
+            LockerManager lockerManager = lockerContext.getLockerManager();
+            Objects.requireNonNull(lockerManager).setVerifyResult(requestCode, VerifyResult.FAIL, REASON_USER_CANCEL);
+            verified.set(true);
         }
+    }
+
+    public int getLockMethod() {
+        LockerContext lockerContext = LockerContext.createContext();
+        LockerManager lockerManager = lockerContext.getLockerManager();
+        return Objects.requireNonNull(lockerManager).getLockerMethod();
+    }
+
+    public boolean isInputCorrect(String input) {
+        LockerContext lockerContext = LockerContext.createContext();
+        LockerManager lockerManager = lockerContext.getLockerManager();
+        return Objects.requireNonNull(lockerManager).isLockerKeyValid(getLockMethod(), input);
+    }
+
+    public boolean isCorrentLockMethodKeySet() {
+        LockerContext lockerContext = LockerContext.createContext();
+        LockerManager lockerManager = lockerContext.getLockerManager();
+        return Objects.requireNonNull(lockerManager).isLockerKeySet(getLockMethod());
     }
 
     private void checkTimeout() {

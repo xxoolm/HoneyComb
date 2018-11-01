@@ -7,4 +7,6 @@
 
     <string name="user_installed_apps">用户应用</string>
     <string name="system_installed_apps">系统应用</string>
+    <string name="locker_key_not_set">Please setup your lock method</string>
+    <string name="locker_key_setup_now">Setup</string>
 </resources>

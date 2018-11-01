@@ -4,4 +4,6 @@
     <string name="menu_search">搜索</string>
     <string name="menu_sort">Sort</string>
     <string name="menu_view">View</string>
+    <string name="locker_key_not_set">请设置你的解锁方式</string>
+    <string name="locker_key_setup_now">立即设置</string>
 </resources>

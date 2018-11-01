@@ -5,5 +5,7 @@ public interface VerifyResult {
     int FAIL = -1;
 
     int REASON_USER_INPUT_CORRECT = 0;
+    int REASON_USER_INPUT_INCORRECT = 1;
+    int REASON_USER_KEY_NOT_SET = 2;
     int REASON_USER_CANCEL = -1;
 }

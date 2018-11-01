@@ -19,4 +19,5 @@ interface ILocker {
 
    void setLockerKey(int method, String key);
    boolean isLockerKeyValid(int method, String key);
+   boolean isLockerKeySet(int method);
 }

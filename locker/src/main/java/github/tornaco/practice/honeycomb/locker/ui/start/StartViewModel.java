@@ -17,6 +17,7 @@ import androidx.lifecycle.AndroidViewModel;
 import github.tornaco.honeycomb.common.util.ActivityUtils;
 import github.tornaco.practice.honeycomb.locker.BuildConfig;
 import github.tornaco.practice.honeycomb.locker.app.LockerContext;
+import github.tornaco.practice.honeycomb.locker.app.LockerManager;
 import github.tornaco.practice.honeycomb.locker.data.source.AppCategories;
 import github.tornaco.practice.honeycomb.locker.data.source.AppDataSource;
 import github.tornaco.practice.honeycomb.locker.data.source.AppsRepo;
@@ -90,6 +91,12 @@ public class StartViewModel extends AndroidViewModel {
     public void setPackageLocked(String pkg, boolean locked) {
         LockerContext lockerContext = LockerContext.createContext();
         Objects.requireNonNull(lockerContext.getLockerManager()).setPackageLocked(pkg, locked);
+    }
+
+    public boolean isCorrentLockMethodKeySet() {
+        LockerContext lockerContext = LockerContext.createContext();
+        LockerManager lockerManager = lockerContext.getLockerManager();
+        return Objects.requireNonNull(lockerManager).isLockerKeySet(lockerManager.getLockerMethod());
     }
 
     private boolean isLockerEnabled() {

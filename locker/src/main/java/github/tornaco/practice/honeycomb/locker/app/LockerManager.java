@@ -81,6 +81,11 @@ public class LockerManager {
         return requireLocker().or(DUMMY).isLockerKeyValid(method, key);
     }
 
+    @SneakyThrows
+    public boolean isLockerKeySet(int method) {
+        return requireLocker().or(DUMMY).isLockerKeySet(method);
+    }
+
     private static class DummyLockerManagerService extends ILocker.Stub {
 
         private static final String TAG = "DummyLMS";
@@ -141,6 +146,12 @@ public class LockerManager {
         @Override
         public boolean isLockerKeyValid(int method, String key) {
             Log.w(TAG, "isLockerKeyValid@DummyLockerManagerService");
+            return false;
+        }
+
+        @Override
+        public boolean isLockerKeySet(int method) {
+            Log.w(TAG, "isLockerKeySet@DummyLockerManagerService");
             return false;
         }
     }

@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -12,7 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import github.tornaco.practice.honeycomb.locker.R;
 import github.tornaco.practice.honeycomb.locker.databinding.StartFragmentBinding;
+import github.tornaco.practice.honeycomb.locker.util.ExecutorUtils;
 
 public class StartFragment extends Fragment {
 
@@ -38,6 +42,7 @@ public class StartFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setupListAdapter();
+        tellUserIfKeyNotSet();
     }
 
     @Override
@@ -53,5 +58,25 @@ public class StartFragment extends Fragment {
                 startViewModel
         );
         recyclerView.setAdapter(appsAdapter);
+    }
+
+    private void tellUserIfKeyNotSet() {
+        if (!startViewModel.isCorrentLockMethodKeySet()) {
+            Runnable showTip = new Runnable() {
+                @Override
+                public void run() {
+                    Snackbar.make(startFragmentBinding.list, R.string.locker_key_not_set, Snackbar.LENGTH_INDEFINITE)
+                            .setAction(R.string.locker_key_setup_now,
+                                    new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+
+                                        }
+                                    })
+                            .show();
+                }
+            };
+            ExecutorUtils.uiHandler().postDelayed(showTip, 3000);
+        }
     }
 }
