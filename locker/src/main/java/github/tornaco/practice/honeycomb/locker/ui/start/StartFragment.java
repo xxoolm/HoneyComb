@@ -42,13 +42,13 @@ public class StartFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setupListAdapter();
-        tellUserIfKeyNotSet();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         startViewModel.start();
+        tellUserIfKeyNotSet();
     }
 
     private void setupListAdapter() {
