@@ -9,4 +9,7 @@
     <string name="system_installed_apps">系统应用</string>
     <string name="locker_key_not_set">Please setup your lock method</string>
     <string name="locker_key_setup_now">Setup</string>
+    <string name="locker_key_setup_pattern">设置图案</string>
+    <string name="setup_step_draw_pattern">请绘制图案</string>
+    <string name="setup_step_draw_pattern_confirm">请绘制确认图案</string>
 </resources>

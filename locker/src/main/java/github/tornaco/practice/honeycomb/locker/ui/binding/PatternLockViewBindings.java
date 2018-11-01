@@ -17,8 +17,6 @@
 package github.tornaco.practice.honeycomb.locker.ui.binding;
 
 
-import android.graphics.Color;
-
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
@@ -27,20 +25,12 @@ import java.util.List;
 
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.Observable;
-import github.tornaco.honeycomb.common.util.PaletteColorUtils;
 import github.tornaco.practice.honeycomb.locker.ui.verify.VerifyViewModel;
 
 public class PatternLockViewBindings {
 
-    @BindingAdapter("app:pkgStateColor")
-    public static void bindWithPkg(PatternLockView view, VerifyViewModel verifyViewModel) {
-        PaletteColorUtils.pickPrimaryColor(view.getContext(),
-                new PaletteColorUtils.PickReceiver() {
-                    @Override
-                    public void onColorReady(int color) {
-                        view.setNormalStateColor(color);
-                    }
-                }, verifyViewModel.pkg, Color.TRANSPARENT);
+    @BindingAdapter("app:verifyAction")
+    public static void bindVerifyPattern(PatternLockView view, VerifyViewModel verifyViewModel) {
         view.addPatternLockListener(new PatternLockViewListener() {
             @Override
             public void onStarted() {

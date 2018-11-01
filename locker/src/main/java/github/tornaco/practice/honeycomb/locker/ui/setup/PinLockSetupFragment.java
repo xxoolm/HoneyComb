@@ -11,12 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.Observable;
 import androidx.fragment.app.Fragment;
-import github.tornaco.practice.honeycomb.locker.databinding.PinLockVerifyFragmentBinding;
+import github.tornaco.practice.honeycomb.locker.databinding.PinLockSetupFragmentBinding;
 
 public class PinLockSetupFragment extends Fragment {
 
     private SetupViewModel setupViewModel;
-    private PinLockVerifyFragmentBinding pinLockVerifyFragmentBinding;
+    private PinLockSetupFragmentBinding pinLockSetupFragmentBinding;
 
     public static PinLockSetupFragment newInstance() {
         return new PinLockSetupFragment();
@@ -26,17 +26,17 @@ public class PinLockSetupFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        pinLockVerifyFragmentBinding = PinLockVerifyFragmentBinding.inflate(inflater, container, false);
+        pinLockSetupFragmentBinding = PinLockSetupFragmentBinding.inflate(inflater, container, false);
         setupViewModel = SetupActivity.obtainViewModel(Objects.requireNonNull(getActivity()));
-        pinLockVerifyFragmentBinding.setViewmodel(setupViewModel);
+        pinLockSetupFragmentBinding.setViewmodel(setupViewModel);
         setHasOptionsMenu(true);
-        return pinLockVerifyFragmentBinding.getRoot();
+        return pinLockSetupFragmentBinding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setupViewModel.verified.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+        setupViewModel.setupComplete.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 Objects.requireNonNull(getActivity()).finish();

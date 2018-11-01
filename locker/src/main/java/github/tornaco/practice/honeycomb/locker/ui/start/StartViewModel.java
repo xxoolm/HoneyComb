@@ -21,6 +21,7 @@ import github.tornaco.practice.honeycomb.locker.app.LockerManager;
 import github.tornaco.practice.honeycomb.locker.data.source.AppCategories;
 import github.tornaco.practice.honeycomb.locker.data.source.AppDataSource;
 import github.tornaco.practice.honeycomb.locker.data.source.AppsRepo;
+import github.tornaco.practice.honeycomb.locker.ui.setup.SetupActivity;
 import github.tornaco.practice.honeycomb.locker.ui.verify.VerifyActivity;
 import github.tornaco.practice.honeycomb.pm.AppInfo;
 
@@ -97,6 +98,10 @@ public class StartViewModel extends AndroidViewModel {
         LockerContext lockerContext = LockerContext.createContext();
         LockerManager lockerManager = lockerContext.getLockerManager();
         return Objects.requireNonNull(lockerManager).isLockerKeySet(lockerManager.getLockerMethod());
+    }
+
+    public void startSetupActivity() {
+        ActivityUtils.startActivity(getApplication(), SetupActivity.class);
     }
 
     private boolean isLockerEnabled() {

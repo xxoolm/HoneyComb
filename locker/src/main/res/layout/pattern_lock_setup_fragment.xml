@@ -8,7 +8,7 @@
 
         <variable
             name="viewmodel"
-            type="github.tornaco.practice.honeycomb.locker.ui.verify.VerifyViewModel" />
+            type="github.tornaco.practice.honeycomb.locker.ui.setup.SetupViewModel" />
 
     </data>
 
@@ -58,7 +58,7 @@
                             android:layout_height="@dimen/verify_app_icon_h"
                             android:layout_centerHorizontal="true"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_security_white_24dp"
+                            android:src="@drawable/ic_touch_app_white_24dp"
                             android:visibility="visible" />
 
                         <TextView
@@ -70,24 +70,14 @@
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/common_view_margin_middle"
                             android:layout_marginTop="@dimen/common_view_margin_default"
-                            android:text="@string/verify_input_password"
+                            android:text="@string/setup_step_draw_pattern"
                             android:textAllCaps="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/md_white" />
 
                     </RelativeLayout>
 
-
                 </RelativeLayout>
-
-                <ProgressBar
-                    android:id="@+id/progress_horizontal"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_below="@+id/info"
-                    android:max="@{viewmodel.progressMax}"
-                    android:progress="@{viewmodel.progress}" />
             </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -108,7 +98,7 @@
                     android:layout_centerHorizontal="true"
                     app:aspectRatio="square"
                     app:aspectRatioEnabled="true"
-                    app:correctStateColor="@color/md_green_800"
+                    app:correctStateColor="?colorAccent"
                     app:dotAnimationDuration="200"
                     app:dotCount="3"
                     app:dotNormalSize="12dp"
@@ -116,7 +106,6 @@
                     app:normalStateColor="@color/colorAccent"
                     app:pathEndAnimationDuration="100"
                     app:pathWidth="4dp"
-                    app:verifyAction="@{viewmodel}"
                     app:wrongStateColor="@color/md_amber_900" />
             </RelativeLayout>
         </LinearLayout>

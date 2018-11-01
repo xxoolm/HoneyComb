@@ -70,7 +70,7 @@ public class StartFragment extends Fragment {
                                     new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-
+                                            startViewModel.startSetupActivity();
                                         }
                                     })
                             .show();

@@ -6,6 +6,7 @@ import android.app.Application;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import github.tornaco.practice.honeycomb.locker.data.source.AppsRepo;
+import github.tornaco.practice.honeycomb.locker.ui.setup.SetupViewModel;
 import github.tornaco.practice.honeycomb.locker.ui.start.StartViewModel;
 import github.tornaco.practice.honeycomb.locker.ui.verify.VerifyViewModel;
 
@@ -42,6 +43,10 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         if (modelClass.isAssignableFrom(VerifyViewModel.class)) {
             //noinspection unchecked
             return (T) new VerifyViewModel(application);
+        }
+        if (modelClass.isAssignableFrom(SetupViewModel.class)) {
+            //noinspection unchecked
+            return (T) new SetupViewModel(application);
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }
