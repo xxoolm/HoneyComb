@@ -18,22 +18,18 @@ package github.tornaco.practice.honeycomb.locker.ui.binding;
 
 import androidx.databinding.BindingAdapter;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import github.tornaco.practice.honeycomb.locker.ui.start.StartViewModel;
+import github.tornaco.practice.honeycomb.locker.R;
 
-public class SwipeRefreshLayoutBindings {
+public class SwipeRefreshLayoutColorBindings {
 
     /**
      * Reloads the data when the pull-to-refresh is triggered.
      * <p>
      * Creates the {@code android:onRefresh} for a {@link SwipeRefreshLayout}.
      */
-    @BindingAdapter("android:onRefresh")
-    public static void setSwipeRefreshLayoutOnRefreshListener(SwipeRefreshLayout view,
-                                                              final StartViewModel viewModel) {
-        view.setOnRefreshListener(() -> {
-            viewModel.loadState();
-            viewModel.loadApps();
-        });
+    @BindingAdapter("android:colors")
+    public static void setSwipeRefreshLayoutOnRefreshListener(SwipeRefreshLayout view, Object any) {
+        view.setColorSchemeColors(view.getResources().getIntArray(R.array.swipe_refresh_colors));
     }
 
 }

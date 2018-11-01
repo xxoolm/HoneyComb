@@ -29,6 +29,7 @@
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:colors="@{viewmodel}"
             android:onRefresh="@{viewmodel}"
             app:layout_constraintBottom_toTopOf="@+id/bottom_container"
             app:layout_constraintTop_toBottomOf="@id/switch_bar"
@@ -57,9 +58,9 @@
                 android:id="@+id/spinner"
                 android:layout_width="0dp"
                 android:layout_height="?actionBarSize"
-                android:layout_weight="3"
                 android:layout_marginStart="@dimen/common_view_margin_default"
-                app:spinnerItems="@{viewmodel}"/>
+                android:layout_weight="3"
+                app:spinnerItems="@{viewmodel}" />
 
             <View
                 android:id="@+id/divider"
