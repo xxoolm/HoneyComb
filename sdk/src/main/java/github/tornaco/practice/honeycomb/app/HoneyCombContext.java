@@ -5,6 +5,7 @@ import android.annotation.Nullable;
 import android.content.IntentFilter;
 
 import github.tornaco.practice.honeycomb.HoneyCombManager;
+import github.tornaco.practice.honeycomb.am.ActivityManager;
 import github.tornaco.practice.honeycomb.annotations.AvailableAfterOnStart;
 import github.tornaco.practice.honeycomb.data.PreferenceManager;
 import github.tornaco.practice.honeycomb.event.IEventSubscriber;
@@ -15,6 +16,7 @@ public interface HoneyCombContext {
     String HONEY_COMB_SERVICE = android.content.Context.TV_INPUT_SERVICE;
     String PACKAGE_MANAGER_SERVICE = "package";
     String PREFERENCE_MANAGER_SERVICE = "pref";
+    String ACTIVITY_MANAGER_SERVICE = "activity";
 
     @AvailableAfterOnStart
     @NonNull
@@ -27,6 +29,10 @@ public interface HoneyCombContext {
     @Nullable
     @AvailableAfterOnStart
     PreferenceManager getPreferenceManager();
+
+    @Nullable
+    @AvailableAfterOnStart
+    ActivityManager getActivityManager();
 
     @AvailableAfterOnStart
     void registerEventSubscriber(IntentFilter filter, IEventSubscriber subscriber);

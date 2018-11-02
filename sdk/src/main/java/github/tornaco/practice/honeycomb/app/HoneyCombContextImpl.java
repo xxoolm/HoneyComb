@@ -5,6 +5,8 @@ import android.os.ServiceManager;
 
 import github.tornaco.practice.honeycomb.HoneyCombManager;
 import github.tornaco.practice.honeycomb.IHoneyComb;
+import github.tornaco.practice.honeycomb.am.ActivityManager;
+import github.tornaco.practice.honeycomb.am.IActivityManager;
 import github.tornaco.practice.honeycomb.data.IPreferenceManager;
 import github.tornaco.practice.honeycomb.data.PreferenceManager;
 import github.tornaco.practice.honeycomb.event.IEventSubscriber;
@@ -18,6 +20,7 @@ class HoneyCombContextImpl implements HoneyCombContext {
     private HoneyCombManager honeyCombManager;
     private PackageManager packageManager;
     private PreferenceManager preferenceManager;
+    private ActivityManager activityManager;
 
     HoneyCombContextImpl() {
         IHoneyComb hb = IHoneyComb.Stub.asInterface(ServiceManager.getService(HONEY_COMB_SERVICE));
@@ -31,6 +34,11 @@ class HoneyCombContextImpl implements HoneyCombContext {
         if (honeyCombManager.isPresent() && honeyCombManager.hasService(PREFERENCE_MANAGER_SERVICE)) {
             IPreferenceManager pref = IPreferenceManager.Stub.asInterface(honeyCombManager.getService(PREFERENCE_MANAGER_SERVICE));
             this.preferenceManager = new PreferenceManager(pref);
+        }
+
+        if (honeyCombManager.isPresent() && honeyCombManager.hasService(ACTIVITY_MANAGER_SERVICE)) {
+            IActivityManager activity = IActivityManager.Stub.asInterface(honeyCombManager.getService(ACTIVITY_MANAGER_SERVICE));
+            this.activityManager = new ActivityManager(activity);
         }
     }
 

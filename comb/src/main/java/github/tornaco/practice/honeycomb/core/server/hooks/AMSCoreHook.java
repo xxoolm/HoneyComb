@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.IApplicationThread;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
 import android.util.Log;
 
 import org.newstand.logger.LogAdapter;
@@ -18,6 +19,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import github.tornaco.practice.honeycomb.BuildConfig;
+import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.core.server.i.HoneyComb;
 import lombok.AllArgsConstructor;
 
@@ -41,6 +43,7 @@ public class AMSCoreHook implements IXposedHookLoadPackage {
             hookAMSSystemReady(lpparam);
             hookAMSShutdown(lpparam);
             hookBroadcastIntent(lpparam);
+            hookRemoveTask(lpparam);
         }
     }
 
@@ -122,6 +125,32 @@ public class AMSCoreHook implements IXposedHookLoadPackage {
             Logger.d("hookBroadcastIntent OK:" + unHooks);
         } catch (Exception e) {
             Logger.e("Fail hookBroadcastIntent: " + Log.getStackTraceString(e));
+        }
+    }
+
+    private void hookRemoveTask(XC_LoadPackage.LoadPackageParam lpparam) {
+        Logger.v("hookRemoveTask...");
+        try {
+            Class ams = XposedHelpers.findClass("com.android.server.am.ActivityManagerService",
+                    lpparam.classLoader);
+            Set unHooks = XposedBridge.hookAllMethods(ams, "removeTask",
+                    new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            super.beforeHookedMethod(param);
+                            HoneyCombContext honeyCombContext = HoneyCombContext.createContext();
+                            if (honeyCombContext.getActivityManager() != null
+                                    && honeyCombContext.getActivityManager().isPresent()) {
+                                int callingUid = Binder.getCallingUid();
+                                int taskId = (int) param.args[0];
+                                honeyCombContext.getActivityManager().onTaskRemoving(callingUid, taskId);
+                            }
+
+                        }
+                    });
+            Logger.v("hookRemoveTask OK:" + unHooks);
+        } catch (Exception e) {
+            Logger.e("Fail hookRemoveTask: " + Log.getStackTraceString(e));
         }
     }
 

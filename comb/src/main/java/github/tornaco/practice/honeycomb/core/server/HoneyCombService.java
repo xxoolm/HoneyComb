@@ -111,6 +111,7 @@ public class HoneyCombService implements HoneyComb {
     private void publishInternal() {
         HoneyCombServiceManager.addService(HoneyCombContext.PACKAGE_MANAGER_SERVICE, packageManager.asBinder());
         HoneyCombServiceManager.addService(HoneyCombContext.PREFERENCE_MANAGER_SERVICE, preferenceManager.asBinder());
+        HoneyCombServiceManager.addService(HoneyCombContext.ACTIVITY_MANAGER_SERVICE, activityManager.asBinder());
     }
 
     private void publishEventToSubscribersAsync(Event event) {
