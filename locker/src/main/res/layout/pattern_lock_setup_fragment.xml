@@ -58,8 +58,9 @@
                             android:layout_height="@dimen/verify_app_icon_h"
                             android:layout_centerHorizontal="true"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_touch_app_white_24dp"
-                            android:visibility="visible" />
+                            android:src="@drawable/ic_looks_one_white_24dp"
+                            android:visibility="visible"
+                            app:image="@{viewmodel}" />
 
                         <TextView
                             android:id="@+id/label"
@@ -70,10 +71,10 @@
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/common_view_margin_middle"
                             android:layout_marginTop="@dimen/common_view_margin_default"
-                            android:text="@string/setup_step_draw_pattern"
                             android:textAllCaps="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:textColor="@color/md_white" />
+                            android:textColor="@color/md_white"
+                            app:tips="@{viewmodel}" />
 
                     </RelativeLayout>
 
@@ -87,7 +88,6 @@
                 android:layout_height="0dp"
                 android:layout_gravity="center|bottom"
                 android:layout_marginTop="@dimen/common_view_margin_default"
-                android:layout_marginBottom="@dimen/common_view_margin_large"
                 android:layout_weight="3"
                 android:gravity="center|bottom">
 
@@ -103,11 +103,23 @@
                     app:dotCount="3"
                     app:dotNormalSize="12dp"
                     app:dotSelectedSize="24dp"
-                    app:normalStateColor="@color/colorAccent"
+                    app:normalStateColor="@color/white"
                     app:pathEndAnimationDuration="100"
                     app:pathWidth="4dp"
+                    app:verifyAction="@{viewmodel}"
                     app:wrongStateColor="@color/md_amber_900" />
+
             </RelativeLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="@dimen/common_view_margin_default"
+                android:layout_marginBottom="@dimen/common_view_margin_default"
+                android:src="@drawable/ic_arrow_forward_white_24dp"
+                app:fabAction="@{viewmodel}" />
         </LinearLayout>
 
 

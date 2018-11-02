@@ -94,7 +94,7 @@ public class StartViewModel extends AndroidViewModel {
         Objects.requireNonNull(lockerContext.getLockerManager()).setPackageLocked(pkg, locked);
     }
 
-    public boolean isCorrentLockMethodKeySet() {
+    public boolean isCurrentLockMethodKeySet() {
         LockerContext lockerContext = LockerContext.createContext();
         LockerManager lockerManager = lockerContext.getLockerManager();
         return Objects.requireNonNull(lockerManager).isLockerKeySet(lockerManager.getLockerMethod());

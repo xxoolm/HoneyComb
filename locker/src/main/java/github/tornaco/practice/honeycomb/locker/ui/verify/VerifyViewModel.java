@@ -34,7 +34,7 @@ public class VerifyViewModel extends AndroidViewModel {
     }
 
     public void start() {
-        if (!isCorrentLockMethodKeySet()) {
+        if (!isCurrentLockMethodKeySet()) {
             pass(REASON_USER_KEY_NOT_SET);
             return;
         }
@@ -44,10 +44,12 @@ public class VerifyViewModel extends AndroidViewModel {
     public void verify(String input) {
         if (!isInputCorrect(input)) {
             failOnce();
+        } else {
+            pass(VerifyResult.REASON_USER_INPUT_CORRECT);
         }
     }
 
-    public void pass(int reason) {
+    private void pass(int reason) {
         LockerContext lockerContext = LockerContext.createContext();
         LockerManager lockerManager = lockerContext.getLockerManager();
         Objects.requireNonNull(lockerManager).setVerifyResult(requestCode, VerifyResult.PASS, reason);
@@ -86,7 +88,7 @@ public class VerifyViewModel extends AndroidViewModel {
         return Objects.requireNonNull(lockerManager).isLockerKeyValid(getLockMethod(), input);
     }
 
-    public boolean isCorrentLockMethodKeySet() {
+    public boolean isCurrentLockMethodKeySet() {
         LockerContext lockerContext = LockerContext.createContext();
         LockerManager lockerManager = lockerContext.getLockerManager();
         return Objects.requireNonNull(lockerManager).isLockerKeySet(getLockMethod());

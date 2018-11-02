@@ -17,6 +17,8 @@
 package github.tornaco.practice.honeycomb.locker.ui.binding;
 
 
+import android.view.animation.AnimationUtils;
+
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
@@ -25,6 +27,8 @@ import java.util.List;
 
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.Observable;
+import github.tornaco.practice.honeycomb.locker.R;
+import github.tornaco.practice.honeycomb.locker.ui.setup.SetupViewModel;
 import github.tornaco.practice.honeycomb.locker.ui.verify.VerifyViewModel;
 
 public class PatternLockViewBindings {
@@ -57,6 +61,7 @@ public class PatternLockViewBindings {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 view.clearPattern();
+                view.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.shake));
             }
         });
         verifyViewModel.verified.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -66,4 +71,37 @@ public class PatternLockViewBindings {
             }
         });
     }
+
+    @BindingAdapter("app:verifyAction")
+    public static void bindVerifyPattern(PatternLockView view, SetupViewModel setupViewModel) {
+        view.addPatternLockListener(new PatternLockViewListener() {
+            @Override
+            public void onStarted() {
+                setupViewModel.onStartInput();
+            }
+
+            @Override
+            public void onProgress(List<PatternLockView.Dot> progressPattern) {
+                // Noop.
+            }
+
+            @Override
+            public void onComplete(List<PatternLockView.Dot> pattern) {
+                String str = PatternLockUtils.patternToString(view, pattern);
+                setupViewModel.onInputComplete(str);
+            }
+
+            @Override
+            public void onCleared() {
+                // Noop
+            }
+        });
+        setupViewModel.stage.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                view.clearPattern();
+            }
+        });
+    }
+
 }

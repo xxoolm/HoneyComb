@@ -60,7 +60,7 @@ public class StartFragment extends Fragment {
     }
 
     private void tellUserIfKeyNotSet() {
-        if (!startViewModel.isCorrentLockMethodKeySet()) {
+        if (!startViewModel.isCurrentLockMethodKeySet()) {
             Snackbar.make(startFragmentBinding.list, R.string.locker_key_not_set, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.locker_key_setup_now,
                             new View.OnClickListener() {
