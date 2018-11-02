@@ -35,7 +35,6 @@ public class TextViewBindings {
 
     @BindingAdapter("app:tips")
     public static void bindTextView(TextView textView, VerifyViewModel setupViewModel) {
-        textView.setText(R.string.setup_step_draw_or_input);
         setupViewModel.failCount.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
