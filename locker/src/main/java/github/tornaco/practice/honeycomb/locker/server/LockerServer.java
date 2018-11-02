@@ -129,7 +129,9 @@ public class LockerServer extends ILocker.Stub implements Verifier {
 
     @Override
     public boolean shouldVerify(ComponentName componentName, String source) {
-        return !verifiedComponents.contains(componentName)
+        return LockerContext.LockerIntents.LOCKER_VERIFY_CLASS_NAME
+                .equals(componentName.getClassName())
+                && !verifiedComponents.contains(componentName)
                 && lockAppRepo.has(componentName.getPackageName());
     }
 

@@ -3,9 +3,11 @@ package github.tornaco.practice.honeycomb.locker.app;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import github.tornaco.practice.honeycomb.locker.BuildConfig;
+import github.tornaco.practice.honeycomb.locker.ui.verify.VerifyActivity;
 
 public interface LockerContext {
 
+    String LOCKER_PKG_NAME = BuildConfig.APPLICATION_ID;
     String LOCKER_SERVICE = "locker";
     long LOCKER_VERIFY_TIMEOUT_MILLS = 60 * 1000;
 
@@ -31,6 +33,7 @@ public interface LockerContext {
     }
 
     interface LockerIntents {
+        String LOCKER_VERIFY_CLASS_NAME = VerifyActivity.class.getName();
         String LOCKER_VERIFY_ACTION = "github.tornaco.practice.honeycomb.locker.action.VERIFY";
         String LOCKER_VERIFY_EXTRA_PACKAGE = "pkg";
         String LOCKER_VERIFY_EXTRA_REQUEST_CODE = "request_code";
