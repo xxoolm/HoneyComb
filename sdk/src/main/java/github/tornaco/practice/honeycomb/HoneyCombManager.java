@@ -1,10 +1,12 @@
 package github.tornaco.practice.honeycomb;
 
+import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
 
 import com.google.common.base.Optional;
 
+import github.tornaco.practice.honeycomb.event.IEventSubscriber;
 import lombok.SneakyThrows;
 
 @SuppressWarnings("Guava")
@@ -55,6 +57,16 @@ public class HoneyCombManager {
         return requireHoneyComb().or(DUMMY).hasService(name);
     }
 
+    @SneakyThrows
+    public void registerEventSubscriber(IntentFilter filter, IEventSubscriber subscriber) {
+        requireHoneyComb().or(DUMMY).registerEventSubscriber(filter, subscriber);
+    }
+
+    @SneakyThrows
+    public void unRegisterEventSubscriber(IEventSubscriber subscriber) {
+        requireHoneyComb().or(DUMMY).unRegisterEventSubscriber(subscriber);
+    }
+
     private static class DummyHoneyComb extends IHoneyComb.Stub {
 
         private static final String TAG = "DummyHoneyComb";
@@ -91,6 +103,16 @@ public class HoneyCombManager {
         public boolean hasService(String name) {
             Log.w(TAG, "hasService@DummyHoneyComb");
             return false;
+        }
+
+        @Override
+        public void registerEventSubscriber(IntentFilter filter, IEventSubscriber subscriber) {
+            Log.w(TAG, "registerEventSubscriber@DummyHoneyComb");
+        }
+
+        @Override
+        public void unRegisterEventSubscriber(IEventSubscriber subscriber) {
+            Log.w(TAG, "unRegisterEventSubscriber@DummyHoneyComb");
         }
     }
 }

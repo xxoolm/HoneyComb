@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.RemoteCallbackList;
@@ -25,6 +26,8 @@ import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.data.PreferenceManager;
 import github.tornaco.practice.honeycomb.data.RepoFactory;
 import github.tornaco.practice.honeycomb.data.i.SetRepo;
+import github.tornaco.practice.honeycomb.event.Event;
+import github.tornaco.practice.honeycomb.event.IEventSubscriber;
 import github.tornaco.practice.honeycomb.locker.ILocker;
 import github.tornaco.practice.honeycomb.locker.ILockerWatcher;
 import github.tornaco.practice.honeycomb.locker.app.LockerContext;
@@ -56,6 +59,13 @@ public class LockerServer extends ILocker.Stub implements Verifier {
     private final RemoteCallbackList<ILockerWatcher> watcherRemoteCallbackList
             = new RemoteCallbackList<>();
 
+    private final IEventSubscriber systemEventSubscriber = new IEventSubscriber.Stub() {
+        @Override
+        public void onEvent(Event e) {
+            Logger.i("onEvent: %s @%s", e, Thread.currentThread().getName());
+        }
+    };
+
     LockerServer() {
     }
 
@@ -69,6 +79,10 @@ public class LockerServer extends ILocker.Stub implements Verifier {
     }
 
     void systemReady() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+        honeyCombContext.registerEventSubscriber(intentFilter, systemEventSubscriber);
     }
 
     @Override

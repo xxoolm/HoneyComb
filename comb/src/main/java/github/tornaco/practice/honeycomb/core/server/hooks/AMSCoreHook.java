@@ -1,6 +1,10 @@
 package github.tornaco.practice.honeycomb.core.server.hooks;
 
+import android.app.ActivityManager;
+import android.app.IApplicationThread;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 
 import org.newstand.logger.LogAdapter;
 import org.newstand.logger.Logger;
@@ -35,6 +39,8 @@ public class AMSCoreHook implements IXposedHookLoadPackage {
         if ("android".equals(lpparam.packageName)) {
             hookAMSStart(lpparam);
             hookAMSSystemReady(lpparam);
+            hookAMSShutdown(lpparam);
+            hookBroadcastIntent(lpparam);
         }
     }
 
@@ -90,6 +96,32 @@ public class AMSCoreHook implements IXposedHookLoadPackage {
             Logger.i("hookAMSShutdown OK:" + unHooks);
         } catch (Throwable e) {
             Logger.wtf("Fail hookAMSShutdown %s", e);
+        }
+    }
+
+    private void hookBroadcastIntent(XC_LoadPackage.LoadPackageParam lpparam) {
+        Logger.v("hookBroadcastIntent...");
+        try {
+            Class ams = XposedHelpers.findClass("com.android.server.am.ActivityManagerService",
+                    lpparam.classLoader);
+            Set unHooks = XposedBridge.hookAllMethods(ams, "broadcastIntent",
+                    new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            super.beforeHookedMethod(param);
+                            IApplicationThread applicationThread = (IApplicationThread) param.args[0];
+                            Intent intent = (Intent) param.args[1];
+                            if (intent == null) return;
+                            boolean allow = honeyComb.allowBroadcastIntentSending(applicationThread, intent);
+                            if (!allow) {
+                                param.setResult(ActivityManager.BROADCAST_SUCCESS);
+                                Logger.wtf("broadcastIntent set result to ActivityManager.BROADCAST_SUCCESS");
+                            }
+                        }
+                    });
+            Logger.d("hookBroadcastIntent OK:" + unHooks);
+        } catch (Exception e) {
+            Logger.e("Fail hookBroadcastIntent: " + Log.getStackTraceString(e));
         }
     }
 

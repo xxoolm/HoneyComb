@@ -1,6 +1,8 @@
 package github.tornaco.practice.honeycomb.core.server.i;
 
+import android.app.IApplicationThread;
 import android.content.Context;
+import android.content.Intent;
 
 import androidx.annotation.Nullable;
 import github.tornaco.practice.honeycomb.am.IActivityManager;
@@ -22,4 +24,7 @@ public interface HoneyComb {
 
     @Nullable
     IPackageManager getPackageManager();
+
+    // Check if this broadcast is allowed to be sent.
+    boolean allowBroadcastIntentSending(IApplicationThread applicationThread, Intent intent);
 }
