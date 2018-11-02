@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import github.tornaco.practice.honeycomb.locker.R;
 import github.tornaco.practice.honeycomb.locker.databinding.StartFragmentBinding;
-import github.tornaco.practice.honeycomb.locker.util.ExecutorUtils;
 
 public class StartFragment extends Fragment {
 
@@ -62,21 +61,16 @@ public class StartFragment extends Fragment {
 
     private void tellUserIfKeyNotSet() {
         if (!startViewModel.isCorrentLockMethodKeySet()) {
-            Runnable showTip = new Runnable() {
-                @Override
-                public void run() {
-                    Snackbar.make(startFragmentBinding.list, R.string.locker_key_not_set, Snackbar.LENGTH_INDEFINITE)
-                            .setAction(R.string.locker_key_setup_now,
-                                    new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            startViewModel.startSetupActivity();
-                                        }
-                                    })
-                            .show();
-                }
-            };
-            ExecutorUtils.uiHandler().postDelayed(showTip, 3000);
+            Snackbar.make(startFragmentBinding.list, R.string.locker_key_not_set, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.locker_key_setup_now,
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    startViewModel.startSetupActivity();
+                                }
+                            })
+                    .show();
+
         }
     }
 }
