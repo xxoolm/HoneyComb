@@ -9,6 +9,7 @@ import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import github.tornaco.practice.honeycomb.locker.server.hooks.AMSCoreHook;
 import github.tornaco.practice.honeycomb.locker.server.hooks.ActivityStartHookDelegate;
+import github.tornaco.practice.honeycomb.locker.server.hooks.TaskMoverHookDelegate;
 
 public class LockerHooks implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
@@ -16,7 +17,8 @@ public class LockerHooks implements IXposedHookLoadPackage, IXposedHookZygoteIni
 
     private List<IXposedHookLoadPackage> XPOSED_LOAD_PKG_HOOKS = Lists.newArrayList(
             new AMSCoreHook(LOCKER),
-            new ActivityStartHookDelegate(LOCKER.getVerifier())
+            new ActivityStartHookDelegate(LOCKER.getVerifier()),
+            new TaskMoverHookDelegate(LOCKER.getVerifier())
     );
     private List<IXposedHookZygoteInit> XPOSED_ZYGOTE_INIT_HOOKS = Lists.newArrayList(
 
