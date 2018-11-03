@@ -13,7 +13,9 @@ import org.newstand.logger.Logger;
 
 import java.util.Objects;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.Nullable;
 import github.tornaco.practice.honeycomb.BuildConfig;
@@ -49,14 +51,18 @@ public class HoneyCombService implements HoneyComb {
     @Getter
     private IPackageManager packageManager;
     private IPreferenceManager preferenceManager;
-    private final Executor eventPublishExecutor = Executors.newSingleThreadExecutor();
+    private final Executor eventPublishExecutor = new ThreadPoolExecutor(1, 1,
+            0L, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>(),
+            r -> new Thread(r, "Comb-publish"));
     private final RemoteCallbackList<EventSubscriberClient> eventSubscribers = new RemoteCallbackList<>();
 
+    @Override
     @SystemInit
     public void onStart(Context context) {
         Logger.w("HoneyCombService start with context %s", context);
         this.systemContext = context;
-        this.activityManager = new ActivityManagerService();
+        this.activityManager = new ActivityManagerService(context);
         this.powerManager = new PowerManagerService();
         this.packageManager = new PackageManagerService(context);
         // TODO Split for diff pkg.
@@ -65,11 +71,13 @@ public class HoneyCombService implements HoneyComb {
         publishInternal();
     }
 
+    @Override
     @SystemInit
     public void systemReady() {
 
     }
 
+    @Override
     @SystemInit
     public void shutDown() {
 
@@ -124,7 +132,9 @@ public class HoneyCombService implements HoneyComb {
             for (int i = 0; i < itemCount; ++i) {
                 try {
                     EventSubscriberClient c = eventSubscribers.getBroadcastItem(i);
-                    if (c.hasAction(event.getAction())) c.onEvent(event);
+                    if (c.hasAction(event.getAction())) {
+                        c.onEvent(event);
+                    }
                 } catch (RemoteException e) {
                     Logger.e(e, "publishEventToSubscriber %s", event);
                 }

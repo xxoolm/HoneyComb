@@ -14,6 +14,7 @@ import github.tornaco.practice.honeycomb.locker.server.hooks.ActivityStartHookDe
 import github.tornaco.practice.honeycomb.locker.server.hooks.AmsCoreHook;
 import github.tornaco.practice.honeycomb.locker.server.hooks.LauncherAppServiceHook;
 import github.tornaco.practice.honeycomb.locker.server.hooks.TaskMoverHookDelegate;
+import github.tornaco.practice.honeycomb.util.OSUtils;
 
 @Keep
 public class LockerHooks implements IXposedHookLoadPackage, IXposedHookZygoteInit {
@@ -33,7 +34,9 @@ public class LockerHooks implements IXposedHookLoadPackage, IXposedHookZygoteIni
         new AmsCoreHook(c).handleLoadPackage(lpparam);
         new ActivityStartHookDelegate(c.getVerifier()).handleLoadPackage(lpparam);
         new TaskMoverHookDelegate(c.getVerifier()).handleLoadPackage(lpparam);
-        new LauncherAppServiceHook(c.getVerifier()).handleLoadPackage(lpparam);
+        if (OSUtils.isNOrAbove()) {
+            new LauncherAppServiceHook(c.getVerifier()).handleLoadPackage(lpparam);
+        }
     }
 
     @Override
