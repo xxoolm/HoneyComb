@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
+import android.os.UserHandle;
 import android.text.TextUtils;
 
 import org.newstand.logger.Logger;
@@ -165,7 +166,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         verifyRecords.put(record.requestCode, record);
-        systemContext.startActivity(intent, options);
+        systemContext.startActivityAsUser(intent, options, UserHandle.of(UserHandle.getCallingUserId()));
     }
 
     @Override
