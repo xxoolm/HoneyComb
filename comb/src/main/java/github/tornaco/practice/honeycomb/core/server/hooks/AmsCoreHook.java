@@ -7,9 +7,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.util.Log;
 
-import org.newstand.logger.LogAdapter;
 import org.newstand.logger.Logger;
-import org.newstand.logger.Settings;
 
 import java.util.Set;
 
@@ -18,7 +16,6 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import github.tornaco.practice.honeycomb.BuildConfig;
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.core.server.i.HoneyComb;
 import lombok.AllArgsConstructor;
@@ -27,14 +24,6 @@ import lombok.AllArgsConstructor;
 public class AmsCoreHook implements IXposedHookLoadPackage {
 
     private final HoneyComb honeyComb;
-
-    static {
-        Logger.config(Settings.builder()
-                .tag("HoneyComb")
-                .logAdapter(new XposedBridgeLogAdapter())
-                .logLevel(BuildConfig.DEBUG ? Logger.LogLevel.ALL : Logger.LogLevel.WARN)
-                .build());
-    }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
@@ -151,38 +140,6 @@ public class AmsCoreHook implements IXposedHookLoadPackage {
             Logger.v("hookRemoveTask OK:" + unHooks);
         } catch (Exception e) {
             Logger.e("Fail hookRemoveTask: " + Log.getStackTraceString(e));
-        }
-    }
-
-    private static class XposedBridgeLogAdapter implements LogAdapter {
-        @Override
-        public void d(String s, String s1) {
-            XposedBridge.log(s + "\t" + s1);
-        }
-
-        @Override
-        public void e(String s, String s1) {
-            XposedBridge.log(s + "\t" + s1);
-        }
-
-        @Override
-        public void w(String s, String s1) {
-            XposedBridge.log(s + "\t" + s1);
-        }
-
-        @Override
-        public void i(String s, String s1) {
-            XposedBridge.log(s + "\t" + s1);
-        }
-
-        @Override
-        public void v(String s, String s1) {
-            XposedBridge.log(s + "\t" + s1);
-        }
-
-        @Override
-        public void wtf(String s, String s1) {
-            XposedBridge.log(s + "\t" + s1);
         }
     }
 }

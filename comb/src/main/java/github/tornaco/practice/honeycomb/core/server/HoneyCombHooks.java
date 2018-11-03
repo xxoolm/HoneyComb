@@ -1,39 +1,72 @@
 package github.tornaco.practice.honeycomb.core.server;
 
-import com.google.common.collect.Lists;
+import org.newstand.logger.LogAdapter;
+import org.newstand.logger.Logger;
+import org.newstand.logger.Settings;
 
-import java.util.List;
-
+import androidx.annotation.Keep;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import github.tornaco.practice.honeycomb.core.server.hooks.AmsCoreHook;
+import github.tornaco.practice.honeycomb.BuildConfig;
 import github.tornaco.practice.honeycomb.core.server.hooks.ActivityRecordHook;
+import github.tornaco.practice.honeycomb.core.server.hooks.AmsCoreHook;
 import github.tornaco.practice.honeycomb.core.server.i.HoneyComb;
 
+@Keep
 public class HoneyCombHooks implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
-    private static final HoneyComb COMB = new HoneyCombService();
-
-    private List<IXposedHookLoadPackage> XPOSED_LOAD_PKG_HOOKS = Lists.newArrayList(
-            new AmsCoreHook(COMB),
-            new ActivityRecordHook(COMB)
-    );
-    private List<IXposedHookZygoteInit> XPOSED_ZYGOTE_INIT_HOOKS = Lists.newArrayList(
-
-    );
+    public HoneyCombHooks() {
+        Logger.config(Settings.builder()
+                .tag("HoneyComb")
+                .logAdapter(new XposedBridgeLogAdapter())
+                .logLevel(BuildConfig.DEBUG ? Logger.LogLevel.ALL : Logger.LogLevel.WARN)
+                .build());
+    }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        for (IXposedHookLoadPackage hookLoadPackage : XPOSED_LOAD_PKG_HOOKS) {
-            hookLoadPackage.handleLoadPackage(lpparam);
-        }
+        HoneyComb c = new HoneyCombService();
+        new AmsCoreHook(c).handleLoadPackage(lpparam);
+        new ActivityRecordHook(c).handleLoadPackage(lpparam);
     }
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
-        for (IXposedHookZygoteInit zygoteInit : XPOSED_ZYGOTE_INIT_HOOKS) {
-            zygoteInit.initZygote(startupParam);
+
+    }
+
+
+    private static class XposedBridgeLogAdapter implements LogAdapter {
+        @Override
+        public void d(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void e(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void w(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void i(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void v(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void wtf(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
         }
     }
 }

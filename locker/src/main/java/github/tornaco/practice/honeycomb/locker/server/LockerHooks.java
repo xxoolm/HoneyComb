@@ -1,40 +1,73 @@
 package github.tornaco.practice.honeycomb.locker.server;
 
-import com.google.common.collect.Lists;
+import org.newstand.logger.LogAdapter;
+import org.newstand.logger.Logger;
+import org.newstand.logger.Settings;
 
-import java.util.List;
-
+import androidx.annotation.Keep;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import github.tornaco.practice.honeycomb.locker.server.hooks.AmsCoreHook;
+import github.tornaco.practice.honeycomb.locker.BuildConfig;
 import github.tornaco.practice.honeycomb.locker.server.hooks.ActivityStartHookDelegate;
+import github.tornaco.practice.honeycomb.locker.server.hooks.AmsCoreHook;
 import github.tornaco.practice.honeycomb.locker.server.hooks.TaskMoverHookDelegate;
 
+@Keep
 public class LockerHooks implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
-    private static final Locker LOCKER = new Locker();
-
-    private final static List<IXposedHookLoadPackage> XPOSED_LOAD_PKG_HOOKS = Lists.newArrayList(
-            new AmsCoreHook(LOCKER),
-            new ActivityStartHookDelegate(LOCKER.getVerifier()),
-            new TaskMoverHookDelegate(LOCKER.getVerifier())
-    );
-    private final static List<IXposedHookZygoteInit> XPOSED_ZYGOTE_INIT_HOOKS = Lists.newArrayList(
-
-    );
+    public LockerHooks() {
+        Logger.config(Settings.builder()
+                .tag("Locker")
+                .logAdapter(new XposedBridgeLogAdapter())
+                .logLevel(BuildConfig.DEBUG ? Logger.LogLevel.ALL : Logger.LogLevel.WARN)
+                .build());
+    }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        for (IXposedHookLoadPackage hookLoadPackage : XPOSED_LOAD_PKG_HOOKS) {
-            hookLoadPackage.handleLoadPackage(lpparam);
-        }
+
+        Locker c = new Locker();
+        new AmsCoreHook(c).handleLoadPackage(lpparam);
+        new ActivityStartHookDelegate(c.getVerifier()).handleLoadPackage(lpparam);
+        new TaskMoverHookDelegate(c.getVerifier()).handleLoadPackage(lpparam);
     }
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
-        for (IXposedHookZygoteInit zygoteInit : XPOSED_ZYGOTE_INIT_HOOKS) {
-            zygoteInit.initZygote(startupParam);
+
+    }
+
+    private static class XposedBridgeLogAdapter implements LogAdapter {
+        @Override
+        public void d(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void e(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void w(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void i(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void v(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
+        }
+
+        @Override
+        public void wtf(String s, String s1) {
+            XposedBridge.log(s + "\t" + s1);
         }
     }
 }
