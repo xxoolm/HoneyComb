@@ -100,6 +100,12 @@ public class StartViewModel extends AndroidViewModel {
         return Objects.requireNonNull(lockerManager).isLockerKeySet(lockerManager.getLockerMethod());
     }
 
+    public boolean isLockerServerPresent() {
+        LockerContext lockerContext = LockerContext.createContext();
+        LockerManager lockerManager = lockerContext.getLockerManager();
+        return lockerManager != null && lockerManager.isPresent();
+    }
+
     public void startSetupActivity() {
         ActivityUtils.startActivity(getApplication(), SetupActivity.class);
     }

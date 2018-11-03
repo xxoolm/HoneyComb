@@ -16,4 +16,6 @@
     <string name="setup_complete">设置完成</string>
     <string name="setup_verify_err_mismatch">密码错误</string>
     <string name="setup_verify_pass">已解锁</string>
+    <string name="title_err_locker_server_not_present">未激活</string>
+    <string name="message_err_locker_server_not_present">请先激活本模块后使用，本模块依赖于Honeycomb，如果未安装请前往市场安装激活。</string>
 </resources>

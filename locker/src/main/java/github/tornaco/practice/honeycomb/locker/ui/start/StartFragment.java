@@ -12,6 +12,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import github.tornaco.practice.honeycomb.locker.R;
@@ -46,8 +47,12 @@ public class StartFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        startViewModel.start();
-        tellUserIfKeyNotSet();
+        if (startViewModel.isLockerServerPresent()) {
+            startViewModel.start();
+            tellUserIfKeyNotSet();
+        } else {
+            tellUserServerNotPresent();
+        }
     }
 
     private void setupListAdapter() {
@@ -63,14 +68,21 @@ public class StartFragment extends Fragment {
         if (!startViewModel.isCurrentLockMethodKeySet()) {
             Snackbar.make(startFragmentBinding.list, R.string.locker_key_not_set, Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.locker_key_setup_now,
-                            new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    startViewModel.startSetupActivity();
-                                }
-                            })
+                            view -> startViewModel.startSetupActivity())
                     .show();
 
         }
+    }
+
+    private void tellUserServerNotPresent() {
+        if (getActivity() == null) {
+            return;
+        }
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.title_err_locker_server_not_present)
+                .setMessage(R.string.message_err_locker_server_not_present)
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> getActivity().finish())
+                .show();
     }
 }

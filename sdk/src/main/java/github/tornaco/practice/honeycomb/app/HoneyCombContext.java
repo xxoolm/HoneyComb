@@ -40,8 +40,6 @@ public interface HoneyCombContext {
     @AvailableAfterOnStart
     void unRegisterEventSubscriber(IEventSubscriber subscriber);
 
-    boolean isHoneyCombPresent();
-
     @AvailableAfterOnStart
     static HoneyCombContext createContext() {
         return new HoneyCombContextImpl();
