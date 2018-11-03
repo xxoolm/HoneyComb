@@ -172,7 +172,7 @@ class CurrentComponentView extends LinearLayout {
         mContainerView.setClickable(true);
 
         mTextView = new TextView(context);
-        mTextView.setTypeface(Typeface.create("Condensed", Typeface.NORMAL));
+        mTextView.setTypeface(Typeface.create("sans-serif-condensed", Typeface.NORMAL));
         mTextView.setFocusable(true);
         mTextView.setClickable(true);
         mTextView.setTextColor(Color.BLACK);
@@ -270,9 +270,8 @@ class CurrentComponentView extends LinearLayout {
     }
 
     public void setText(String text) {
-        String textToShow = mTips + "\n" + text;
         if (isShowing()) {
-            mTextView.setText(textToShow);
+            mTextView.setText(text);
         }
         mText = text;
     }

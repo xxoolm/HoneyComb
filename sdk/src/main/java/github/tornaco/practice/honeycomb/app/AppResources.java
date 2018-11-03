@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.RequiresApi;
-import github.tornaco.practice.honeycomb.sdk.BuildConfig;
 import github.tornaco.practice.honeycomb.util.PkgUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,8 +29,8 @@ public class AppResources {
 
     private static final String LOG_TAG = "AppResources";
 
-    private static final Map<Object, String> sStringResCache = new HashMap<>();
-    private static final Map<Object, String[]> sStringArrayResCache = new HashMap<>();
+    private static final Map<Object, String> S_STRING_RES_CACHE = new HashMap<>();
+    private static final Map<Object, String[]> S_STRING_ARRAY_RES_CACHE = new HashMap<>();
 
     private Context context;
     private String appPackageName;
@@ -40,24 +39,24 @@ public class AppResources {
         if (!PkgUtils.isPkgInstalled(this.context, appPackageName)) {
             return BitmapFactory.decodeResource(this.context.getResources(), android.R.drawable.stat_sys_warning);
         }
-        if (BuildConfig.DEBUG) {
+        if (HoneyCombContext.HoneyCombConfigs.DEBUG) {
             Log.d(LOG_TAG, "getBitmap, resName: " + resName);
         }
         try {
             Context appContext = getAppContext();
             if (appContext != null) {
                 Resources res = appContext.getResources();
-                if (BuildConfig.DEBUG) {
+                if (HoneyCombContext.HoneyCombConfigs.DEBUG) {
                     Log.d(LOG_TAG, "getBitmap, res: " + res);
                 }
                 if (res != null) {
-                    int id = res.getIdentifier(resName, "drawable", BuildConfig.APPLICATION_ID);
-                    if (BuildConfig.DEBUG) {
+                    int id = res.getIdentifier(resName, "drawable", appPackageName);
+                    if (HoneyCombContext.HoneyCombConfigs.DEBUG) {
                         Log.d(LOG_TAG, "getBitmap, id: " + id);
                     }
                     if (id > 0) {
                         Bitmap bitmap = BitmapFactory.decodeResource(res, id);
-                        if (BuildConfig.DEBUG) {
+                        if (HoneyCombContext.HoneyCombConfigs.DEBUG) {
                             Log.d(LOG_TAG, "getBitmap, bitmap: " + bitmap);
                         }
                         if (bitmap != null) {
@@ -81,22 +80,22 @@ public class AppResources {
 
     @RequiresApi(Build.VERSION_CODES.M)
     public Icon getIcon(String resName, Transform<Bitmap> bitmapTransform) {
-        if (!PkgUtils.isPkgInstalled(this.context, BuildConfig.APPLICATION_ID)) {
+        if (!PkgUtils.isPkgInstalled(this.context, appPackageName)) {
             return Icon.createWithResource(this.context.getResources(), android.R.drawable.stat_sys_warning);
         }
-        if (BuildConfig.DEBUG) {
+        if (HoneyCombContext.HoneyCombConfigs.DEBUG) {
             Log.d(LOG_TAG, "getIcon, resName: " + resName);
         }
         try {
             Context appContext = getAppContext();
             if (appContext != null) {
                 Resources res = appContext.getResources();
-                if (BuildConfig.DEBUG) {
+                if (HoneyCombContext.HoneyCombConfigs.DEBUG) {
                     Log.d(LOG_TAG, "getIcon, res: " + res);
                 }
                 if (res != null) {
-                    int id = res.getIdentifier(resName, "drawable", BuildConfig.APPLICATION_ID);
-                    if (BuildConfig.DEBUG) {
+                    int id = res.getIdentifier(resName, "drawable", appPackageName);
+                    if (HoneyCombContext.HoneyCombConfigs.DEBUG) {
                         Log.d(LOG_TAG, "getIcon, id: " + id);
                     }
                     if (id > 0) {
@@ -123,7 +122,7 @@ public class AppResources {
                                 }
                             }
                         }
-                        if (BuildConfig.DEBUG) {
+                        if (HoneyCombContext.HoneyCombConfigs.DEBUG) {
                             Log.d(LOG_TAG, "getIcon, ic: " + ic);
                         }
                         if (ic != null) {
@@ -145,7 +144,7 @@ public class AppResources {
             return null;
         }
         try {
-            return context.createPackageContext(BuildConfig.APPLICATION_ID, CONTEXT_IGNORE_SECURITY);
+            return context.createPackageContext(appPackageName, CONTEXT_IGNORE_SECURITY);
         } catch (Throwable e) {
             Log.e(LOG_TAG, "Fail createPackageContext: " + Log.getStackTraceString(e));
         }
@@ -153,9 +152,9 @@ public class AppResources {
     }
 
     String[] getStringArray(String resName) {
-        if (!PkgUtils.isPkgInstalled(this.context, BuildConfig.APPLICATION_ID)) {
-            if (sStringArrayResCache.containsKey(resName)) {
-                String[] cached = sStringArrayResCache.get(resName);
+        if (!PkgUtils.isPkgInstalled(this.context, appPackageName)) {
+            if (S_STRING_ARRAY_RES_CACHE.containsKey(resName)) {
+                String[] cached = S_STRING_ARRAY_RES_CACHE.get(resName);
                 if (cached != null) {
                     return cached;
                 }
@@ -169,13 +168,13 @@ public class AppResources {
         }
         try {
             Context appContext =
-                    context.createPackageContext(BuildConfig.APPLICATION_ID, CONTEXT_IGNORE_SECURITY);
+                    context.createPackageContext(appPackageName, CONTEXT_IGNORE_SECURITY);
             Resources res = appContext.getResources();
-            int id = res.getIdentifier(resName, "array", BuildConfig.APPLICATION_ID);
+            int id = res.getIdentifier(resName, "array", appPackageName);
             Log.d(LOG_TAG, "getStringArray get id: " + id + ", for res: " + resName);
             if (id != 0) {
                 String[] stringArr = res.getStringArray(id);
-                sStringArrayResCache.put(resName, stringArr);
+                S_STRING_ARRAY_RES_CACHE.put(resName, stringArr);
                 return stringArr;
             }
         } catch (Throwable e) {
@@ -185,9 +184,9 @@ public class AppResources {
     }
 
     public String getString(String resName, Object... args) {
-        if (!PkgUtils.isPkgInstalled(this.context, BuildConfig.APPLICATION_ID)) {
+        if (!PkgUtils.isPkgInstalled(this.context, appPackageName)) {
             // Return cache.
-            String cachedString = sStringResCache.get(resName);
+            String cachedString = S_STRING_RES_CACHE.get(resName);
             if (cachedString != null) {
                 return String.format(cachedString, args);
             }
@@ -200,13 +199,13 @@ public class AppResources {
         }
         try {
             Context appContext =
-                    context.createPackageContext(BuildConfig.APPLICATION_ID, CONTEXT_IGNORE_SECURITY);
+                    context.createPackageContext(appPackageName, CONTEXT_IGNORE_SECURITY);
             Resources res = appContext.getResources();
-            int id = res.getIdentifier(resName, "string", BuildConfig.APPLICATION_ID);
+            int id = res.getIdentifier(resName, "string", appPackageName);
             Log.d(LOG_TAG, "getString get id: " + id + ", for res: " + resName);
             if (id != 0) {
                 String string = res.getString(id, args);
-                sStringResCache.put(resName, string);
+                S_STRING_RES_CACHE.put(resName, string);
                 return string;
             }
         } catch (Throwable e) {
