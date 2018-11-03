@@ -7,14 +7,19 @@ import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
-import github.tornaco.practice.honeycomb.util.Singleton;
+import github.tornaco.practice.honeycomb.util.BaseSingleton;
 
 public class RepoFactory {
 
-    private static final ExecutorService IO = Executors.newSingleThreadExecutor();
-    private static final Singleton<RepoFactory> ME = new Singleton<RepoFactory>() {
+    private static final ExecutorService IO = new ThreadPoolExecutor(1, 1,
+            0L, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>(),
+            r -> new Thread(r, "Io-Repo"));
+    private static final BaseSingleton<RepoFactory> ME = new BaseSingleton<RepoFactory>() {
         @Override
         protected RepoFactory create() {
             return new RepoFactory();

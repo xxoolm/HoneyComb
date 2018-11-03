@@ -49,8 +49,10 @@ public class PatternLockSetupFragment extends Fragment {
         setupViewModel.setupComplete.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                if (getActivity()!=null)Toast.makeText(getActivity().getApplicationContext(),
-                        R.string.setup_complete,Toast.LENGTH_SHORT).show();
+                if (getActivity()!=null) {
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            R.string.setup_complete,Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

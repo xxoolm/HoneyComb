@@ -30,7 +30,7 @@ import github.tornaco.practice.honeycomb.pm.AppInfo;
  */
 public class AppIconBindings {
 
-    private final static DisplayImageOptions options = new DisplayImageOptions.Builder()
+    private final static DisplayImageOptions OPTIONS = new DisplayImageOptions.Builder()
             .resetViewBeforeLoading(true)
             .cacheOnDisk(true)
             .displayer(new FadeInBitmapDisplayer(300))
@@ -39,6 +39,6 @@ public class AppIconBindings {
     @SuppressWarnings("unchecked")
     @BindingAdapter("app:iconFromPackage")
     public static void displayAppIcon(ImageView imageView, String pkg) {
-        ImageLoader.getInstance().displayImage("launcher://" + pkg, imageView, options);
+        ImageLoader.getInstance().displayImage("launcher://" + pkg, imageView, OPTIONS);
     }
 }

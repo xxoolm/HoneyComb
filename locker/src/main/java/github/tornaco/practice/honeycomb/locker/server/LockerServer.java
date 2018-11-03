@@ -26,8 +26,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import androidx.annotation.GuardedBy;
+import github.tornaco.practice.honeycomb.app.AbstractSafeR;
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
-import github.tornaco.practice.honeycomb.app.SafeR;
 import github.tornaco.practice.honeycomb.data.PreferenceManager;
 import github.tornaco.practice.honeycomb.data.RepoFactory;
 import github.tornaco.practice.honeycomb.data.i.SetRepo;
@@ -50,7 +50,7 @@ import static github.tornaco.practice.honeycomb.locker.app.LockerContext.LockerM
 
 public class LockerServer extends ILocker.Stub implements Verifier {
 
-    private static final AtomicInteger sReq = new AtomicInteger(0);
+    private static final AtomicInteger S_REQ = new AtomicInteger(0);
     @Getter
     private Context systemContext;
     @Getter
@@ -71,7 +71,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
         public void onEvent(Event e) {
             Logger.i("onEvent: %s @%s", e, Thread.currentThread().getName());
             if (Intent.ACTION_SCREEN_OFF.equals(e.getAction())) {
-                h.post(new SafeR() {
+                h.post(new AbstractSafeR() {
                     @Override
                     public void runSafety() {
                         onScreenStateChange(false);
@@ -79,7 +79,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
                 });
             }
             if (Intent.ACTION_SCREEN_ON.equals(e.getAction())) {
-                h.post(new SafeR() {
+                h.post(new AbstractSafeR() {
                     @Override
                     public void runSafety() {
                         onScreenStateChange(true);
@@ -99,7 +99,8 @@ public class LockerServer extends ILocker.Stub implements Verifier {
         this.systemContext = systemContext;
         this.honeyCombContext = honeyCombContext;
         PreferenceManager preferenceManager = honeyCombContext.getPreferenceManager();
-        this.lockerEnabled.set(preferenceManager.getBoolean(KEY_LOCKER_ENABLED, LockerContext.LockerConfigs.DEF_LOCKER_ENABLED));
+        this.lockerEnabled.set(preferenceManager.getBoolean(KEY_LOCKER_ENABLED,
+                LockerContext.LockerConfigs.DEF_LOCKER_ENABLED));
         Logger.i("LockerServer start, lock enabled? %s", lockerEnabled.get());
         this.lockAppRepo = RepoFactory.get().getOrCreateStringSetRepo(getAppRepoFile().getPath());
     }
@@ -200,6 +201,9 @@ public class LockerServer extends ILocker.Stub implements Verifier {
     public void setVerifyResult(int request, int result, int reason) {
         if (verifyRecords.containsKey(request)) {
             VerifyRecord record = verifyRecords.remove(request);
+            if (record == null) {
+                return;
+            }
             if (result == VerifyResult.PASS) {
                 verifiedComponents.add(record.componentName);
             }
@@ -248,8 +252,8 @@ public class LockerServer extends ILocker.Stub implements Verifier {
     }
 
     private void notifyWatcher() {
-        int N = watcherRemoteCallbackList.beginBroadcast();
-        for (int i = 0; i < N; i++) {
+        int n = watcherRemoteCallbackList.beginBroadcast();
+        for (int i = 0; i < n; i++) {
             ILockerWatcher watcher = watcherRemoteCallbackList.getBroadcastItem(i);
             try {
                 watcher.onEnableStateChanged(isEnabled());
@@ -281,7 +285,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
     }
 
     private static int allocateRequestCode() {
-        return sReq.getAndIncrement();
+        return S_REQ.getAndIncrement();
     }
 
     @Builder
@@ -297,8 +301,12 @@ public class LockerServer extends ILocker.Stub implements Verifier {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             VerifyRecord that = (VerifyRecord) o;
             return requestCode == that.requestCode;
         }

@@ -7,7 +7,7 @@ import android.util.Log;
 import java.io.File;
 
 import github.tornaco.practice.honeycomb.BuildConfig;
-import github.tornaco.practice.honeycomb.util.Singleton1;
+import github.tornaco.practice.honeycomb.util.BaseSingleton1;
 
 import static github.tornaco.practice.honeycomb.core.server.data.DataConfigs.getBaseDataDir;
 
@@ -21,8 +21,8 @@ public class SettingsProvider {
 
     private static final String TAG = "SettingsProvider";
 
-    private static final Singleton1<SettingsProvider, String> sProvider =
-            new Singleton1<SettingsProvider, String>() {
+    private static final BaseSingleton1<SettingsProvider, String> sProvider =
+            new BaseSingleton1<SettingsProvider, String>() {
                 @Override
                 protected SettingsProvider create(String name) {
                     return new SettingsProvider(name, name.hashCode());

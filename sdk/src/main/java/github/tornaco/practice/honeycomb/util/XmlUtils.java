@@ -66,8 +66,9 @@ public class XmlUtils {
     convertValueToList(CharSequence value, String[] options, int defaultValue) {
         if (null != value) {
             for (int i = 0; i < options.length; i++) {
-                if (value.equals(options[i]))
+                if (value.equals(options[i])) {
                     return i;
+                }
             }
         }
 
@@ -78,21 +79,24 @@ public class XmlUtils {
     convertValueToBoolean(CharSequence value, boolean defaultValue) {
         boolean result = false;
 
-        if (null == value)
+        if (null == value) {
             return defaultValue;
+        }
 
-        if (value.equals("1")
-                || value.equals("true")
-                || value.equals("TRUE"))
+        if ("1".equals(value)
+                || "true".equals(value)
+                || "TRUE".equals(value)) {
             result = true;
+        }
 
         return result;
     }
 
     public static int
     convertValueToInt(CharSequence charSeq, int defaultValue) {
-        if (null == charSeq)
+        if (null == charSeq) {
             return defaultValue;
+        }
 
         String nm = charSeq.toString();
 
@@ -112,8 +116,9 @@ public class XmlUtils {
 
         if ('0' == nm.charAt(index)) {
             //  Quick check for a zero by itself
-            if (index == (len - 1))
+            if (index == (len - 1)) {
                 return 0;
+            }
 
             char c = nm.charAt(index + 1);
 
@@ -150,8 +155,9 @@ public class XmlUtils {
 
         if ('0' == value.charAt(index)) {
             //  Quick check for zero by itself
-            if (index == (len - 1))
+            if (index == (len - 1)) {
                 return 0;
+            }
 
             char c = value.charAt(index + 1);
 
@@ -318,9 +324,9 @@ public class XmlUtils {
             out.attribute(null, "name", name);
         }
 
-        int N = val.size();
+        int n = val.size();
         int i = 0;
-        while (i < N) {
+        while (i < n) {
             writeValueXml(val.get(i), null, out);
             i++;
         }
@@ -383,11 +389,11 @@ public class XmlUtils {
             out.attribute(null, "name", name);
         }
 
-        final int N = val.length;
-        out.attribute(null, "num", Integer.toString(N));
+        final int n = val.length;
+        out.attribute(null, "num", Integer.toString(n));
 
         StringBuilder sb = new StringBuilder(val.length * 2);
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             int b = val[i];
             int h = (b >> 4) & 0x0f;
             sb.append((char) (h >= 10 ? ('a' + h - 10) : ('0' + h)));
@@ -427,10 +433,10 @@ public class XmlUtils {
             out.attribute(null, "name", name);
         }
 
-        final int N = val.length;
-        out.attribute(null, "num", Integer.toString(N));
+        final int n = val.length;
+        out.attribute(null, "num", Integer.toString(n));
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             out.startTag(null, "item");
             out.attribute(null, "value", Integer.toString(val[i]));
             out.endTag(null, "item");
@@ -465,10 +471,10 @@ public class XmlUtils {
             out.attribute(null, "name", name);
         }
 
-        final int N = val.length;
-        out.attribute(null, "num", Integer.toString(N));
+        final int n = val.length;
+        out.attribute(null, "num", Integer.toString(n));
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             out.startTag(null, "item");
             out.attribute(null, "value", Long.toString(val[i]));
             out.endTag(null, "item");
@@ -503,10 +509,10 @@ public class XmlUtils {
             out.attribute(null, "name", name);
         }
 
-        final int N = val.length;
-        out.attribute(null, "num", Integer.toString(N));
+        final int n = val.length;
+        out.attribute(null, "num", Integer.toString(n));
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             out.startTag(null, "item");
             out.attribute(null, "value", Double.toString(val[i]));
             out.endTag(null, "item");
@@ -541,10 +547,10 @@ public class XmlUtils {
             out.attribute(null, "name", name);
         }
 
-        final int N = val.length;
-        out.attribute(null, "num", Integer.toString(N));
+        final int n = val.length;
+        out.attribute(null, "num", Integer.toString(n));
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             out.startTag(null, "item");
             out.attribute(null, "value", val[i]);
             out.endTag(null, "item");
@@ -579,10 +585,10 @@ public class XmlUtils {
             out.attribute(null, "name", name);
         }
 
-        final int N = val.length;
-        out.attribute(null, "num", Integer.toString(N));
+        final int n = val.length;
+        out.attribute(null, "num", Integer.toString(n));
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             out.startTag(null, "item");
             out.attribute(null, "value", Boolean.toString(val[i]));
             out.endTag(null, "item");
@@ -802,10 +808,10 @@ public class XmlUtils {
 
         int eventType = parser.getEventType();
         do {
-            if (eventType == parser.START_TAG) {
+            if (eventType == XmlPullParser.START_TAG) {
                 Object val = readThisValueXml(parser, name, callback, false);
                 map.put(name[0], val);
-            } else if (eventType == parser.END_TAG) {
+            } else if (eventType == XmlPullParser.END_TAG) {
                 if (parser.getName().equals(endTag)) {
                     return map;
                 }
@@ -813,7 +819,7 @@ public class XmlUtils {
                         "Expected " + endTag + " end tag at: " + parser.getName());
             }
             eventType = parser.next();
-        } while (eventType != parser.END_DOCUMENT);
+        } while (eventType != XmlPullParser.END_DOCUMENT);
 
         throw new XmlPullParserException(
                 "Document ended before " + endTag + " end tag");
@@ -831,10 +837,10 @@ public class XmlUtils {
 
         int eventType = parser.getEventType();
         do {
-            if (eventType == parser.START_TAG) {
+            if (eventType == XmlPullParser.START_TAG) {
                 Object val = readThisValueXml(parser, name, callback, true);
                 map.put(name[0], val);
-            } else if (eventType == parser.END_TAG) {
+            } else if (eventType == XmlPullParser.END_TAG) {
                 if (parser.getName().equals(endTag)) {
                     return map;
                 }
@@ -842,7 +848,7 @@ public class XmlUtils {
                         "Expected " + endTag + " end tag at: " + parser.getName());
             }
             eventType = parser.next();
-        } while (eventType != parser.END_DOCUMENT);
+        } while (eventType != XmlPullParser.END_DOCUMENT);
 
         throw new XmlPullParserException(
                 "Document ended before " + endTag + " end tag");
@@ -884,11 +890,11 @@ public class XmlUtils {
 
         int eventType = parser.getEventType();
         do {
-            if (eventType == parser.START_TAG) {
+            if (eventType == XmlPullParser.START_TAG) {
                 Object val = readThisValueXml(parser, name, callback, arrayMap);
                 list.add(val);
                 //System.out.println("Adding to list: " + val);
-            } else if (eventType == parser.END_TAG) {
+            } else if (eventType == XmlPullParser.END_TAG) {
                 if (parser.getName().equals(endTag)) {
                     return list;
                 }
@@ -896,7 +902,7 @@ public class XmlUtils {
                         "Expected " + endTag + " end tag at: " + parser.getName());
             }
             eventType = parser.next();
-        } while (eventType != parser.END_DOCUMENT);
+        } while (eventType != XmlPullParser.END_DOCUMENT);
 
         throw new XmlPullParserException(
                 "Document ended before " + endTag + " end tag");
@@ -943,11 +949,11 @@ public class XmlUtils {
 
         int eventType = parser.getEventType();
         do {
-            if (eventType == parser.START_TAG) {
+            if (eventType == XmlPullParser.START_TAG) {
                 Object val = readThisValueXml(parser, name, callback, arrayMap);
                 set.add(val);
                 //System.out.println("Adding to set: " + val);
-            } else if (eventType == parser.END_TAG) {
+            } else if (eventType == XmlPullParser.END_TAG) {
                 if (parser.getName().equals(endTag)) {
                     return set;
                 }
@@ -955,7 +961,7 @@ public class XmlUtils {
                         "Expected " + endTag + " end tag at: " + parser.getName());
             }
             eventType = parser.next();
-        } while (eventType != parser.END_DOCUMENT);
+        } while (eventType != XmlPullParser.END_DOCUMENT);
 
         throw new XmlPullParserException(
                 "Document ended before " + endTag + " end tag");
@@ -992,7 +998,7 @@ public class XmlUtils {
 
         int eventType = parser.getEventType();
         do {
-            if (eventType == parser.TEXT) {
+            if (eventType == XmlPullParser.TEXT) {
                 if (num > 0) {
                     String values = parser.getText();
                     if (values == null || values.length() != num * 2) {
@@ -1010,7 +1016,7 @@ public class XmlUtils {
                         array[i] = (byte) ((nibbleHigh & 0x0F) << 4 | (nibbleLow & 0x0F));
                     }
                 }
-            } else if (eventType == parser.END_TAG) {
+            } else if (eventType == XmlPullParser.END_TAG) {
                 if (parser.getName().equals(endTag)) {
                     return array;
                 } else {
@@ -1020,7 +1026,7 @@ public class XmlUtils {
                 }
             }
             eventType = parser.next();
-        } while (eventType != parser.END_DOCUMENT);
+        } while (eventType != XmlPullParser.END_DOCUMENT);
 
         throw new XmlPullParserException(
                 "Document ended before " + endTag + " end tag");
@@ -1059,8 +1065,8 @@ public class XmlUtils {
 
         int eventType = parser.getEventType();
         do {
-            if (eventType == parser.START_TAG) {
-                if (parser.getName().equals("item")) {
+            if (eventType == XmlPullParser.START_TAG) {
+                if ("item".equals(parser.getName())) {
                     try {
                         array[i] = Integer.parseInt(
                                 parser.getAttributeValue(null, "value"));
@@ -1075,10 +1081,10 @@ public class XmlUtils {
                     throw new XmlPullParserException(
                             "Expected item tag at: " + parser.getName());
                 }
-            } else if (eventType == parser.END_TAG) {
+            } else if (eventType == XmlPullParser.END_TAG) {
                 if (parser.getName().equals(endTag)) {
                     return array;
-                } else if (parser.getName().equals("item")) {
+                } else if ("item".equals(parser.getName())) {
                     i++;
                 } else {
                     throw new XmlPullParserException(
@@ -1087,7 +1093,7 @@ public class XmlUtils {
                 }
             }
             eventType = parser.next();
-        } while (eventType != parser.END_DOCUMENT);
+        } while (eventType != XmlPullParser.END_DOCUMENT);
 
         throw new XmlPullParserException(
                 "Document ended before " + endTag + " end tag");
@@ -1124,8 +1130,8 @@ public class XmlUtils {
 
         int eventType = parser.getEventType();
         do {
-            if (eventType == parser.START_TAG) {
-                if (parser.getName().equals("item")) {
+            if (eventType == XmlPullParser.START_TAG) {
+                if ("item".equals(parser.getName())) {
                     try {
                         array[i] = Long.parseLong(parser.getAttributeValue(null, "value"));
                     } catch (NullPointerException e) {
@@ -1136,10 +1142,10 @@ public class XmlUtils {
                 } else {
                     throw new XmlPullParserException("Expected item tag at: " + parser.getName());
                 }
-            } else if (eventType == parser.END_TAG) {
+            } else if (eventType == XmlPullParser.END_TAG) {
                 if (parser.getName().equals(endTag)) {
                     return array;
-                } else if (parser.getName().equals("item")) {
+                } else if ("item".equals(parser.getName())) {
                     i++;
                 } else {
                     throw new XmlPullParserException("Expected " + endTag + " end tag at: " +
@@ -1147,7 +1153,7 @@ public class XmlUtils {
                 }
             }
             eventType = parser.next();
-        } while (eventType != parser.END_DOCUMENT);
+        } while (eventType != XmlPullParser.END_DOCUMENT);
 
         throw new XmlPullParserException("Document ended before " + endTag + " end tag");
     }
@@ -1182,8 +1188,8 @@ public class XmlUtils {
 
         int eventType = parser.getEventType();
         do {
-            if (eventType == parser.START_TAG) {
-                if (parser.getName().equals("item")) {
+            if (eventType == XmlPullParser.START_TAG) {
+                if ("item".equals(parser.getName())) {
                     try {
                         array[i] = Double.parseDouble(parser.getAttributeValue(null, "value"));
                     } catch (NullPointerException e) {
@@ -1194,10 +1200,10 @@ public class XmlUtils {
                 } else {
                     throw new XmlPullParserException("Expected item tag at: " + parser.getName());
                 }
-            } else if (eventType == parser.END_TAG) {
+            } else if (eventType == XmlPullParser.END_TAG) {
                 if (parser.getName().equals(endTag)) {
                     return array;
-                } else if (parser.getName().equals("item")) {
+                } else if ("item".equals(parser.getName())) {
                     i++;
                 } else {
                     throw new XmlPullParserException("Expected " + endTag + " end tag at: " +
@@ -1205,7 +1211,7 @@ public class XmlUtils {
                 }
             }
             eventType = parser.next();
-        } while (eventType != parser.END_DOCUMENT);
+        } while (eventType != XmlPullParser.END_DOCUMENT);
 
         throw new XmlPullParserException("Document ended before " + endTag + " end tag");
     }
@@ -1240,8 +1246,8 @@ public class XmlUtils {
 
         int eventType = parser.getEventType();
         do {
-            if (eventType == parser.START_TAG) {
-                if (parser.getName().equals("item")) {
+            if (eventType == XmlPullParser.START_TAG) {
+                if ("item".equals(parser.getName())) {
                     try {
                         array[i] = parser.getAttributeValue(null, "value");
                     } catch (NullPointerException e) {
@@ -1252,10 +1258,10 @@ public class XmlUtils {
                 } else {
                     throw new XmlPullParserException("Expected item tag at: " + parser.getName());
                 }
-            } else if (eventType == parser.END_TAG) {
+            } else if (eventType == XmlPullParser.END_TAG) {
                 if (parser.getName().equals(endTag)) {
                     return array;
-                } else if (parser.getName().equals("item")) {
+                } else if ("item".equals(parser.getName())) {
                     i++;
                 } else {
                     throw new XmlPullParserException("Expected " + endTag + " end tag at: " +
@@ -1263,7 +1269,7 @@ public class XmlUtils {
                 }
             }
             eventType = parser.next();
-        } while (eventType != parser.END_DOCUMENT);
+        } while (eventType != XmlPullParser.END_DOCUMENT);
 
         throw new XmlPullParserException("Document ended before " + endTag + " end tag");
     }
@@ -1298,8 +1304,8 @@ public class XmlUtils {
 
         int eventType = parser.getEventType();
         do {
-            if (eventType == parser.START_TAG) {
-                if (parser.getName().equals("item")) {
+            if (eventType == XmlPullParser.START_TAG) {
+                if ("item".equals(parser.getName())) {
                     try {
                         array[i] = Boolean.parseBoolean(parser.getAttributeValue(null, "value"));
                     } catch (NullPointerException e) {
@@ -1310,10 +1316,10 @@ public class XmlUtils {
                 } else {
                     throw new XmlPullParserException("Expected item tag at: " + parser.getName());
                 }
-            } else if (eventType == parser.END_TAG) {
+            } else if (eventType == XmlPullParser.END_TAG) {
                 if (parser.getName().equals(endTag)) {
                     return array;
-                } else if (parser.getName().equals("item")) {
+                } else if ("item".equals(parser.getName())) {
                     i++;
                 } else {
                     throw new XmlPullParserException("Expected " + endTag + " end tag at: " +
@@ -1321,7 +1327,7 @@ public class XmlUtils {
                 }
             }
             eventType = parser.next();
-        } while (eventType != parser.END_DOCUMENT);
+        } while (eventType != XmlPullParser.END_DOCUMENT);
 
         throw new XmlPullParserException("Document ended before " + endTag + " end tag");
     }
@@ -1344,17 +1350,17 @@ public class XmlUtils {
             throws XmlPullParserException, IOException {
         int eventType = parser.getEventType();
         do {
-            if (eventType == parser.START_TAG) {
+            if (eventType == XmlPullParser.START_TAG) {
                 return readThisValueXml(parser, name, null, false);
-            } else if (eventType == parser.END_TAG) {
+            } else if (eventType == XmlPullParser.END_TAG) {
                 throw new XmlPullParserException(
                         "Unexpected end tag at: " + parser.getName());
-            } else if (eventType == parser.TEXT) {
+            } else if (eventType == XmlPullParser.TEXT) {
                 throw new XmlPullParserException(
                         "Unexpected text: " + parser.getText());
             }
             eventType = parser.next();
-        } while (eventType != parser.END_DOCUMENT);
+        } while (eventType != XmlPullParser.END_DOCUMENT);
 
         throw new XmlPullParserException(
                 "Unexpected end of document");
@@ -1370,23 +1376,23 @@ public class XmlUtils {
 
         Object res;
 
-        if (tagName.equals("null")) {
+        if ("null".equals(tagName)) {
             res = null;
-        } else if (tagName.equals("string")) {
+        } else if ("string".equals(tagName)) {
             String value = "";
             int eventType;
-            while ((eventType = parser.next()) != parser.END_DOCUMENT) {
-                if (eventType == parser.END_TAG) {
-                    if (parser.getName().equals("string")) {
+            while ((eventType = parser.next()) != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.END_TAG) {
+                    if ("string".equals(parser.getName())) {
                         name[0] = valueName;
                         //System.out.println("Returning value for " + valueName + ": " + value);
                         return value;
                     }
                     throw new XmlPullParserException(
                             "Unexpected end tag in <string>: " + parser.getName());
-                } else if (eventType == parser.TEXT) {
+                } else if (eventType == XmlPullParser.TEXT) {
                     value += parser.getText();
-                } else if (eventType == parser.START_TAG) {
+                } else if (eventType == XmlPullParser.START_TAG) {
                     throw new XmlPullParserException(
                             "Unexpected start tag in <string>: " + parser.getName());
                 }
@@ -1395,37 +1401,37 @@ public class XmlUtils {
                     "Unexpected end of document in <string>");
         } else if ((res = readThisPrimitiveValueXml(parser, tagName)) != null) {
             // all work already done by readThisPrimitiveValueXml
-        } else if (tagName.equals("byte-array")) {
+        } else if ("byte-array".equals(tagName)) {
             res = readThisByteArrayXml(parser, "byte-array", name);
             name[0] = valueName;
             //System.out.println("Returning value for " + valueName + ": " + res);
             return res;
-        } else if (tagName.equals("int-array")) {
+        } else if ("int-array".equals(tagName)) {
             res = readThisIntArrayXml(parser, "int-array", name);
             name[0] = valueName;
             //System.out.println("Returning value for " + valueName + ": " + res);
             return res;
-        } else if (tagName.equals("long-array")) {
+        } else if ("long-array".equals(tagName)) {
             res = readThisLongArrayXml(parser, "long-array", name);
             name[0] = valueName;
             //System.out.println("Returning value for " + valueName + ": " + res);
             return res;
-        } else if (tagName.equals("double-array")) {
+        } else if ("double-array".equals(tagName)) {
             res = readThisDoubleArrayXml(parser, "double-array", name);
             name[0] = valueName;
             //System.out.println("Returning value for " + valueName + ": " + res);
             return res;
-        } else if (tagName.equals("string-array")) {
+        } else if ("string-array".equals(tagName)) {
             res = readThisStringArrayXml(parser, "string-array", name);
             name[0] = valueName;
             //System.out.println("Returning value for " + valueName + ": " + res);
             return res;
-        } else if (tagName.equals("boolean-array")) {
+        } else if ("boolean-array".equals(tagName)) {
             res = readThisBooleanArrayXml(parser, "boolean-array", name);
             name[0] = valueName;
             //System.out.println("Returning value for " + valueName + ": " + res);
             return res;
-        } else if (tagName.equals("map")) {
+        } else if ("map".equals(tagName)) {
             parser.next();
             res = arrayMap
                     ? readThisArrayMapXml(parser, "map", name, callback)
@@ -1433,13 +1439,13 @@ public class XmlUtils {
             name[0] = valueName;
             //System.out.println("Returning value for " + valueName + ": " + res);
             return res;
-        } else if (tagName.equals("list")) {
+        } else if ("list".equals(tagName)) {
             parser.next();
             res = readThisListXml(parser, "list", name, callback, arrayMap);
             name[0] = valueName;
             //System.out.println("Returning value for " + valueName + ": " + res);
             return res;
-        } else if (tagName.equals("set")) {
+        } else if ("set".equals(tagName)) {
             parser.next();
             res = readThisSetXml(parser, "set", name, callback, arrayMap);
             name[0] = valueName;
@@ -1455,8 +1461,8 @@ public class XmlUtils {
 
         // Skip through to end tag.
         int eventType;
-        while ((eventType = parser.next()) != parser.END_DOCUMENT) {
-            if (eventType == parser.END_TAG) {
+        while ((eventType = parser.next()) != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.END_TAG) {
                 if (parser.getName().equals(tagName)) {
                     name[0] = valueName;
                     //System.out.println("Returning value for " + valueName + ": " + res);
@@ -1464,10 +1470,10 @@ public class XmlUtils {
                 }
                 throw new XmlPullParserException(
                         "Unexpected end tag in <" + tagName + ">: " + parser.getName());
-            } else if (eventType == parser.TEXT) {
+            } else if (eventType == XmlPullParser.TEXT) {
                 throw new XmlPullParserException(
                         "Unexpected text in <" + tagName + ">: " + parser.getName());
-            } else if (eventType == parser.START_TAG) {
+            } else if (eventType == XmlPullParser.START_TAG) {
                 throw new XmlPullParserException(
                         "Unexpected start tag in <" + tagName + ">: " + parser.getName());
             }
@@ -1479,15 +1485,15 @@ public class XmlUtils {
     private static Object readThisPrimitiveValueXml(XmlPullParser parser, String tagName)
             throws XmlPullParserException, IOException {
         try {
-            if (tagName.equals("int")) {
+            if ("int".equals(tagName)) {
                 return Integer.parseInt(parser.getAttributeValue(null, "value"));
-            } else if (tagName.equals("long")) {
+            } else if ("long".equals(tagName)) {
                 return Long.valueOf(parser.getAttributeValue(null, "value"));
-            } else if (tagName.equals("float")) {
+            } else if ("float".equals(tagName)) {
                 return new Float(parser.getAttributeValue(null, "value"));
-            } else if (tagName.equals("double")) {
+            } else if ("double".equals(tagName)) {
                 return new Double(parser.getAttributeValue(null, "value"));
-            } else if (tagName.equals("boolean")) {
+            } else if ("boolean".equals(tagName)) {
                 return Boolean.valueOf(parser.getAttributeValue(null, "value"));
             } else {
                 return null;
@@ -1502,12 +1508,12 @@ public class XmlUtils {
 
     public static void beginDocument(XmlPullParser parser, String firstElementName) throws XmlPullParserException, IOException {
         int type;
-        while ((type = parser.next()) != parser.START_TAG
-                && type != parser.END_DOCUMENT) {
+        while ((type = parser.next()) != XmlPullParser.START_TAG
+                && type != XmlPullParser.END_DOCUMENT) {
             ;
         }
 
-        if (type != parser.START_TAG) {
+        if (type != XmlPullParser.START_TAG) {
             throw new XmlPullParserException("No start tag found");
         }
 
@@ -1519,8 +1525,8 @@ public class XmlUtils {
 
     public static void nextElement(XmlPullParser parser) throws XmlPullParserException, IOException {
         int type;
-        while ((type = parser.next()) != parser.START_TAG
-                && type != parser.END_DOCUMENT) {
+        while ((type = parser.next()) != XmlPullParser.START_TAG
+                && type != XmlPullParser.END_DOCUMENT) {
             ;
         }
     }

@@ -17,7 +17,18 @@ import github.tornaco.practice.honeycomb.locker.app.LockerManager;
 public class SetupViewModel extends AndroidViewModel {
 
     public enum SetupStage {
-        First, Confirm, Complete
+        /**
+         * 第一次输入
+         */
+        First,
+        /**
+         * 第二次输入
+         */
+        Confirm,
+        /**
+         * 完成
+         */
+        Complete
     }
 
     public static final int SETUP_ERROR_KEY_NOT_MATCH = 1;
@@ -63,6 +74,8 @@ public class SetupViewModel extends AndroidViewModel {
                 break;
             case Complete:
                 break;
+            default:
+                break;
         }
     }
 
@@ -84,6 +97,8 @@ public class SetupViewModel extends AndroidViewModel {
                 }
                 break;
             case Complete:
+                break;
+            default:
                 break;
         }
     }

@@ -99,7 +99,9 @@ class ActivityStartHook implements IXposedHookLoadPackage {
                                 finalIntentIndex > 0 ?
                                         (Intent) param.args[finalIntentIndex]
                                         : null;
-                        if (intent == null) return;
+                        if (intent == null) {
+                            return;
+                        }
 
                         // Use checked Intent instead of previous one.
                         Intent checkedIntent = getVerifier().getCheckedActivityIntent(intent);
@@ -114,7 +116,9 @@ class ActivityStartHook implements IXposedHookLoadPackage {
                         }
 
                         ComponentName componentName = intent.getComponent();
-                        if (componentName == null) return;
+                        if (componentName == null) {
+                            return;
+                        }
 
                         // Incas the component is disabled.
                         boolean itrp = getVerifier()
@@ -147,11 +151,13 @@ class ActivityStartHook implements IXposedHookLoadPackage {
                                 new VerifyCallback() {
                                     @Override
                                     public void onVerifyResult(int verifyResult, int reason) {
-                                        if (verifyResult == VerifyResult.PASS) try {
-                                            XposedBridge.invokeOriginalMethod(finalStartActivityMayWaitMethod,
-                                                    param.thisObject, param.args);
-                                        } catch (Exception e) {
-                                            Logger.wtf("Error@" + Log.getStackTraceString(e));
+                                        if (verifyResult == VerifyResult.PASS) {
+                                            try {
+                                                XposedBridge.invokeOriginalMethod(finalStartActivityMayWaitMethod,
+                                                        param.thisObject, param.args);
+                                            } catch (Exception e) {
+                                                Logger.wtf("Error@" + Log.getStackTraceString(e));
+                                            }
                                         }
                                     }
                                 });

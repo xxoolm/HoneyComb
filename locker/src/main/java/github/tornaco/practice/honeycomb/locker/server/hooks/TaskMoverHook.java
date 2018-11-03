@@ -63,12 +63,14 @@ class TaskMoverHook implements IXposedHookLoadPackage {
 
                         getVerifier().verify(null, pkgName, componentName, 0, 0,
                                 (verifyResult, reason) -> {
-                                    if (verifyResult == VerifyResult.PASS) try {
-                                        XposedBridge.invokeOriginalMethod(moveToFront,
-                                                param.thisObject, param.args);
-                                    } catch (Exception e) {
-                                        Logger.e("Error@"
-                                                + Log.getStackTraceString(e));
+                                    if (verifyResult == VerifyResult.PASS) {
+                                        try {
+                                            XposedBridge.invokeOriginalMethod(moveToFront,
+                                                    param.thisObject, param.args);
+                                        } catch (Exception e) {
+                                            Logger.e("Error@"
+                                                    + Log.getStackTraceString(e));
+                                        }
                                     }
                                 });
 

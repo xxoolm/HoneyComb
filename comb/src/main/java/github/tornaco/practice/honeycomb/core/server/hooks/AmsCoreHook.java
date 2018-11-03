@@ -24,7 +24,7 @@ import github.tornaco.practice.honeycomb.core.server.i.HoneyComb;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class AMSCoreHook implements IXposedHookLoadPackage {
+public class AmsCoreHook implements IXposedHookLoadPackage {
 
     private final HoneyComb honeyComb;
 

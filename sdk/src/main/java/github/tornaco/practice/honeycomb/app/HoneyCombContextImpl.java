@@ -43,12 +43,21 @@ class HoneyCombContextImpl implements HoneyCombContext {
     }
 
     @Override
+    public boolean isHoneyCombPresent() {
+        return honeyCombManager != null && honeyCombManager.isPresent();
+    }
+
+    @Override
     public void registerEventSubscriber(IntentFilter filter, IEventSubscriber subscriber) {
-        if (honeyCombManager != null) honeyCombManager.registerEventSubscriber(filter, subscriber);
+        if (honeyCombManager != null) {
+            honeyCombManager.registerEventSubscriber(filter, subscriber);
+        }
     }
 
     @Override
     public void unRegisterEventSubscriber(IEventSubscriber subscriber) {
-        if (honeyCombManager != null) honeyCombManager.unRegisterEventSubscriber(subscriber);
+        if (honeyCombManager != null) {
+            honeyCombManager.unRegisterEventSubscriber(subscriber);
+        }
     }
 }

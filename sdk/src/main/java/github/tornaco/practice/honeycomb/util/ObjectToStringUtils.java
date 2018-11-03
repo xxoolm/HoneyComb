@@ -133,9 +133,9 @@ public class ObjectToStringUtils {
             } else {
                 scheme = mData.getScheme();
                 if (scheme != null) {
-                    if (scheme.equalsIgnoreCase("tel")) {
+                    if ("tel".equalsIgnoreCase(scheme)) {
                         b.append("tel:xxx-xxx-xxxx");
-                    } else if (scheme.equalsIgnoreCase("smsto")) {
+                    } else if ("smsto".equalsIgnoreCase(scheme)) {
                         b.append("smsto:xxx-xxx-xxxx");
                     } else {
                         b.append(mData);

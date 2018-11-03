@@ -19,6 +19,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import github.tornaco.practice.honeycomb.data.i.MapRepo;
 import github.tornaco.practice.honeycomb.util.CloserUtils;
@@ -33,10 +36,16 @@ import github.tornaco.practice.honeycomb.util.XmlUtils;
 public class StringMapRepo implements MapRepo<String, String> {
 
     private static final String NULL_INDICATOR = "NULL";
+    private static final ExecutorService IO = new ThreadPoolExecutor(1, 1,
+            0L, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>(),
+            r -> new Thread(r, "Io-MapRepo"));
 
     private final Map<String, String> mStorage = new HashMap<>();
 
-    // Flush data too many times, may drain battery.
+    /**
+     * Flush data too many times, may drain battery.
+     */
     private static final int FLUSH_DELAY = 5000;
     private static final int FLUSH_DELAY_FAST = 100;
 
@@ -99,7 +108,7 @@ public class StringMapRepo implements MapRepo<String, String> {
     public void reloadAsync() {
         Runnable r = this::reload;
         if (mExe == null) {
-            new Thread(r).start();
+            IO.execute(r);
         } else {
             mExe.execute(r);
         }
@@ -134,7 +143,7 @@ public class StringMapRepo implements MapRepo<String, String> {
     public void flushAsync() {
         Logger.i("flush async");
         if (mExe == null) {
-            new Thread(mFlusher).start();
+            IO.execute(mFlusher);
         } else {
             mExe.execute(mFlusher);
         }

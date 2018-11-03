@@ -17,11 +17,11 @@
 package github.tornaco.practice.honeycomb.util;
 
 /**
- * Singleton helper class for lazily initialization.
+ * BaseSingleton helper class for lazily initialization.
  * <p>
- * Modeled after frameworks/base/include/utils/Singleton.h
+ * Modeled after frameworks/base/include/utils/BaseSingleton.h
  */
-public abstract class Singleton<T> {
+public abstract class BaseSingleton<T> {
     private T mInstance;
 
     protected abstract T create();

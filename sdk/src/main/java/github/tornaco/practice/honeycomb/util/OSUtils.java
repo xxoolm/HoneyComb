@@ -11,7 +11,7 @@ import android.text.TextUtils;
  * Email: Tornaco@163.com
  */
 
-public abstract class OSUtils {
+public class OSUtils {
 
     private static final String KEY_MIUI_VERSION_CODE = "ro.miui.ui.version.code";
     private static final String KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name";

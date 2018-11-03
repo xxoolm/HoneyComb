@@ -8,9 +8,11 @@ import java.io.Closeable;
  * All right reserved.
  */
 
-public abstract class CloserUtils {
+public class CloserUtils {
     public static void closeQuietly(Closeable closeable) {
-        if (closeable == null) return;
+        if (closeable == null) {
+            return;
+        }
         try {
             closeable.close();
         } catch (Exception ignore) {

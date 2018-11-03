@@ -22,7 +22,7 @@ import github.tornaco.android.common.Collections;
  * All right reserved.
  */
 
-public abstract class FileUtils {
+public class FileUtils {
 
     /**
      * Interface definition for a callback to be invoked regularly as
@@ -83,7 +83,9 @@ public abstract class FileUtils {
         final boolean[] res = {true};
         Collections.consumeRemaining(Files.fileTreeTraverser()
                 .postOrderTraversal(dir), file -> {
-            if (!file.delete()) res[0] = false;
+            if (!file.delete()) {
+                res[0] = false;
+            }
         });
         return res[0];
     }
@@ -115,8 +117,9 @@ public abstract class FileUtils {
     public static String readString(String path) {
         BufferedReader reader = null;
         try {
-            if (!new File(path).exists())
+            if (!new File(path).exists()) {
                 return null;
+            }
             reader = Files.newReader(new File(path), Charset.defaultCharset());
             String line;
             StringBuilder stringBuilder = new StringBuilder();
@@ -139,7 +142,9 @@ public abstract class FileUtils {
     }
 
     public static boolean isEmptyDirOrNoExist(File dir) {
-        if (!dir.exists()) return true;
+        if (!dir.exists()) {
+            return true;
+        }
         return isEmptyDir(dir);
     }
 }

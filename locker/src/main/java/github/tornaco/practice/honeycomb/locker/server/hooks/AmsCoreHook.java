@@ -18,7 +18,7 @@ import github.tornaco.practice.honeycomb.locker.server.Locker;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class AMSCoreHook implements IXposedHookLoadPackage {
+public class AmsCoreHook implements IXposedHookLoadPackage {
 
     private final Locker locker;
 

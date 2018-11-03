@@ -16,6 +16,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import github.tornaco.practice.honeycomb.data.i.SetRepo;
 import github.tornaco.practice.honeycomb.util.FileUtils;
@@ -29,9 +32,13 @@ import lombok.Cleanup;
 
 public class StringSetRepo implements SetRepo<String> {
 
-    // Flush data too many times, may drain battery.
     private static final int FLUSH_DELAY = 5000;
     private static final int FLUSH_DELAY_FAST = 100;
+
+    private static final ExecutorService IO = new ThreadPoolExecutor(1, 1,
+            0L, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>(),
+            r -> new Thread(r, "Io-MapRepo"));
 
     private Handler mHandler;
     private ExecutorService mExe;
@@ -98,7 +105,7 @@ public class StringSetRepo implements SetRepo<String> {
     public void reloadAsync() {
         Runnable r = this::reload;
         if (mExe == null) {
-            new Thread(r).start();
+            IO.execute(r);
         } else {
             mExe.execute(r);
         }
@@ -128,7 +135,7 @@ public class StringSetRepo implements SetRepo<String> {
     public void flushAsync() {
         Logger.i("flush async");
         if (mExe == null) {
-            new Thread(mFlusher).start();
+            IO.execute(mFlusher);
         } else {
             mExe.execute(mFlusher);
         }
@@ -136,7 +143,9 @@ public class StringSetRepo implements SetRepo<String> {
 
     @Override
     public boolean add(String s) {
-        if (s == null) return false;
+        if (s == null) {
+            return false;
+        }
         boolean added = mStorage.add(s);
         if (added && mHandler != null) {
             mHandler.removeCallbacks(mFlushCaller);
@@ -147,7 +156,9 @@ public class StringSetRepo implements SetRepo<String> {
 
     @Override
     public boolean addAll(Collection<? extends String> c) {
-        if (c == null) return false;
+        if (c == null) {
+            return false;
+        }
         boolean added = mStorage.addAll(c);
         if (added && mHandler != null) {
             mHandler.removeCallbacks(mFlushCaller);
@@ -158,7 +169,9 @@ public class StringSetRepo implements SetRepo<String> {
 
     @Override
     public boolean remove(String s) {
-        if (s == null) return false;
+        if (s == null) {
+            return false;
+        }
         boolean removed = mStorage.remove(s);
         if (removed && mHandler != null) {
             mHandler.removeCallbacks(mFlushCaller);
@@ -185,7 +198,9 @@ public class StringSetRepo implements SetRepo<String> {
     public boolean has(String[] t) {
         if (t != null) {
             for (String tt : t) {
-                if (has(tt)) return true;
+                if (has(tt)) {
+                    return true;
+                }
             }
         }
         return false;

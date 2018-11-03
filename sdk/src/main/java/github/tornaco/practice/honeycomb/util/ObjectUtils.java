@@ -179,8 +179,9 @@ public final class ObjectUtils {
      * @throws NullPointerException if {@code obj} is {@code null}
      */
     public static <T> T requireNonNull(T obj) {
-        if (obj == null)
+        if (obj == null) {
             throw new NullPointerException();
+        }
         return obj;
     }
 
@@ -204,8 +205,9 @@ public final class ObjectUtils {
      * @throws NullPointerException if {@code obj} is {@code null}
      */
     public static <T> T requireNonNull(T obj, String message) {
-        if (obj == null)
+        if (obj == null) {
             throw new NullPointerException(message);
+        }
         return obj;
     }
 
@@ -263,8 +265,9 @@ public final class ObjectUtils {
      */
     @SuppressLint("NewApi")
     public static <T> T requireNonNull(T obj, Supplier<String> messageSupplier) {
-        if (obj == null)
+        if (obj == null) {
             throw new NullPointerException(messageSupplier.get());
+        }
         return obj;
     }
 }

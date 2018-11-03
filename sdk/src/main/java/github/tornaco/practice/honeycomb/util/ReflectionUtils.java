@@ -16,29 +16,29 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class ReflectionUtils {
+public class ReflectionUtils {
 
-    private static final Map<Class<?>, Method[]> declaredMethodsCache =
+    private static final Map<Class<?>, Method[]> DECLARED_METHODS_CACHE =
             new HashMap<>(256);
 
     private static final Method[] NO_METHODS = {};
 
 
-    private static final Map<Class<?>, Class<?>> primitiveTypeToWrapperMap = new IdentityHashMap<>(8);
-    private static final Map<Class<?>, Class<?>> primitiveWrapperTypeMap = new IdentityHashMap<>(8);
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_TYPE_TO_WRAPPER_MAP = new IdentityHashMap<>(8);
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_WRAPPER_TYPE_MAP = new IdentityHashMap<>(8);
 
     static {
-        primitiveWrapperTypeMap.put(Boolean.class, boolean.class);
-        primitiveWrapperTypeMap.put(Byte.class, byte.class);
-        primitiveWrapperTypeMap.put(Character.class, char.class);
-        primitiveWrapperTypeMap.put(Double.class, double.class);
-        primitiveWrapperTypeMap.put(Float.class, float.class);
-        primitiveWrapperTypeMap.put(Integer.class, int.class);
-        primitiveWrapperTypeMap.put(Long.class, long.class);
-        primitiveWrapperTypeMap.put(Short.class, short.class);
+        PRIMITIVE_WRAPPER_TYPE_MAP.put(Boolean.class, boolean.class);
+        PRIMITIVE_WRAPPER_TYPE_MAP.put(Byte.class, byte.class);
+        PRIMITIVE_WRAPPER_TYPE_MAP.put(Character.class, char.class);
+        PRIMITIVE_WRAPPER_TYPE_MAP.put(Double.class, double.class);
+        PRIMITIVE_WRAPPER_TYPE_MAP.put(Float.class, float.class);
+        PRIMITIVE_WRAPPER_TYPE_MAP.put(Integer.class, int.class);
+        PRIMITIVE_WRAPPER_TYPE_MAP.put(Long.class, long.class);
+        PRIMITIVE_WRAPPER_TYPE_MAP.put(Short.class, short.class);
 
-        for (Map.Entry<Class<?>, Class<?>> entry : primitiveWrapperTypeMap.entrySet()) {
-            primitiveTypeToWrapperMap.put(entry.getValue(), entry.getKey());
+        for (Map.Entry<Class<?>, Class<?>> entry : PRIMITIVE_WRAPPER_TYPE_MAP.entrySet()) {
+            PRIMITIVE_TYPE_TO_WRAPPER_MAP.put(entry.getValue(), entry.getKey());
         }
     }
 
@@ -151,7 +151,7 @@ public abstract class ReflectionUtils {
      * @see Class#getDeclaredMethods()
      */
     private static Method[] getDeclaredMethods(Class<?> clazz) {
-        Method[] result = declaredMethodsCache.get(clazz);
+        Method[] result = DECLARED_METHODS_CACHE.get(clazz);
         if (result == null) {
             Method[] declaredMethods = clazz.getDeclaredMethods();
             List<Method> defaultMethods = findConcreteMethodsOnInterfaces(clazz);
@@ -166,7 +166,7 @@ public abstract class ReflectionUtils {
             } else {
                 result = declaredMethods;
             }
-            declaredMethodsCache.put(clazz, (result.length == 0 ? NO_METHODS : result));
+            DECLARED_METHODS_CACHE.put(clazz, (result.length == 0 ? NO_METHODS : result));
         }
         return result;
     }
@@ -315,7 +315,7 @@ public abstract class ReflectionUtils {
      * @see Object#equals(Object)
      */
     public static boolean isEqualsMethod(Method method) {
-        if (method == null || !method.getName().equals("equals")) {
+        if (method == null || !"equals".equals(method.getName())) {
             return false;
         }
         Class<?>[] paramTypes = method.getParameterTypes();
@@ -328,7 +328,7 @@ public abstract class ReflectionUtils {
      * @see Object#hashCode()
      */
     public static boolean isHashCodeMethod(Method method) {
-        return (method != null && method.getName().equals("hashCode") && method.getParameterTypes().length == 0);
+        return (method != null && "hashCode".equals(method.getName()) && method.getParameterTypes().length == 0);
     }
 
     /**
@@ -337,7 +337,7 @@ public abstract class ReflectionUtils {
      * @see Object#toString()
      */
     public static boolean isToStringMethod(Method method) {
-        return (method != null && method.getName().equals("toString") && method.getParameterTypes().length == 0);
+        return (method != null && "toString".equals(method.getName()) && method.getParameterTypes().length == 0);
     }
 
     /**
@@ -474,12 +474,12 @@ public abstract class ReflectionUtils {
             return true;
         }
         if (lhsType.isPrimitive()) {
-            Class<?> resolvedPrimitive = primitiveWrapperTypeMap.get(rhsType);
+            Class<?> resolvedPrimitive = PRIMITIVE_WRAPPER_TYPE_MAP.get(rhsType);
             if (lhsType == resolvedPrimitive) {
                 return true;
             }
         } else {
-            Class<?> resolvedWrapper = primitiveTypeToWrapperMap.get(rhsType);
+            Class<?> resolvedWrapper = PRIMITIVE_TYPE_TO_WRAPPER_MAP.get(rhsType);
             if (resolvedWrapper != null && lhsType.isAssignableFrom(resolvedWrapper)) {
                 return true;
             }
