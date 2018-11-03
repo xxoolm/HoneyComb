@@ -29,8 +29,6 @@ import org.newstand.logger.Logger;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GestureDetectorCompat;
-import github.tornaco.practice.honeycomb.BuildConfig;
-import github.tornaco.practice.honeycomb.app.AppResources;
 
 class CurrentComponentView extends LinearLayout {
 
@@ -45,6 +43,7 @@ class CurrentComponentView extends LinearLayout {
     private float density = getResources().getDisplayMetrics().density;
 
     private boolean mDoubleTapEnabled, mEdgeEnabled = false, mFeedbackAnimEnabled = true, mLocked = false;
+    private boolean mIsAttached;
 
     private GestureDetectorCompat mDetectorCompat;
     private Callback mCallback;
@@ -52,7 +51,6 @@ class CurrentComponentView extends LinearLayout {
     private ViewGroup mContainerView;
     private TextView mTextView;
     private String mText;
-    private String mTips;
 
     private Handler mHandler = new Handler();
 
@@ -75,10 +73,6 @@ class CurrentComponentView extends LinearLayout {
     @SuppressLint("ClickableViewAccessibility")
     public CurrentComponentView(final Context context, Callback callback) {
         super(context);
-
-        mTips = new AppResources(context, BuildConfig.APPLICATION_ID)
-                .getString("tips_current_activity_view");
-
         mCallback = callback;
 
         mDetectorCompat = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() {
@@ -281,6 +275,9 @@ class CurrentComponentView extends LinearLayout {
     }
 
     public void attach() {
+        if (isAttached()) {
+            return;
+        }
         if (getParent() == null) {
             mWm.addView(this, mLp);
         }
@@ -290,6 +287,11 @@ class CurrentComponentView extends LinearLayout {
         mLp.y = dp2px(150);
         mLp.x = mRect.width() - dp2px(55);
         reposition();
+        mIsAttached = true;
+    }
+
+    public boolean isAttached() {
+        return mIsAttached;
     }
 
     private void performTapFeedbackIfNeed() {
