@@ -26,6 +26,7 @@ public interface LockerContext {
     }
 
     interface LockerConfigs {
+        boolean DEBUG = BuildConfig.DEBUG;
         boolean DEF_LOCKER_ENABLED = false;
         int DEF_LOCKER_METHOD = LockerMethod.NONE;
         boolean DEF_RE_VERIFY_ON_SCREEN_OFF = true;

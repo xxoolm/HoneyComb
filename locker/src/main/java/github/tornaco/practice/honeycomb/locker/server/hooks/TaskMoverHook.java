@@ -57,7 +57,7 @@ class TaskMoverHook implements IXposedHookLoadPackage {
                         Logger.v("findTaskToMoveToFrontLocked:" + pkgName);
 
                         // Package has been passed.
-                        if (!getVerifier().shouldVerify(componentName, "findTaskToMoveToFrontLocked")) {
+                        if (!getVerifier().shouldVerify(componentName, pkgName, "findTaskToMoveToFrontLocked")) {
                             return;
                         }
 

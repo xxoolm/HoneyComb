@@ -26,6 +26,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import androidx.annotation.GuardedBy;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import github.tornaco.practice.honeycomb.app.AbstractSafeR;
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.data.PreferenceManager;
@@ -61,7 +63,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
     @SuppressLint("UseSparseArrays")
     @GuardedBy("ConcurrentHashMap")
     private final Map<Integer, VerifyRecord> verifyRecords = new ConcurrentHashMap<>();
-    private final Set<ComponentName> verifiedComponents = new HashSet<>();
+    private final Set<String> verifiedPackages = new HashSet<>();
 
     private final RemoteCallbackList<ILockerWatcher> watcherRemoteCallbackList
             = new RemoteCallbackList<>();
@@ -169,17 +171,17 @@ public class LockerServer extends ILocker.Stub implements Verifier {
     }
 
     @Override
-    public boolean shouldVerify(ComponentName componentName, String source) {
+    public boolean shouldVerify(@Nullable ComponentName componentName, @NonNull String pkg, String source) {
         return isEnabled()
                 && isLockerKeySet(getLockerMethod())
-                && !LockerContext.LockerIntents.LOCKER_VERIFY_CLASS_NAME
-                .equals(componentName.getClassName())
-                && !verifiedComponents.contains(componentName)
-                && lockAppRepo.has(componentName.getPackageName());
+                && !isLockVerifyActivity(componentName)
+                && !verifiedPackages.contains(pkg)
+                && lockAppRepo.has(pkg);
     }
 
     @Override
-    public void verify(Bundle options, String pkg, ComponentName componentName, int uid, int pid, VerifyCallback callback) {
+    public void verify(Bundle options, String pkg, ComponentName componentName,
+                       int uid, int pid, VerifyCallback callback) {
         VerifyRecord record = VerifyRecord.builder()
                 .pid(pid)
                 .uid(uid)
@@ -205,7 +207,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
                 return;
             }
             if (result == VerifyResult.PASS) {
-                verifiedComponents.add(record.componentName);
+                verifiedPackages.add(record.pkg);
             }
             record.verifyCallback.onVerifyResult(result, reason);
             //noinspection UnusedAssignment
@@ -251,6 +253,12 @@ public class LockerServer extends ILocker.Stub implements Verifier {
                 LockerContext.LockerKeys.KEY_LOCKER_KEY_PREFIX + method, null));
     }
 
+    private boolean isLockVerifyActivity(ComponentName name) {
+        return name != null
+                && LockerContext.LockerIntents.LOCKER_VERIFY_CLASS_NAME
+                .equals(name.getClassName());
+    }
+
     private void notifyWatcher() {
         int n = watcherRemoteCallbackList.beginBroadcast();
         for (int i = 0; i < n; i++) {
@@ -270,8 +278,8 @@ public class LockerServer extends ILocker.Stub implements Verifier {
                 .getBoolean(LockerContext.LockerKeys.KEY_RE_VERIFY_ON_SCREEN_OFF,
                         LockerContext.LockerConfigs.DEF_RE_VERIFY_ON_SCREEN_OFF);
         if (verifyOnScreenOff) {
-            Logger.v("clear verifiedComponents %s", "SCREEN OFF");
-            verifiedComponents.clear();
+            Logger.v("clear verifiedPackages %s", "SCREEN OFF");
+            verifiedPackages.clear();
         }
     }
 

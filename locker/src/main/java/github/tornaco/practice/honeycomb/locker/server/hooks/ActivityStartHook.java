@@ -136,7 +136,7 @@ class ActivityStartHook implements IXposedHookLoadPackage {
                         }
 
                         // Package has been passed.
-                        if (!getVerifier().shouldVerify(componentName, "startActivityMayWait")) {
+                        if (!getVerifier().shouldVerify(componentName, pkgName, "startActivityMayWait")) {
                             return;
                         }
 

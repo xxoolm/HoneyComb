@@ -12,6 +12,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import github.tornaco.practice.honeycomb.locker.BuildConfig;
 import github.tornaco.practice.honeycomb.locker.server.hooks.ActivityStartHookDelegate;
 import github.tornaco.practice.honeycomb.locker.server.hooks.AmsCoreHook;
+import github.tornaco.practice.honeycomb.locker.server.hooks.LauncherAppServiceHook;
 import github.tornaco.practice.honeycomb.locker.server.hooks.TaskMoverHookDelegate;
 
 @Keep
@@ -32,6 +33,7 @@ public class LockerHooks implements IXposedHookLoadPackage, IXposedHookZygoteIni
         new AmsCoreHook(c).handleLoadPackage(lpparam);
         new ActivityStartHookDelegate(c.getVerifier()).handleLoadPackage(lpparam);
         new TaskMoverHookDelegate(c.getVerifier()).handleLoadPackage(lpparam);
+        new LauncherAppServiceHook(c.getVerifier()).handleLoadPackage(lpparam);
     }
 
     @Override
