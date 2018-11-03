@@ -10,5 +10,5 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 @Documented
 @Retention(SOURCE)
 @Target({METHOD})
-public @interface SystemProcess {
+public @interface BinderCall {
 }

@@ -19,7 +19,7 @@ import androidx.annotation.Nullable;
 import github.tornaco.practice.honeycomb.BuildConfig;
 import github.tornaco.practice.honeycomb.IHoneyComb;
 import github.tornaco.practice.honeycomb.am.IActivityManager;
-import github.tornaco.practice.honeycomb.annotations.SystemProcess;
+import github.tornaco.practice.honeycomb.annotations.SystemInit;
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.core.server.am.ActivityManagerService;
 import github.tornaco.practice.honeycomb.core.server.data.PreferenceManagerService;
@@ -52,7 +52,7 @@ public class HoneyCombService implements HoneyComb {
     private final Executor eventPublishExecutor = Executors.newSingleThreadExecutor();
     private final RemoteCallbackList<EventSubscriberClient> eventSubscribers = new RemoteCallbackList<>();
 
-    @SystemProcess
+    @SystemInit
     public void onStart(Context context) {
         Logger.w("HoneyCombService start with context %s", context);
         this.systemContext = context;
@@ -65,12 +65,12 @@ public class HoneyCombService implements HoneyComb {
         publishInternal();
     }
 
-    @SystemProcess
+    @SystemInit
     public void systemReady() {
 
     }
 
-    @SystemProcess
+    @SystemInit
     public void shutDown() {
 
     }
@@ -97,7 +97,7 @@ public class HoneyCombService implements HoneyComb {
         eventSubscribers.unregister(new EventSubscriberClient(null, subscriber));
     }
 
-    @SystemProcess
+    @SystemInit
     private void publish() {
         try {
             ServiceManager.addService(Context.TV_INPUT_SERVICE, new ServiceStub());
@@ -107,7 +107,7 @@ public class HoneyCombService implements HoneyComb {
         }
     }
 
-    @SystemProcess
+    @SystemInit
     private void publishInternal() {
         HoneyCombServiceManager.addService(HoneyCombContext.PACKAGE_MANAGER_SERVICE, packageManager.asBinder());
         HoneyCombServiceManager.addService(HoneyCombContext.PREFERENCE_MANAGER_SERVICE, preferenceManager.asBinder());

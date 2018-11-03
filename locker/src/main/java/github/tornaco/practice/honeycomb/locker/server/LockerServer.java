@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.os.UserHandle;
@@ -15,15 +17,17 @@ import android.text.TextUtils;
 import org.newstand.logger.Logger;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import androidx.annotation.GuardedBy;
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
+import github.tornaco.practice.honeycomb.app.SafeR;
 import github.tornaco.practice.honeycomb.data.PreferenceManager;
 import github.tornaco.practice.honeycomb.data.RepoFactory;
 import github.tornaco.practice.honeycomb.data.i.SetRepo;
@@ -51,10 +55,12 @@ public class LockerServer extends ILocker.Stub implements Verifier {
     private Context systemContext;
     @Getter
     private HoneyCombContext honeyCombContext;
+    private Handler h;
     private AtomicBoolean lockerEnabled = new AtomicBoolean(false);
     private SetRepo<String> lockAppRepo;
     @SuppressLint("UseSparseArrays")
-    private final Map<Integer, VerifyRecord> verifyRecords = new HashMap<>();
+    @GuardedBy("ConcurrentHashMap")
+    private final Map<Integer, VerifyRecord> verifyRecords = new ConcurrentHashMap<>();
     private final Set<ComponentName> verifiedComponents = new HashSet<>();
 
     private final RemoteCallbackList<ILockerWatcher> watcherRemoteCallbackList
@@ -64,17 +70,36 @@ public class LockerServer extends ILocker.Stub implements Verifier {
         @Override
         public void onEvent(Event e) {
             Logger.i("onEvent: %s @%s", e, Thread.currentThread().getName());
+            if (Intent.ACTION_SCREEN_OFF.equals(e.getAction())) {
+                h.post(new SafeR() {
+                    @Override
+                    public void runSafety() {
+                        onScreenStateChange(false);
+                    }
+                });
+            }
+            if (Intent.ACTION_SCREEN_ON.equals(e.getAction())) {
+                h.post(new SafeR() {
+                    @Override
+                    public void runSafety() {
+                        onScreenStateChange(true);
+                    }
+                });
+            }
         }
     };
 
     LockerServer() {
+        HandlerThread hr = new HandlerThread("LockerServer");
+        hr.start();
+        h = new Handler(hr.getLooper());
     }
 
     void onStart(Context systemContext, HoneyCombContext honeyCombContext) {
         this.systemContext = systemContext;
         this.honeyCombContext = honeyCombContext;
         PreferenceManager preferenceManager = honeyCombContext.getPreferenceManager();
-        this.lockerEnabled.set(preferenceManager.getBoolean(KEY_LOCKER_ENABLED, false));
+        this.lockerEnabled.set(preferenceManager.getBoolean(KEY_LOCKER_ENABLED, LockerContext.LockerConfigs.DEF_LOCKER_ENABLED));
         Logger.i("LockerServer start, lock enabled? %s", lockerEnabled.get());
         this.lockAppRepo = RepoFactory.get().getOrCreateStringSetRepo(getAppRepoFile().getPath());
     }
@@ -144,7 +169,9 @@ public class LockerServer extends ILocker.Stub implements Verifier {
 
     @Override
     public boolean shouldVerify(ComponentName componentName, String source) {
-        return !LockerContext.LockerIntents.LOCKER_VERIFY_CLASS_NAME
+        return isEnabled()
+                && isLockerKeySet(getLockerMethod())
+                && !LockerContext.LockerIntents.LOCKER_VERIFY_CLASS_NAME
                 .equals(componentName.getClassName())
                 && !verifiedComponents.contains(componentName)
                 && lockAppRepo.has(componentName.getPackageName());
@@ -196,7 +223,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
     @Override
     public int getLockerMethod() {
         PreferenceManager preferenceManager = honeyCombContext.getPreferenceManager();
-        return preferenceManager.getInt(LockerContext.LockerKeys.KEY_LOCKER_METHOD, LockerContext.LockerMethod.NONE);
+        return preferenceManager.getInt(LockerContext.LockerKeys.KEY_LOCKER_METHOD, LockerContext.LockerConfigs.DEF_LOCKER_METHOD);
     }
 
     @Override
@@ -231,6 +258,17 @@ public class LockerServer extends ILocker.Stub implements Verifier {
             }
         }
         watcherRemoteCallbackList.finishBroadcast();
+    }
+
+    private void onScreenStateChange(boolean on) {
+        Logger.v("onScreenStateChange %s", on);
+        boolean verifyOnScreenOff = honeyCombContext.getPreferenceManager()
+                .getBoolean(LockerContext.LockerKeys.KEY_RE_VERIFY_ON_SCREEN_OFF,
+                        LockerContext.LockerConfigs.DEF_RE_VERIFY_ON_SCREEN_OFF);
+        if (verifyOnScreenOff) {
+            Logger.v("clear verifiedComponents %s", "SCREEN OFF");
+            verifiedComponents.clear();
+        }
     }
 
     private static File getAppRepoFile() {

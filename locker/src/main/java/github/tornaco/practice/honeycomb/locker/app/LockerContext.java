@@ -25,10 +25,21 @@ public interface LockerContext {
         int PATTERN = 1;
     }
 
+    interface LockerConfigs {
+        boolean DEF_LOCKER_ENABLED = false;
+        int DEF_LOCKER_METHOD = LockerMethod.NONE;
+        boolean DEF_RE_VERIFY_ON_SCREEN_OFF = true;
+        boolean DEF_RE_VERIFY_ON_TASK_REMOVED = true;
+        boolean DEF_RE_VERIFY_ON_APP_SWITCH = false;
+    }
+
     interface LockerKeys {
         String KEY_PREFIX = BuildConfig.APPLICATION_ID.replace(".", "_") + "_";
         String KEY_LOCKER_ENABLED = KEY_PREFIX + "locker_enabled";
         String KEY_LOCKER_METHOD = KEY_PREFIX + "locker_method";
+        String KEY_RE_VERIFY_ON_SCREEN_OFF = KEY_PREFIX + "re_verify_on_screen_off";
+        String KEY_RE_VERIFY_ON_APP_SWITCH = KEY_PREFIX + "re_verify_on_app_switch";
+        String KEY_RE_VERIFY_ON_TASK_REMOVED = KEY_PREFIX + "re_verify_on_task_removed";
         String KEY_LOCKER_KEY_PREFIX = KEY_PREFIX + "locker_key_";
     }
 
