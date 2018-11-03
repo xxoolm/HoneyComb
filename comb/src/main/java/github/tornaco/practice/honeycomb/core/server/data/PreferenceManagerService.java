@@ -1,13 +1,14 @@
 package github.tornaco.practice.honeycomb.core.server.data;
 
 
+import android.content.Context;
+
 import java.io.File;
 
-import github.tornaco.practice.honeycomb.core.server.data.DataConfigs;
-import github.tornaco.practice.honeycomb.core.server.data.SettingsProvider;
+import github.tornaco.practice.honeycomb.core.server.i.SystemService;
 import github.tornaco.practice.honeycomb.data.IPreferenceManager;
 
-public class PreferenceManagerService extends IPreferenceManager.Stub {
+public class PreferenceManagerService extends IPreferenceManager.Stub implements SystemService {
 
     private String ownerPackageName;
     private SettingsProvider settingsProvider;
@@ -16,6 +17,21 @@ public class PreferenceManagerService extends IPreferenceManager.Stub {
         this.ownerPackageName = ownerPackageName;
         String path = new File(DataConfigs.getBaseDataDir(), ownerPackageName + ".xml").getPath();
         this.settingsProvider = SettingsProvider.getOrCreate(path);
+    }
+
+    @Override
+    public void onStart(Context context) {
+
+    }
+
+    @Override
+    public void onSystemReady() {
+
+    }
+
+    @Override
+    public void onShutDown() {
+
     }
 
     @Override

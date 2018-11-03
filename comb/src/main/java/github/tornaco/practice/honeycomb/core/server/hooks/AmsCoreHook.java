@@ -64,7 +64,7 @@ public class AmsCoreHook implements IXposedHookLoadPackage {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    honeyComb.systemReady();
+                    honeyComb.onSystemReady();
                 }
             });
             Logger.i("hookAMSSystemReady OK:" + unHooks);
@@ -82,7 +82,7 @@ public class AmsCoreHook implements IXposedHookLoadPackage {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    honeyComb.shutDown();
+                    honeyComb.onShutDown();
                 }
             });
             Logger.i("hookAMSShutdown OK:" + unHooks);

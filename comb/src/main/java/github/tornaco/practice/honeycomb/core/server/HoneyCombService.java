@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.Nullable;
 import github.tornaco.practice.honeycomb.BuildConfig;
 import github.tornaco.practice.honeycomb.IHoneyComb;
-import github.tornaco.practice.honeycomb.am.IActivityManager;
 import github.tornaco.practice.honeycomb.annotations.SystemInit;
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.core.server.am.ActivityManagerService;
@@ -28,29 +27,26 @@ import github.tornaco.practice.honeycomb.core.server.data.PreferenceManagerServi
 import github.tornaco.practice.honeycomb.core.server.device.PowerManagerService;
 import github.tornaco.practice.honeycomb.core.server.i.HoneyComb;
 import github.tornaco.practice.honeycomb.core.server.pm.PackageManagerService;
-import github.tornaco.practice.honeycomb.data.IPreferenceManager;
-import github.tornaco.practice.honeycomb.device.IPowerManager;
 import github.tornaco.practice.honeycomb.event.Event;
 import github.tornaco.practice.honeycomb.event.IEventSubscriber;
-import github.tornaco.practice.honeycomb.pm.IPackageManager;
 import github.tornaco.practice.honeycomb.util.PreconditionUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 
-import static github.tornaco.practice.honeycomb.core.server.util.PkgUtils.PACKAGE_NAME_ANDROID;
+import static github.tornaco.practice.honeycomb.util.PkgUtils.PACKAGE_NAME_ANDROID;
 
 public class HoneyCombService implements HoneyComb {
 
     @Getter
     private Context systemContext;
     @Getter
-    private IActivityManager activityManager;
+    private ActivityManagerService activityManager;
     @Getter
-    private IPowerManager powerManager;
+    private PowerManagerService powerManager;
     @Getter
-    private IPackageManager packageManager;
-    private IPreferenceManager preferenceManager;
+    private PackageManagerService packageManager;
+    private PreferenceManagerService preferenceManager;
     private final Executor eventPublishExecutor = new ThreadPoolExecutor(1, 1,
             0L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>(),
@@ -62,25 +58,38 @@ public class HoneyCombService implements HoneyComb {
     public void onStart(Context context) {
         Logger.w("HoneyCombService start with context %s", context);
         this.systemContext = context;
-        this.activityManager = new ActivityManagerService(context);
+        this.activityManager = new ActivityManagerService();
         this.powerManager = new PowerManagerService();
-        this.packageManager = new PackageManagerService(context);
+        this.packageManager = new PackageManagerService();
         // TODO Split for diff pkg.
         this.preferenceManager = new PreferenceManagerService(PACKAGE_NAME_ANDROID);
+
         publish();
         publishInternal();
+
+        this.activityManager.onStart(context);
+        this.powerManager.onStart(context);
+        this.packageManager.onStart(context);
+        this.preferenceManager.onStart(context);
     }
 
     @Override
     @SystemInit
-    public void systemReady() {
-
+    public void onSystemReady() {
+        Logger.d("onSystemReady!!!");
+        this.activityManager.onSystemReady();
+        this.powerManager.onSystemReady();
+        this.packageManager.onSystemReady();
+        this.preferenceManager.onSystemReady();
     }
 
     @Override
     @SystemInit
-    public void shutDown() {
-
+    public void onShutDown() {
+        this.activityManager.onShutDown();
+        this.powerManager.onShutDown();
+        this.packageManager.onShutDown();
+        this.preferenceManager.onShutDown();
     }
 
     @Override
@@ -199,8 +208,12 @@ public class HoneyCombService implements HoneyComb {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             EventSubscriberClient that = (EventSubscriberClient) o;
             return Objects.equals(subscriber, that.subscriber);
         }

@@ -12,6 +12,8 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import github.tornaco.practice.honeycomb.am.ActivityManager;
+import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.core.server.i.HoneyComb;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -46,8 +48,14 @@ public class ActivityRecordHook implements IXposedHookLoadPackage {
                             super.beforeHookedMethod(param);
                             Object ar = param.thisObject;
                             Intent intent = (Intent) XposedHelpers.getObjectField(ar, "intent");
-                            if (intent != null && getHoneyComb().getActivityManager() != null) {
-                                getHoneyComb().getActivityManager().onActivityLaunching(intent, "startLaunchTickingLocked");
+                            HoneyCombContext c = HoneyCombContext.createContext();
+                            ActivityManager am = c.getActivityManager();
+                            if (HoneyCombContext.HoneyCombConfigs.DEBUG) {
+                                Logger.v("startLaunchTickingLocked %s %s", am, intent);
+                            }
+                            if (intent != null && am != null) {
+                                am.onActivityLaunching(intent, "startLaunchTickingLocked");
+                                c.recycle();
                             }
                         }
                     });

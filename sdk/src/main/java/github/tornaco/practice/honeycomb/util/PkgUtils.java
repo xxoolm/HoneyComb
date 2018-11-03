@@ -1,9 +1,10 @@
-package github.tornaco.practice.honeycomb.core.server.util;
+package github.tornaco.practice.honeycomb.util;
 
 import android.Manifest;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -101,5 +102,35 @@ public class PkgUtils {
             }
         }
         return h;
+    }
+
+    public static boolean isPkgInstalled(Context context, String pkg) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            ApplicationInfo info = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                info = pm.getApplicationInfo(pkg, PackageManager.MATCH_UNINSTALLED_PACKAGES);
+            } else {
+                info = pm.getApplicationInfo(pkg, PackageManager.GET_UNINSTALLED_PACKAGES);
+            }
+            return info != null;
+        } catch (PackageManager.NameNotFoundException var4) {
+            return false;
+        }
+    }
+
+    public static String getPathForPackage(Context context, String pkg) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            ApplicationInfo applicationInfo = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                applicationInfo = pm.getApplicationInfo(pkg, PackageManager.MATCH_UNINSTALLED_PACKAGES);
+            } else {
+                applicationInfo = pm.getApplicationInfo(pkg, PackageManager.GET_UNINSTALLED_PACKAGES);
+            }
+            return applicationInfo.publicSourceDir;
+        } catch (PackageManager.NameNotFoundException e) {
+            return null;
+        }
     }
 }

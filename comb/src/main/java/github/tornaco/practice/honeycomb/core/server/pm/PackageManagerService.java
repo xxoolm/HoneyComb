@@ -7,17 +7,29 @@ import android.content.pm.PackageManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import github.tornaco.practice.honeycomb.core.server.i.SystemService;
 import github.tornaco.practice.honeycomb.pm.AppInfo;
 import github.tornaco.practice.honeycomb.pm.IPackageManager;
 import github.tornaco.practice.honeycomb.pm.IPackageUnInstallCallback;
 import lombok.Getter;
 
-public class PackageManagerService extends IPackageManager.Stub {
+public class PackageManagerService extends IPackageManager.Stub implements SystemService {
     @Getter
     private Context systemContext;
 
-    public PackageManagerService(Context systemContext) {
-        this.systemContext = systemContext;
+    @Override
+    public void onStart(Context context) {
+        this.systemContext = context;
+    }
+
+    @Override
+    public void onSystemReady() {
+
+    }
+
+    @Override
+    public void onShutDown() {
+
     }
 
     @Override

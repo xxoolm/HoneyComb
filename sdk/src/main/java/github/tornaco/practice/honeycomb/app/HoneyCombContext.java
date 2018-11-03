@@ -10,6 +10,7 @@ import github.tornaco.practice.honeycomb.annotations.AvailableAfterOnStart;
 import github.tornaco.practice.honeycomb.data.PreferenceManager;
 import github.tornaco.practice.honeycomb.event.IEventSubscriber;
 import github.tornaco.practice.honeycomb.pm.PackageManager;
+import github.tornaco.practice.honeycomb.sdk.BuildConfig;
 
 public interface HoneyCombContext {
 
@@ -40,8 +41,20 @@ public interface HoneyCombContext {
     @AvailableAfterOnStart
     void unRegisterEventSubscriber(IEventSubscriber subscriber);
 
+    void recycle();
+
     @AvailableAfterOnStart
     static HoneyCombContext createContext() {
         return new HoneyCombContextImpl();
+    }
+
+    interface HoneyCombConfigs {
+        boolean DEBUG = BuildConfig.DEBUG;
+        boolean DEF_SHOW_CURRENT_COMPONENT_ENABLED = BuildConfig.DEBUG;
+    }
+
+    interface HoneyCombKeys {
+        String KEY_PREFIX = BuildConfig.APPLICATION_ID.replace(".", "_") + "_";
+        String KEY_SHOW_CURRENT_COMPONENT_ENABLED = KEY_PREFIX + "show_current_component_view_enabled";
     }
 }

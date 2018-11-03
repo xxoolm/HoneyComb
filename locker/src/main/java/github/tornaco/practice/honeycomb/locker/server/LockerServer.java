@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.os.UserHandle;
@@ -42,6 +41,7 @@ import github.tornaco.practice.honeycomb.locker.server.verify.Verifier;
 import github.tornaco.practice.honeycomb.locker.server.verify.VerifyCallback;
 import github.tornaco.practice.honeycomb.locker.server.verify.VerifyResult;
 import github.tornaco.practice.honeycomb.locker.util.KeyStoreUtils;
+import github.tornaco.practice.honeycomb.util.HandlerUtils;
 import github.tornaco.practice.honeycomb.util.PreconditionUtils;
 import lombok.Builder;
 import lombok.Getter;
@@ -64,7 +64,6 @@ public class LockerServer extends ILocker.Stub implements Verifier {
     @GuardedBy("ConcurrentHashMap")
     private final Map<Integer, VerifyRecord> verifyRecords = new ConcurrentHashMap<>();
     private final Set<String> verifiedPackages = new HashSet<>();
-
     private final RemoteCallbackList<ILockerWatcher> watcherRemoteCallbackList
             = new RemoteCallbackList<>();
 
@@ -92,9 +91,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
     };
 
     LockerServer() {
-        HandlerThread hr = new HandlerThread("LockerServer");
-        hr.start();
-        h = new Handler(hr.getLooper());
+        h = HandlerUtils.newHandlerOfNewThread("LockerServer");
     }
 
     void onStart(Context systemContext, HoneyCombContext honeyCombContext) {

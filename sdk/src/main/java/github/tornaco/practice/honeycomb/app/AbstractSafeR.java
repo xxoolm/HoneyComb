@@ -8,7 +8,7 @@ public abstract class AbstractSafeR implements Runnable {
         try {
             runSafety();
         } catch (Throwable err) {
-            Logger.e(err, "AbstractSafeR");
+            Logger.e("AbstractSafeR err: %s", Logger.getStackTraceString(err));
         }
     }
 
