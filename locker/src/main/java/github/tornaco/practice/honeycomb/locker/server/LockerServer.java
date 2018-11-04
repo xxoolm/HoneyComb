@@ -87,6 +87,33 @@ public class LockerServer extends ILocker.Stub implements Verifier {
                     }
                 });
             }
+            if (Event.ACTION_TASK_REMOVED.equals(e.getAction())) {
+                h.post(new AbstractSafeR() {
+                    @Override
+                    public void runSafety() {
+                        Bundle extra = e.getExtra();
+                        if (extra != null) {
+                            String pkgName = extra.getString("pkg");
+                            if (pkgName != null) {
+                                onTaskRemoved(pkgName);
+                            }
+                        }
+                    }
+                });
+            }
+            if (Event.ACTION_FRONT_UI_APP_CHANGED.equals(e.getAction())) {
+                h.post(new AbstractSafeR() {
+                    @Override
+                    public void runSafety() {
+                        Bundle extra = e.getExtra();
+                        if (extra != null) {
+                            String from = extra.getString("from");
+                            String to = extra.getString("to");
+                            onFrontUIAppChanged(from, to);
+                        }
+                    }
+                });
+            }
         }
     };
 
@@ -108,6 +135,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+        intentFilter.addAction(Event.ACTION_TASK_REMOVED);
         honeyCombContext.registerEventSubscriber(intentFilter, systemEventSubscriber);
     }
 
@@ -293,6 +321,28 @@ public class LockerServer extends ILocker.Stub implements Verifier {
         if (verifyOnScreenOff) {
             Logger.v("clear verifiedPackages %s", "SCREEN OFF");
             verifiedPackages.clear();
+        }
+    }
+
+    private void onTaskRemoved(String pkgName) {
+        Logger.v("onTaskRemoved %s", pkgName);
+        boolean verifyOnTaskRemoved = honeyCombContext.getPreferenceManager()
+                .getBoolean(LockerContext.LockerKeys.KEY_RE_VERIFY_ON_TASK_REMOVED,
+                        LockerContext.LockerConfigs.DEF_RE_VERIFY_ON_TASK_REMOVED);
+        if (verifyOnTaskRemoved) {
+            Logger.v("clear verifiedPackages %s", "TASK REMOVAL");
+            verifiedPackages.remove(pkgName);
+        }
+    }
+
+    private void onFrontUIAppChanged(String from, String to) {
+        Logger.v("onFrontUIAppChanged %s %s", from, to);
+        boolean verifyOnAppSwitch = honeyCombContext.getPreferenceManager()
+                .getBoolean(LockerContext.LockerKeys.KEY_RE_VERIFY_ON_APP_SWITCH,
+                        LockerContext.LockerConfigs.DEF_RE_VERIFY_ON_APP_SWITCH);
+        if (verifyOnAppSwitch) {
+            Logger.v("clear verifiedPackages %s", "APP SWITCH");
+            verifiedPackages.remove(from);
         }
     }
 

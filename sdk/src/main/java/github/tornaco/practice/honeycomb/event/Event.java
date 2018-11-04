@@ -12,6 +12,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public final class Event implements Parcelable {
+    public static final String ACTION_BASE = "github.tornaco.practice.honeycomb.event.action_";
+    public static final String ACTION_TASK_REMOVED = ACTION_BASE + "task_removed";
+    public static final String ACTION_FRONT_UI_APP_CHANGED = ACTION_BASE + "front_ui_app_changed";
 
     private String action;
     private Bundle extra;
