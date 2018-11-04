@@ -206,9 +206,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
             if (result == VerifyResult.PASS) {
                 verifiedPackages.add(record.pkg);
             }
-            record.verifyCallback.onVerifyResult(result, reason);
-            //noinspection UnusedAssignment
-            record = null;
+            notifyVerifyCallback(record, result, reason);
             Logger.v("setVerifyResult %s %s %s", request, result, reason);
         } else {
             Logger.e("No such request %s", request);
@@ -254,6 +252,24 @@ public class LockerServer extends ILocker.Stub implements Verifier {
         return name != null
                 && LockerContext.LockerIntents.LOCKER_VERIFY_CLASS_NAME
                 .equals(name.getClassName());
+    }
+
+    private void notifyVerifyCallback(VerifyRecord record, int result, int reason) {
+        PreferenceManager preferenceManager = honeyCombContext.getPreferenceManager();
+        boolean workaround = preferenceManager.getBoolean(
+                LockerContext.LockerKeys.KEY_VERIFY_RES_WORKAROUND_ENABLED,
+                LockerContext.LockerConfigs.DEF_VERIFY_RES_WORKAROUND_ENABLED);
+        long delay = workaround ? preferenceManager.getLong(
+                LockerContext.LockerKeys.KEY_VERIFY_RES_WORKAROUND_DELAY,
+                LockerContext.LockerConfigs.DEF_VERIFY_RES_WORKAROUND_DELAY)
+                : 0;
+        Logger.v("notifyVerifyCallback with delay %s", delay);
+        h.postDelayed(new AbstractSafeR() {
+            @Override
+            public void runSafety() {
+                record.verifyCallback.onVerifyResult(result, reason);
+            }
+        }, delay);
     }
 
     private void notifyWatcher() {
