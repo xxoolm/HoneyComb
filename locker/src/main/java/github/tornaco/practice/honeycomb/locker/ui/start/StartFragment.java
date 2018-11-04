@@ -2,6 +2,9 @@ package github.tornaco.practice.honeycomb.locker.ui.start;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,8 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import github.tornaco.honeycomb.common.util.ActivityUtils;
 import github.tornaco.practice.honeycomb.locker.R;
 import github.tornaco.practice.honeycomb.locker.databinding.StartFragmentBinding;
+import github.tornaco.practice.honeycomb.locker.ui.setup.SettingsActivity;
 
 public class StartFragment extends Fragment {
 
@@ -42,6 +47,21 @@ public class StartFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setupListAdapter();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.start_fragment, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_settings && getActivity() != null) {
+            ActivityUtils.startActivity(getActivity(), SettingsActivity.class);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

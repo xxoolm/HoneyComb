@@ -136,6 +136,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
         intentFilter.addAction(Event.ACTION_TASK_REMOVED);
+        intentFilter.addAction(Event.ACTION_FRONT_UI_APP_CHANGED);
         honeyCombContext.registerEventSubscriber(intentFilter, systemEventSubscriber);
     }
 
