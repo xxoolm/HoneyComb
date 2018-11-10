@@ -19,17 +19,23 @@ package github.tornaco.practice.honeycomb.locker.ui.start;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
+
 import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+import github.tornaco.practice.honeycomb.locker.R;
 import github.tornaco.practice.honeycomb.locker.databinding.AppItemBinding;
 import github.tornaco.practice.honeycomb.pm.AppInfo;
 import lombok.Getter;
 
 
-public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppItemViewHolder> {
+public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppItemViewHolder>
+        implements FastScrollRecyclerView.SectionedAdapter,
+        FastScrollRecyclerView.MeasurableAdapter {
 
     private final StartViewModel startViewModel;
 
@@ -82,9 +88,20 @@ public class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppItemViewHol
         return apps != null ? apps.size() : 0;
     }
 
+    @NonNull
+    @Override
+    public String getSectionName(int position) {
+        return String.valueOf(String.valueOf(apps.get(position).getAppLabel()).charAt(0));
+    }
+
     private void setList(List<AppInfo> tasks) {
         apps = tasks;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public int getViewTypeHeight(RecyclerView recyclerView, @Nullable RecyclerView.ViewHolder viewHolder, int viewType) {
+        return recyclerView.getResources().getDimensionPixelSize(R.dimen.list_item_height);
     }
 
     @Getter

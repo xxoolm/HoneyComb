@@ -72,6 +72,7 @@ dependencies {
     implementation project(":common-ui")
     implementation project(":third-party:pinlockview")
     implementation project(":third-party:patternlockview")
+    implementation project(":third-party:recyclerview-fastscroll")
 }
 
 preBuild {

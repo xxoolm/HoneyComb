@@ -35,11 +35,16 @@
             app:layout_constraintTop_toBottomOf="@id/switch_bar"
             app:refreshing="@{viewmodel.isDataLoading}">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
                 android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="@{viewmodel.empty ? View.GONE : View.VISIBLE}"
+                app:fastScrollAutoHide="true"
+                app:fastScrollAutoHideDelay="3000"
+                app:fastScrollPopupBgColor="?colorAccent"
+                app:fastScrollPopupPosition="center"
+                app:fastScrollThumbColor="?colorAccent"
                 app:items="@{viewmodel.apps}"
                 app:layoutView="@{viewmodel}" />
 
