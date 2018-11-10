@@ -65,6 +65,7 @@ dependencies {
     // Framework
     compileOnly files('../hidden-api/android-27.jar')
     compileOnly files('../hidden-api/services-27.jar')
+    implementation files('libs/flyme_fingerprint.jar')
 
     // Projects
     implementation project(":sdk")

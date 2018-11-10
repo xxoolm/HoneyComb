@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="github.tornaco.practice.honeycomb.locker">
 
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+
     <application
         android:name=".LockerApplication"
         android:allowBackup="true"
