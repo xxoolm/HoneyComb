@@ -34,6 +34,7 @@ public interface LockerContext {
         boolean DEF_RE_VERIFY_ON_APP_SWITCH = false;
         long DEF_VERIFY_RES_WORKAROUND_DELAY = 300;
         boolean DEF_VERIFY_RES_WORKAROUND_ENABLED = true;
+        boolean DEF_FP_ENABLED = true;
     }
 
     interface LockerKeys {
@@ -46,6 +47,7 @@ public interface LockerContext {
         String KEY_LOCKER_KEY_PREFIX = KEY_PREFIX + "locker_key_";
         String KEY_VERIFY_RES_WORKAROUND_DELAY = KEY_PREFIX + "locker_verify_workaround_delay_";
         String KEY_VERIFY_RES_WORKAROUND_ENABLED = KEY_PREFIX + "locker_verify_workaround_enabled_";
+        String KEY_FP_ENABLED = KEY_PREFIX + "locker_verify_fp_enabled_";
     }
 
     interface LockerIntents {

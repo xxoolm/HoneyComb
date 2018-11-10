@@ -25,4 +25,5 @@
     <string name="summary_re_verify_on_task_removed">当某个应用任务被移除，例如该应用在最近任务页面被清理，该应用将被重新加锁</string>
     <string name="summary_re_verify_on_app_switch">当已经解锁的应用回到后台后，该应用将被重新加锁</string>
     <string name="summary_verify_workaround_enabled">使用系统更稳定的解锁启动方案</string>
+    <string name="title_verify_fp_enabled">指纹解锁</string>
 </resources>

@@ -18,6 +18,10 @@
             android:summary="@string/summary_re_verify_on_app_switch"
             android:title="@string/title_re_verify_on_app_switch" />
         <SwitchPreference
+            android:key="@string/key_fp"
+            android:persistent="false"
+            android:title="@string/title_verify_fp_enabled" />
+        <SwitchPreference
             android:key="@string/key_verify_workaround_enabled"
             android:persistent="false"
             android:summary="@string/summary_verify_workaround_enabled"

@@ -5,4 +5,5 @@
     <string name="key_re_verify_on_task_removed" translatable="false">key_re_verify_on_task_removed</string>
     <string name="key_verify_workaround_enabled" translatable="false">key_verify_workaround_enabled</string>
     <string name="key_verify_workaround_delay" translatable="false">key_verify_workaround_delay</string>
+    <string name="key_fp" translatable="false">key_fp</string>
 </resources>

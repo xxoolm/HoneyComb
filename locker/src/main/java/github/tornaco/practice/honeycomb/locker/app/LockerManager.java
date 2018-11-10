@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.google.common.base.Optional;
 
+import github.tornaco.practice.honeycomb.app.HoneyCombContext;
+import github.tornaco.practice.honeycomb.data.PreferenceManager;
 import github.tornaco.practice.honeycomb.locker.ILocker;
 import github.tornaco.practice.honeycomb.locker.ILockerWatcher;
 import lombok.SneakyThrows;
@@ -84,6 +86,22 @@ public class LockerManager {
     @SneakyThrows
     public boolean isLockerKeySet(int method) {
         return requireLocker().or(DUMMY).isLockerKeySet(method);
+    }
+
+    public boolean isFingerPrintEnabled() {
+        HoneyCombContext honeyCombContext = HoneyCombContext.createContext();
+        PreferenceManager preferenceManager = honeyCombContext.getPreferenceManager();
+        return preferenceManager != null
+                && preferenceManager.getBoolean(LockerContext.LockerKeys.KEY_FP_ENABLED,
+                LockerContext.LockerConfigs.DEF_FP_ENABLED);
+    }
+
+    public void setFingerPrintEnabled(boolean enabled) {
+        HoneyCombContext honeyCombContext = HoneyCombContext.createContext();
+        PreferenceManager preferenceManager = honeyCombContext.getPreferenceManager();
+        if (preferenceManager != null) {
+            preferenceManager.putBoolean(LockerContext.LockerKeys.KEY_FP_ENABLED, enabled);
+        }
     }
 
     private static class DummyLockerManagerService extends ILocker.Stub {

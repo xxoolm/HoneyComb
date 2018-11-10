@@ -105,6 +105,11 @@ public class VerifyViewModel extends AndroidViewModel {
     }
 
     private void setupFingerPrint() {
+        LockerContext lockerContext = LockerContext.createContext();
+        LockerManager lockerManager = lockerContext.getLockerManager();
+        if (lockerManager == null || !lockerManager.isFingerPrintEnabled()) {
+            return;
+        }
         cancelFingerPrint();
         cancellationSignal = authenticateFingerPrint(
                 new FingerprintManagerCompat.AuthenticationCallback() {
