@@ -48,6 +48,9 @@ public interface LockerContext {
         String KEY_VERIFY_RES_WORKAROUND_DELAY = KEY_PREFIX + "locker_verify_workaround_delay_";
         String KEY_VERIFY_RES_WORKAROUND_ENABLED = KEY_PREFIX + "locker_verify_workaround_enabled_";
         String KEY_FP_ENABLED = KEY_PREFIX + "locker_verify_fp_enabled_";
+        String KEY_VERIFY_SECURITY_QA_1 = KEY_PREFIX + "verify_security_qa_1";
+        String KEY_VERIFY_SECURITY_QA_2 = KEY_PREFIX + "verify_security_qa_2";
+        String KEY_VERIFY_SECURITY_QA_3 = KEY_PREFIX + "verify_security_qa_3";
     }
 
     interface LockerIntents {
