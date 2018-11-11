@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="common_view_margin_middle">6dp</dimen>
+    <dimen name="common_view_margin_small">6dp</dimen>
     <dimen name="common_view_margin_default">16dp</dimen>
     <dimen name="common_view_margin_large">32dp</dimen>
 

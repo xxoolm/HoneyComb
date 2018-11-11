@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:paddingBottom="@dimen/common_view_margin_middle">
+                        android:paddingBottom="@dimen/common_view_margin_small">
 
                         <ImageView
                             android:id="@+id/icon"
@@ -59,7 +59,8 @@
                             android:layout_centerHorizontal="true"
                             android:scaleType="centerCrop"
                             android:src="@drawable/ic_security_white_24dp"
-                            android:visibility="visible" />
+                            android:visibility="visible"
+                            app:iconFromPackage="@{viewmodel.pkg}" />
 
                         <TextView
                             android:id="@+id/label"
@@ -68,13 +69,13 @@
                             android:layout_below="@+id/icon"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/common_view_margin_middle"
+                            android:layout_marginStart="@dimen/common_view_margin_small"
                             android:layout_marginTop="@dimen/common_view_margin_default"
                             android:text="@string/verify_input_password"
-                            app:tips="@{viewmodel}"
                             android:textAllCaps="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:textColor="@color/md_white" />
+                            android:textColor="@color/md_white"
+                            app:tips="@{viewmodel}" />
 
                     </RelativeLayout>
 
@@ -98,7 +99,6 @@
                 android:layout_height="0dp"
                 android:layout_gravity="center|bottom"
                 android:layout_marginTop="@dimen/common_view_margin_default"
-                android:layout_marginBottom="@dimen/common_view_margin_large"
                 android:layout_weight="3"
                 android:gravity="center|bottom">
 
@@ -120,6 +120,14 @@
                     app:verifyAction="@{viewmodel}"
                     app:wrongStateColor="@color/md_amber_900" />
             </RelativeLayout>
+
+            <TextView
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/common_view_margin_small"
+                android:text="@string/verify_forgot_pwd" />
         </LinearLayout>
 
 

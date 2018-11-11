@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:paddingBottom="@dimen/common_view_margin_middle">
+                        android:paddingBottom="@dimen/common_view_margin_small">
 
                         <ImageView
                             android:id="@+id/icon"
@@ -69,7 +69,7 @@
                             android:layout_below="@+id/icon"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="@dimen/common_view_margin_middle"
+                            android:layout_marginStart="@dimen/common_view_margin_small"
                             android:layout_marginTop="@dimen/common_view_margin_default"
                             android:textAllCaps="true"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
