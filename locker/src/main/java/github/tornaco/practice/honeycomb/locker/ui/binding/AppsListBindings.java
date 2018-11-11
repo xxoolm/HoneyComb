@@ -59,8 +59,8 @@ public class AppsListBindings {
                         viewModel.columnCount.get()));
             }
         });
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
-                DividerItemDecoration.VERTICAL));
+//        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),
+//                DividerItemDecoration.VERTICAL));
     }
 
     @BindingAdapter("app:spinnerItems")

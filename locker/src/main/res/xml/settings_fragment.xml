@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
     <PreferenceCategory android:title="@string/title_security">
+        <SwitchPreference
+            android:key="@string/key_fp"
+            android:persistent="false"
+            android:title="@string/title_verify_fp_enabled" />
+        <SwitchPreference
+            android:key="@string/key_verify_workaround_enabled"
+            android:persistent="false"
+            android:summary="@string/summary_verify_workaround_enabled"
+            android:title="@string/title_verify_workaround_enabled" />
+        <Preference
+            android:key="@string/key_verify_lock_method"
+            android:persistent="false"
+            android:summary="@string/key_verify_lock_method_pin"
+            android:title="@string/title_verify_lock_method" />
+        <Preference
+            android:key="@string/key_verify_security_qa"
+            android:persistent="false"
+            android:summary="@string/summary_verify_security_qa_set"
+            android:title="@string/title_verify_security_qa" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/title_verify_settings">
         <SwitchPreference
             android:key="@string/key_re_verify_on_screen_off"
             android:persistent="false"
@@ -17,14 +37,5 @@
             android:persistent="false"
             android:summary="@string/summary_re_verify_on_app_switch"
             android:title="@string/title_re_verify_on_app_switch" />
-        <SwitchPreference
-            android:key="@string/key_fp"
-            android:persistent="false"
-            android:title="@string/title_verify_fp_enabled" />
-        <SwitchPreference
-            android:key="@string/key_verify_workaround_enabled"
-            android:persistent="false"
-            android:summary="@string/summary_verify_workaround_enabled"
-            android:title="@string/title_verify_workaround_enabled" />
     </PreferenceCategory>
 </PreferenceScreen>

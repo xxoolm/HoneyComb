@@ -26,4 +26,10 @@
     <string name="summary_re_verify_on_app_switch">当已经解锁的应用回到后台后，该应用将被重新加锁</string>
     <string name="summary_verify_workaround_enabled">使用系统更稳定的解锁启动方案</string>
     <string name="title_verify_fp_enabled">指纹解锁</string>
+    <string name="title_verify_settings">验证</string>
+    <string name="title_verify_lock_method">解锁方式</string>
+    <string name="key_verify_lock_method_pattern">图案</string>
+    <string name="title_verify_security_qa">安全问题</string>
+    <string name="summary_verify_security_qa_noset">请设置你的安全问题</string>
+    <string name="summary_verify_security_qa_set">安全问题已设置</string>
 </resources>
