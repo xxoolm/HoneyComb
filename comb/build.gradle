@@ -23,6 +23,9 @@ android {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -37,6 +40,11 @@ dependencies {
     implementation deps.support.design
     implementation deps.support.recyclerview
     implementation deps.support.constraint
+
+    // Arch
+    implementation deps.lifecycle.runtime
+    implementation deps.lifecycle.extensions
+    annotationProcessor deps.lifecycle.compiler
 
     // Tor
     implementation deps.tornaco.logger
