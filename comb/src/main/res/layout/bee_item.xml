@@ -7,8 +7,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="viewmodel"
-            type="github.tornaco.practice.honeycomb.start.StartViewModel" />
+            name="bee"
+            type="github.tornaco.practice.honeycomb.data.Bee" />
 
     </data>
 
@@ -17,11 +17,19 @@
         android:layout_height="match_parent"
         tools:context=".start.StartActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
+        <ImageView
+            android:id="@+id/iv_icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:bees="@{viewmodel.bees}" />
-    </RelativeLayout>
+            android:layout_centerHorizontal="true"
+            android:beeIcon="@{bee}" />
 
+        <TextView
+            android:id="@+id/tv_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_icon"
+            android:layout_centerHorizontal="true"
+            android:text="@{bee.name}" />
+    </RelativeLayout>
 </layout>

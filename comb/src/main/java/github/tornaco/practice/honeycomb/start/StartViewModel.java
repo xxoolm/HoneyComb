@@ -1,4 +1,4 @@
-package github.tornaco.practice.honeycomb;
+package github.tornaco.practice.honeycomb.start;
 
 import android.app.Application;
 
@@ -12,9 +12,9 @@ public class StartViewModel extends AndroidViewModel {
     private BeeRepo beeRepo;
     private ObservableArrayList<Bee> bees = new ObservableArrayList<>();
 
-    public StartViewModel(@NonNull Application application) {
+    public StartViewModel(@NonNull Application application, BeeRepo beeRepo) {
         super(application);
-        this.beeRepo = new BeeRepo();
+        this.beeRepo = beeRepo;
     }
 
     public void start() {
@@ -23,5 +23,9 @@ public class StartViewModel extends AndroidViewModel {
 
     public void startBee(Bee bee) {
         getApplication().startActivity(bee.getStarter());
+    }
+
+    public ObservableArrayList<Bee> getBees() {
+        return bees;
     }
 }
