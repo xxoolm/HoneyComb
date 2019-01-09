@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
+import org.newstand.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class PackageManagerService extends IPackageManager.Stub implements Syste
     @Override
     public void onStart(Context context) {
         this.systemContext = context;
+        Logger.d("Package manager start");
     }
 
     @Override
@@ -46,9 +49,13 @@ public class PackageManagerService extends IPackageManager.Stub implements Syste
     public List<AppInfo> getInstalledApps(int flags) {
         List<AppInfo> res = new ArrayList<>();
         boolean user = (flags & AppInfo.FLAGS_USER) != 0;
-        if (user) res.addAll(getUserApps());
+        if (user) {
+            res.addAll(getUserApps());
+        }
         boolean system = (flags & AppInfo.FLAGS_SYSTEM) != 0;
-        if (system) res.addAll(getSystemApps());
+        if (system) {
+            res.addAll(getSystemApps());
+        }
         return res;
     }
 

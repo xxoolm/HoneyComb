@@ -14,16 +14,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <meta-data
-            android:name="xposedmodule"
-            android:value="true" />
-        <meta-data
-            android:name="xposeddescription"
-            android:value="ZooKeeper" />
-        <meta-data
-            android:name="xposedminversion"
-            android:value="53" />
-
         <activity
             android:name=".ui.start.StartActivity"
             android:exported="true">

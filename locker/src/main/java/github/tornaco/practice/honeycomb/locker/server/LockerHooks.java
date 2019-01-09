@@ -29,7 +29,7 @@ public class LockerHooks implements IXposedHookLoadPackage, IXposedHookZygoteIni
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-
+        Logger.d("handleLoadPackage called in locker hooks...%s", lpparam);
         Locker c = new Locker();
         new AmsCoreHook(c).handleLoadPackage(lpparam);
         new ActivityStartHookDelegate(c.getVerifier()).handleLoadPackage(lpparam);
