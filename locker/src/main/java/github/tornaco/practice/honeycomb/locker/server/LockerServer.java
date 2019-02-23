@@ -348,12 +348,12 @@ public class LockerServer extends ILocker.Stub implements Verifier {
     }
 
     private static File getAppRepoFile() {
-        return new File(getBaseDataDir(), "lock_apps");
+        return new File(getBaseDataDir(), "lock_apps.xml");
     }
 
     private static File getBaseDataDir() {
         File systemFile = new File(Environment.getDataDirectory(), "system");
-        return new File(systemFile, "locker");
+        return new File(systemFile, "comb/locker");
     }
 
     private static int allocateRequestCode() {

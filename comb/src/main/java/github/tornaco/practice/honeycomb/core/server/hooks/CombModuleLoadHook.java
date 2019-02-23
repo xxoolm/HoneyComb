@@ -23,8 +23,12 @@ public class CombModuleLoadHook implements IXposedHookLoadPackage {
         if (PACKAGE_NAME_ANDROID.equals(lpparam.packageName)) {
             createPreferenceManager();
         }
+
+        createPreferenceManager();
+
         // Android is not loaded, skip calling modules.
         if (preferenceManagerService == null) {
+            Logger.d("handleLoadPackage %s, preferenceManagerService is null", lpparam.packageName);
             return;
         }
         List<String> moduleNames = preferenceManagerService.getSettingNames();

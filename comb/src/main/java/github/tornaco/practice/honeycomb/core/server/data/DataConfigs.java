@@ -8,6 +8,6 @@ public class DataConfigs {
 
     public static File getBaseDataDir() {
         File systemFile = new File(Environment.getDataDirectory(), "system");
-        return new File(systemFile, "comb");
+        return new File(systemFile, "comb/core");
     }
 }

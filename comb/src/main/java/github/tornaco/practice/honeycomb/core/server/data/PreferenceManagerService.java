@@ -18,7 +18,7 @@ public class PreferenceManagerService extends IPreferenceManager.Stub implements
     public PreferenceManagerService(String ownerPackageName) {
         this.ownerPackageName = ownerPackageName;
         String path = new File(DataConfigs.getBaseDataDir(), ownerPackageName + ".xml").getPath();
-        this.settingsProvider = SettingsProvider.getOrCreate(path);
+        this.settingsProvider = SettingsProvider.newInstance(path);
     }
 
     @Override

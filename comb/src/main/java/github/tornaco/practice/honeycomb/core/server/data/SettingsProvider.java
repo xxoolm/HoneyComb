@@ -8,7 +8,6 @@ import java.io.File;
 import java.util.List;
 
 import github.tornaco.practice.honeycomb.BuildConfig;
-import github.tornaco.practice.honeycomb.util.BaseSingleton1;
 
 import static github.tornaco.practice.honeycomb.core.server.data.DataConfigs.getBaseDataDir;
 
@@ -22,16 +21,8 @@ public class SettingsProvider {
 
     private static final String TAG = "SettingsProvider";
 
-    private static final BaseSingleton1<SettingsProvider, String> sProvider =
-            new BaseSingleton1<SettingsProvider, String>() {
-                @Override
-                protected SettingsProvider create(String name) {
-                    return new SettingsProvider(name, name.hashCode());
-                }
-            };
-
-    public static SettingsProvider getOrCreate(String path) {
-        return sProvider.get(path);
+    public static SettingsProvider newInstance(String path) {
+        return new SettingsProvider(path, path.hashCode());
     }
 
     private SettingsState settingsState;
