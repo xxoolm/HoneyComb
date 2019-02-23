@@ -16,20 +16,30 @@ import static github.tornaco.practice.honeycomb.util.PkgUtils.PACKAGE_NAME_ANDRO
 
 public class CombModuleLoadHook implements IXposedHookLoadPackage {
 
+    private PreferenceManagerService preferenceManagerService;
+
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (PACKAGE_NAME_ANDROID.equals(lpparam.packageName)) {
-            PreferenceManagerService preferenceManagerService
-                    = new PreferenceManagerService(HoneyCombContext.HoneyCombConfigs.ENABLED_BEE_MODULES_PREF_NAME);
-            List<String> moduleNames = preferenceManagerService.getSettingNames();
-            Logger.d("enabled modules %s", Arrays.toString(moduleNames.toArray()));
-            for (String pkgName : moduleNames) {
-                String path = preferenceManagerService.getString(pkgName, null);
-                if (!TextUtils.isEmpty(path)) {
-                    Logger.d("Loading comb module: %s", path);
-                    HoneyCombBridge.loadModule(lpparam, path);
-                }
+            createPreferenceManager();
+        }
+        // Android is not loaded, skip calling modules.
+        if (preferenceManagerService == null) {
+            return;
+        }
+        List<String> moduleNames = preferenceManagerService.getSettingNames();
+        Logger.d("handleLoadPackage %s, enabled modules %s", lpparam.packageName, Arrays.toString(moduleNames.toArray()));
+        for (String pkgName : moduleNames) {
+            String path = preferenceManagerService.getString(pkgName, null);
+            if (!TextUtils.isEmpty(path)) {
+                Logger.d("Loading comb module: %s %s", pkgName, path);
+                HoneyCombBridge.loadModule(lpparam, path);
             }
         }
+    }
+
+    private void createPreferenceManager() {
+        this.preferenceManagerService
+                = new PreferenceManagerService(HoneyCombContext.HoneyCombConfigs.ENABLED_BEE_MODULES_PREF_NAME);
     }
 }

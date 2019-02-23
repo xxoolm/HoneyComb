@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 
 import dalvik.system.PathClassLoader;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import github.tornaco.practice.honeycomb.util.IoUtils;
 import github.tornaco.practice.honeycomb.util.ReflectionUtils;
 import lombok.AllArgsConstructor;
 
@@ -21,7 +22,7 @@ class HoneyCombBridge {
 
     /**
      * Load a module from an APK by calling the init(String) method for all classes defined
-     * in <code>assets/xposed_init</code>.
+     * in <code>assets/comb_module_init</code>.
      */
     static void loadModule(XC_LoadPackage.LoadPackageParam lpparam, String apk) {
         Logger.d("Loading modules from " + apk);
@@ -33,7 +34,7 @@ class HoneyCombBridge {
         ClassLoader mcl = new PathClassLoader(apk, BOOTCLASSLOADER);
         InputStream is = mcl.getResourceAsStream("assets/comb_module_init");
         if (is == null) {
-            Logger.e("assets/xposed_init not found in the APK");
+            Logger.e("assets/comb_module_init not found in the APK");
             return;
         }
 
@@ -50,8 +51,8 @@ class HoneyCombBridge {
                     Class<?> moduleClass = mcl.loadClass(moduleClassName);
                     final Object moduleInstance = moduleClass.newInstance();
                     Logger.d("moduleInstance %s", moduleInstance);
-                    Method onStart = ReflectionUtils.findMethod(moduleClass, "handleLoadPackage", XC_LoadPackage.LoadPackageParam.class);
-                    ReflectionUtils.invokeMethod(onStart, moduleInstance, lpparam);
+                    Method handleLoadPackage = ReflectionUtils.findMethod(moduleClass, "handleLoadPackage", XC_LoadPackage.LoadPackageParam.class);
+                    ReflectionUtils.invokeMethod(handleLoadPackage, moduleInstance, lpparam);
                 } catch (Throwable t) {
                     Logger.e("Error loading class %s", Logger.getStackTraceString(t));
                 }
@@ -59,10 +60,7 @@ class HoneyCombBridge {
         } catch (IOException e) {
             Logger.e("Error loading apk %s", Logger.getStackTraceString(e));
         } finally {
-            try {
-                is.close();
-            } catch (IOException ignored) {
-            }
+            IoUtils.closeQuietly(is);
         }
     }
 }
