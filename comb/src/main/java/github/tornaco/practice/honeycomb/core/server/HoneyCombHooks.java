@@ -63,7 +63,7 @@ public class HoneyCombHooks implements IXposedHookLoadPackage, IXposedHookZygote
 
         @Override
         public void v(String s, String s1) {
-            XposedBridge.log(s + "\t" + s1);
+            // XposedBridge.log(s + "\t" + s1);
         }
 
         @Override

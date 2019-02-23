@@ -112,6 +112,6 @@ public class PackageManagerService extends IPackageManager.Stub implements Syste
         intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
         intentFilter.addAction(Intent.ACTION_PACKAGE_CHANGED);
         intentFilter.addDataScheme("package");
-        EventBus.getInstance().registerEventSubscriber(intentFilter, new PackageChangeListener());
+        EventBus.getInstance().registerEventSubscriber(intentFilter, new PackageChangeListener(systemContext));
     }
 }
