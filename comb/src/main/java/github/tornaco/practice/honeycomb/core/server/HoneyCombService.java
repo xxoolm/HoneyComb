@@ -82,7 +82,7 @@ public class HoneyCombService implements HoneyComb {
         if (intent.getAction() == null) {
             return true;
         }
-        EventBus.getInstance().publishEventToSubscribersAsync(new Event(intent.getAction(), intent.getExtras()));
+        EventBus.getInstance().publishEventToSubscribersAsync(new Event(intent));
         return true;
     }
 

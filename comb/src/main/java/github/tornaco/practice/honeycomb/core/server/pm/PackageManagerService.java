@@ -1,6 +1,8 @@
 package github.tornaco.practice.honeycomb.core.server.pm;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
@@ -9,6 +11,7 @@ import org.newstand.logger.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+import github.tornaco.practice.honeycomb.core.server.event.EventBus;
 import github.tornaco.practice.honeycomb.core.server.i.SystemService;
 import github.tornaco.practice.honeycomb.pm.AppInfo;
 import github.tornaco.practice.honeycomb.pm.IPackageManager;
@@ -27,7 +30,7 @@ public class PackageManagerService extends IPackageManager.Stub implements Syste
 
     @Override
     public void onSystemReady() {
-
+        registerReceivers();
     }
 
     @Override
@@ -101,5 +104,14 @@ public class PackageManagerService extends IPackageManager.Stub implements Syste
             res.add(appInfo);
         }
         return res;
+    }
+
+    private void registerReceivers() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        intentFilter.addAction(Intent.ACTION_PACKAGE_CHANGED);
+        intentFilter.addDataScheme("package");
+        EventBus.getInstance().registerEventSubscriber(intentFilter, new PackageChangeListener());
     }
 }

@@ -4,7 +4,9 @@ package github.tornaco.practice.honeycomb.core.server.data;
 import android.content.Context;
 
 import java.io.File;
+import java.util.List;
 
+import androidx.annotation.NonNull;
 import github.tornaco.practice.honeycomb.core.server.i.SystemService;
 import github.tornaco.practice.honeycomb.data.IPreferenceManager;
 
@@ -77,5 +79,10 @@ public class PreferenceManagerService extends IPreferenceManager.Stub implements
     @Override
     public String getOwnerPackageName() {
         return ownerPackageName;
+    }
+
+    @NonNull
+    public List<String> getSettingNames() {
+        return settingsProvider.getSettingNames();
     }
 }

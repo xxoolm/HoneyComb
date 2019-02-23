@@ -14,6 +14,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
+        <meta-data
+            android:name="combmodule"
+            android:value="true" />
+
         <activity
             android:name=".ui.start.StartActivity"
             android:exported="true">

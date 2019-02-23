@@ -1,6 +1,6 @@
 package github.tornaco.practice.honeycomb.event;
 
-import android.os.Bundle;
+import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -16,12 +16,10 @@ public final class Event implements Parcelable {
     public static final String ACTION_TASK_REMOVED = ACTION_BASE + "task_removed";
     public static final String ACTION_FRONT_UI_APP_CHANGED = ACTION_BASE + "front_ui_app_changed";
 
-    private String action;
-    private Bundle extra;
+    private Intent intent;
 
     private Event(Parcel in) {
-        extra = in.readBundle(getClass().getClassLoader());
-        action = in.readString();
+        intent = in.readParcelable(Intent.class.getClassLoader());
     }
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {
@@ -43,7 +41,6 @@ public final class Event implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeBundle(extra);
-        dest.writeString(action);
+        dest.writeParcelable(intent, flags);
     }
 }

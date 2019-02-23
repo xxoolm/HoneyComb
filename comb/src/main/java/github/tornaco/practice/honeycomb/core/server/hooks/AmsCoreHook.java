@@ -20,6 +20,8 @@ import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.core.server.i.HoneyComb;
 import lombok.AllArgsConstructor;
 
+import static github.tornaco.practice.honeycomb.util.PkgUtils.PACKAGE_NAME_ANDROID;
+
 @AllArgsConstructor
 public class AmsCoreHook implements IXposedHookLoadPackage {
 
@@ -27,7 +29,7 @@ public class AmsCoreHook implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if ("android".equals(lpparam.packageName)) {
+        if (PACKAGE_NAME_ANDROID.equals(lpparam.packageName)) {
             hookAMSStart(lpparam);
             hookAMSSystemReady(lpparam);
             hookAMSShutdown(lpparam);

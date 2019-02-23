@@ -12,8 +12,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import github.tornaco.practice.honeycomb.BuildConfig;
 import github.tornaco.practice.honeycomb.core.server.hooks.ActivityRecordHook;
 import github.tornaco.practice.honeycomb.core.server.hooks.AmsCoreHook;
+import github.tornaco.practice.honeycomb.core.server.hooks.CombModuleLoadHook;
 import github.tornaco.practice.honeycomb.core.server.i.HoneyComb;
-import github.tornaco.practice.honeycomb.data.PreferenceManager;
 
 @Keep
 public class HoneyCombHooks implements IXposedHookLoadPackage, IXposedHookZygoteInit {
@@ -31,10 +31,7 @@ public class HoneyCombHooks implements IXposedHookLoadPackage, IXposedHookZygote
         HoneyComb c = new HoneyCombService();
         new AmsCoreHook(c).handleLoadPackage(lpparam);
         new ActivityRecordHook(c).handleLoadPackage(lpparam);
-
-
-        HoneyCombBridge.loadModule(lpparam,
-                "/data/app/github.tornaco.practice.honeycomb.locker-3wo_LFDn90LiCK3iUsNl8Q==/base.apk");
+        new CombModuleLoadHook().handleLoadPackage(lpparam);
     }
 
     @Override

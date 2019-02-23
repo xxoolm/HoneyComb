@@ -71,7 +71,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
         @Override
         public void onEvent(Event e) {
             Logger.i("onEvent: %s @%s", e, Thread.currentThread().getName());
-            if (Intent.ACTION_SCREEN_OFF.equals(e.getAction())) {
+            if (Intent.ACTION_SCREEN_OFF.equals(e.getIntent().getAction())) {
                 h.post(new AbstractSafeR() {
                     @Override
                     public void runSafety() {
@@ -79,7 +79,7 @@ public class LockerServer extends ILocker.Stub implements Verifier {
                     }
                 });
             }
-            if (Intent.ACTION_SCREEN_ON.equals(e.getAction())) {
+            if (Intent.ACTION_SCREEN_ON.equals(e.getIntent().getAction())) {
                 h.post(new AbstractSafeR() {
                     @Override
                     public void runSafety() {
@@ -87,11 +87,11 @@ public class LockerServer extends ILocker.Stub implements Verifier {
                     }
                 });
             }
-            if (Event.ACTION_TASK_REMOVED.equals(e.getAction())) {
+            if (Event.ACTION_TASK_REMOVED.equals(e.getIntent().getAction())) {
                 h.post(new AbstractSafeR() {
                     @Override
                     public void runSafety() {
-                        Bundle extra = e.getExtra();
+                        Bundle extra = e.getIntent().getExtras();
                         if (extra != null) {
                             String pkgName = extra.getString("pkg");
                             if (pkgName != null) {
@@ -101,11 +101,11 @@ public class LockerServer extends ILocker.Stub implements Verifier {
                     }
                 });
             }
-            if (Event.ACTION_FRONT_UI_APP_CHANGED.equals(e.getAction())) {
+            if (Event.ACTION_FRONT_UI_APP_CHANGED.equals(e.getIntent().getAction())) {
                 h.post(new AbstractSafeR() {
                     @Override
                     public void runSafety() {
-                        Bundle extra = e.getExtra();
+                        Bundle extra = e.getIntent().getExtras();
                         if (extra != null) {
                             String from = extra.getString("from");
                             String to = extra.getString("to");

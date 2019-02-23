@@ -1,4 +1,4 @@
-package github.tornaco.practice.honeycomb.core.server;
+package github.tornaco.practice.honeycomb.core.server.hooks;
 
 import org.newstand.logger.Logger;
 
@@ -23,7 +23,7 @@ class HoneyCombBridge {
      * Load a module from an APK by calling the init(String) method for all classes defined
      * in <code>assets/xposed_init</code>.
      */
-    public static void loadModule(XC_LoadPackage.LoadPackageParam lpparam, String apk) {
+    static void loadModule(XC_LoadPackage.LoadPackageParam lpparam, String apk) {
         Logger.d("Loading modules from " + apk);
         if (!new File(apk).exists()) {
             Logger.d("Apk File %s does not exist", apk);
@@ -31,7 +31,7 @@ class HoneyCombBridge {
         }
 
         ClassLoader mcl = new PathClassLoader(apk, BOOTCLASSLOADER);
-        InputStream is = mcl.getResourceAsStream("assets/bee_init");
+        InputStream is = mcl.getResourceAsStream("assets/comb_module_init");
         if (is == null) {
             Logger.e("assets/xposed_init not found in the APK");
             return;

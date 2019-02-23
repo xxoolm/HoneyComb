@@ -18,6 +18,8 @@ import github.tornaco.practice.honeycomb.core.server.i.HoneyComb;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import static github.tornaco.practice.honeycomb.util.PkgUtils.PACKAGE_NAME_ANDROID;
+
 /**
  * Created by guohao4 on 2017/10/31.
  * Email: Tornaco@163.com
@@ -31,7 +33,7 @@ public class ActivityRecordHook implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if ("android".equals(lpparam.packageName)) {
+        if (PACKAGE_NAME_ANDROID.equals(lpparam.packageName)) {
             hookStartLaunchTickingLocked(lpparam);
         }
     }

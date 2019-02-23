@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Bundle;
 import android.os.Handler;
 
 import org.newstand.logger.Logger;
@@ -115,18 +114,18 @@ public class ActivityManagerService extends IActivityManager.Stub implements Sys
 
     private void notifyTaskRemoved(String pkgName) {
         if (pkgName != null) {
-            Bundle data = new Bundle();
-            data.putString("pkg", pkgName);
-            Event event = new Event(Event.ACTION_TASK_REMOVED, data);
+            Intent data = new Intent(Event.ACTION_TASK_REMOVED);
+            data.putExtra("pkg", pkgName);
+            Event event = new Event(data);
             EventBus.getInstance().publishEventToSubscribersAsync(event);
         }
     }
 
     private void notifyFrontUIAppChanged(String fromPkg, String toPkg) {
-        Bundle data = new Bundle();
-        data.putString("from", fromPkg);
-        data.putString("to", toPkg);
-        Event event = new Event(Event.ACTION_FRONT_UI_APP_CHANGED, data);
+        Intent data = new Intent(Event.ACTION_FRONT_UI_APP_CHANGED);
+        data.putExtra("from", fromPkg);
+        data.putExtra("to", toPkg);
+        Event event = new Event(data);
         EventBus.getInstance().publishEventToSubscribersAsync(event);
     }
 

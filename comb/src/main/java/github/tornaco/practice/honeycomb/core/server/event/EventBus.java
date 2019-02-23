@@ -37,13 +37,16 @@ public class EventBus {
         eventPublishExecutor.execute(() -> publishEventToSubscribers(event));
     }
 
-    public void publishEventToSubscribers(Event event) {
+    private void publishEventToSubscribers(Event event) {
+        if (event.getIntent() == null) {
+            return;
+        }
         int itemCount = eventSubscribers.beginBroadcast();
         try {
             for (int i = 0; i < itemCount; ++i) {
                 try {
                     EventSubscriberClient c = eventSubscribers.getBroadcastItem(i);
-                    if (c.hasAction(event.getAction())) {
+                    if (c.hasAction(event.getIntent().getAction())) {
                         c.onEvent(event);
                     }
                 } catch (RemoteException e) {

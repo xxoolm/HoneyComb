@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import java.io.File;
+import java.util.List;
 
 import github.tornaco.practice.honeycomb.BuildConfig;
 import github.tornaco.practice.honeycomb.util.BaseSingleton1;
@@ -77,6 +78,12 @@ public class SettingsProvider {
         }
     }
 
+    public List<String> getSettingNames() {
+        synchronized (lock) {
+            return settingsState.getSettingNamesLocked();
+        }
+    }
+
     public boolean putString(String name, String value) {
         try {
             return insertSettingLocked(name, value);
@@ -102,7 +109,9 @@ public class SettingsProvider {
     public int getInt(String name, int def) {
         try {
             String s = getString(name, String.valueOf(def));
-            if (s == null) return def;
+            if (s == null) {
+                return def;
+            }
             return Integer.parseInt(s);
         } catch (Throwable e) {
             Log.e(TAG, "getInt" + Log.getStackTraceString(e));
@@ -112,7 +121,9 @@ public class SettingsProvider {
 
     public boolean getBoolean(String name, boolean def) {
         String v = getSettingLocked(name);
-        if (v == null) return def;
+        if (v == null) {
+            return def;
+        }
         try {
             return Boolean.parseBoolean(v);
         } catch (Throwable e) {
@@ -132,7 +143,9 @@ public class SettingsProvider {
 
     public long getLong(String name, long def) {
         String v = getSettingLocked(name);
-        if (v == null) return def;
+        if (v == null) {
+            return def;
+        }
         try {
             return Long.parseLong(v);
         } catch (Throwable e) {

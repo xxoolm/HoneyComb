@@ -16,7 +16,7 @@ public class LockerApplication extends Application {
         initImageLoader(getApplicationContext());
     }
 
-    public static void initImageLoader(Context context) {
+    private static void initImageLoader(Context context) {
         ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
         config.threadPriority(Thread.NORM_PRIORITY - 2);
         config.denyCacheImageMultipleSizesInMemory();

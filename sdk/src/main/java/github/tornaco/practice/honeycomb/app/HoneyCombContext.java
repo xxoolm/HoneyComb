@@ -51,6 +51,7 @@ public interface HoneyCombContext {
     interface HoneyCombConfigs {
         boolean DEBUG = BuildConfig.DEBUG;
         boolean DEF_SHOW_CURRENT_COMPONENT_ENABLED = BuildConfig.DEBUG;
+        String ENABLED_BEE_MODULES_PREF_NAME = "enabled_modules";
     }
 
     interface HoneyCombKeys {
