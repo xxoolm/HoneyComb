@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">X Comb</string>
+    <string name="app_name">蜂</string>
     <string name="status_active">已激活</string>
     <string name="status_not_active">未激活</string>
     <string name="app_name_locker">应用锁</string>
+    <string name="module_header_title">我的模块</string>
 </resources>
