@@ -18,6 +18,7 @@ import github.tornaco.practice.honeycomb.core.server.data.PreferenceManagerServi
 import github.tornaco.practice.honeycomb.core.server.device.PowerManagerService;
 import github.tornaco.practice.honeycomb.core.server.event.EventBus;
 import github.tornaco.practice.honeycomb.core.server.i.HoneyComb;
+import github.tornaco.practice.honeycomb.core.server.pm.ModuleManagerService;
 import github.tornaco.practice.honeycomb.core.server.pm.PackageManagerService;
 import github.tornaco.practice.honeycomb.event.Event;
 import github.tornaco.practice.honeycomb.event.IEventSubscriber;
@@ -35,6 +36,7 @@ public class HoneyCombService implements HoneyComb {
     private PowerManagerService powerManager;
     @Getter
     private PackageManagerService packageManager;
+    private ModuleManagerService moduleManagerService;
     private PreferenceManagerService preferenceManager;
 
     @Override
@@ -45,6 +47,7 @@ public class HoneyCombService implements HoneyComb {
         this.activityManager = new ActivityManagerService();
         this.powerManager = new PowerManagerService();
         this.packageManager = new PackageManagerService();
+        this.moduleManagerService = new ModuleManagerService();
         // TODO Split for diff pkg.
         this.preferenceManager = new PreferenceManagerService(PACKAGE_NAME_ANDROID);
 
@@ -54,6 +57,7 @@ public class HoneyCombService implements HoneyComb {
         this.activityManager.onStart(context);
         this.powerManager.onStart(context);
         this.packageManager.onStart(context);
+        this.moduleManagerService.onStart(context);
         this.preferenceManager.onStart(context);
     }
 
@@ -64,6 +68,7 @@ public class HoneyCombService implements HoneyComb {
         this.activityManager.onSystemReady();
         this.powerManager.onSystemReady();
         this.packageManager.onSystemReady();
+        this.moduleManagerService.onSystemReady();
         this.preferenceManager.onSystemReady();
     }
 
@@ -73,6 +78,7 @@ public class HoneyCombService implements HoneyComb {
         this.activityManager.onShutDown();
         this.powerManager.onShutDown();
         this.packageManager.onShutDown();
+        this.moduleManagerService.onShutDown();
         this.preferenceManager.onShutDown();
     }
 
@@ -101,6 +107,7 @@ public class HoneyCombService implements HoneyComb {
         HoneyCombServiceManager.addService(HoneyCombContext.PACKAGE_MANAGER_SERVICE, packageManager.asBinder());
         HoneyCombServiceManager.addService(HoneyCombContext.PREFERENCE_MANAGER_SERVICE, preferenceManager.asBinder());
         HoneyCombServiceManager.addService(HoneyCombContext.ACTIVITY_MANAGER_SERVICE, activityManager.asBinder());
+        HoneyCombServiceManager.addService(HoneyCombContext.MODULE_MANAGER_SERVICE, moduleManagerService.asBinder());
     }
 
     private class ServiceStub extends IHoneyComb.Stub {

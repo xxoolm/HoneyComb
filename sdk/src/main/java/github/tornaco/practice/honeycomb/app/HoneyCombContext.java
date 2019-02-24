@@ -9,6 +9,7 @@ import github.tornaco.practice.honeycomb.am.ActivityManager;
 import github.tornaco.practice.honeycomb.annotations.AvailableAfterOnStart;
 import github.tornaco.practice.honeycomb.data.PreferenceManager;
 import github.tornaco.practice.honeycomb.event.IEventSubscriber;
+import github.tornaco.practice.honeycomb.pm.ModuleManager;
 import github.tornaco.practice.honeycomb.pm.PackageManager;
 import github.tornaco.practice.honeycomb.sdk.BuildConfig;
 
@@ -18,6 +19,7 @@ public interface HoneyCombContext {
     String PACKAGE_MANAGER_SERVICE = "package";
     String PREFERENCE_MANAGER_SERVICE = "pref";
     String ACTIVITY_MANAGER_SERVICE = "activity";
+    String MODULE_MANAGER_SERVICE = "module";
 
     @AvailableAfterOnStart
     @NonNull
@@ -34,6 +36,10 @@ public interface HoneyCombContext {
     @Nullable
     @AvailableAfterOnStart
     ActivityManager getActivityManager();
+
+    @Nullable
+    @AvailableAfterOnStart
+    ModuleManager getModuleManager();
 
     @AvailableAfterOnStart
     void registerEventSubscriber(IntentFilter filter, IEventSubscriber subscriber);

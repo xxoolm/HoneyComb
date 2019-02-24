@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import github.tornaco.practice.honeycomb.ViewModelFactory;
 import github.tornaco.practice.honeycomb.databinding.ActivityStartBinding;
@@ -35,7 +35,7 @@ public class StartActivity extends AppCompatActivity {
 
     private void setupView() {
         RecyclerView recyclerView = binding.recycler;
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(new BeeAdapter());
     }

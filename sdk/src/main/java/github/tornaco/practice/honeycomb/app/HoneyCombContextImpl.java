@@ -10,7 +10,9 @@ import github.tornaco.practice.honeycomb.am.IActivityManager;
 import github.tornaco.practice.honeycomb.data.IPreferenceManager;
 import github.tornaco.practice.honeycomb.data.PreferenceManager;
 import github.tornaco.practice.honeycomb.event.IEventSubscriber;
+import github.tornaco.practice.honeycomb.pm.IModuleManager;
 import github.tornaco.practice.honeycomb.pm.IPackageManager;
+import github.tornaco.practice.honeycomb.pm.ModuleManager;
 import github.tornaco.practice.honeycomb.pm.PackageManager;
 import lombok.Getter;
 
@@ -21,6 +23,7 @@ class HoneyCombContextImpl implements HoneyCombContext {
     private PackageManager packageManager;
     private PreferenceManager preferenceManager;
     private ActivityManager activityManager;
+    private ModuleManager moduleManager;
 
     HoneyCombContextImpl() {
         IHoneyComb hb = IHoneyComb.Stub.asInterface(ServiceManager.getService(HONEY_COMB_SERVICE));
@@ -39,6 +42,11 @@ class HoneyCombContextImpl implements HoneyCombContext {
         if (honeyCombManager.isPresent() && honeyCombManager.hasService(ACTIVITY_MANAGER_SERVICE)) {
             IActivityManager activity = IActivityManager.Stub.asInterface(honeyCombManager.getService(ACTIVITY_MANAGER_SERVICE));
             this.activityManager = new ActivityManager(activity);
+        }
+
+        if (honeyCombManager.isPresent() && honeyCombManager.hasService(MODULE_MANAGER_SERVICE)) {
+            IModuleManager module = IModuleManager.Stub.asInterface(honeyCombManager.getService(MODULE_MANAGER_SERVICE));
+            this.moduleManager = new ModuleManager(module);
         }
     }
 
@@ -62,5 +70,6 @@ class HoneyCombContextImpl implements HoneyCombContext {
         this.honeyCombManager = null;
         this.packageManager = null;
         this.preferenceManager = null;
+        this.moduleManager = null;
     }
 }

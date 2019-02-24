@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import github.tornaco.practice.honeycomb.app.HoneyCombContext;
+import github.tornaco.practice.honeycomb.pm.ModuleManager;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -18,6 +20,8 @@ public class BeeRepo {
     private Context context;
 
     public List<Bee> getAll() {
+        HoneyCombContext honeyCombContext = HoneyCombContext.createContext();
+        ModuleManager moduleManager = honeyCombContext.getModuleManager();
         List<Bee> res = new ArrayList<>();
         final PackageManager pm = this.context.getPackageManager();
         List<ApplicationInfo> applicationInfos =
@@ -26,7 +30,7 @@ public class BeeRepo {
         for (ApplicationInfo app : applicationInfos) {
             if (app.enabled && app.metaData != null && app.metaData.containsKey("combmodule")) {
                 res.add(Bee.builder()
-                        .isActivated(false)
+                        .isActivated(moduleManager != null && moduleManager.isModuleActivated(app.packageName))
                         .name(String.valueOf(app.loadLabel(pm)))
                         .pkgName(app.packageName)
                         .starter(new Intent(ACTION_BEE_STARTER).setPackage(app.packageName).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
