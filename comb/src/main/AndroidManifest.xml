@@ -4,6 +4,7 @@
     package="github.tornaco.practice.honeycomb">
 
     <application
+        android:name=".CombApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"

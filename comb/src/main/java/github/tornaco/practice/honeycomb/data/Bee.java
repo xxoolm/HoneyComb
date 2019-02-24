@@ -10,9 +10,8 @@ import lombok.Getter;
 @Builder
 @Getter
 public class Bee {
-    @StringRes
-    private int name;
+    private String name;
     private Intent starter;
-    @DrawableRes
-    private int icon;
+    private String pkgName;
+    private boolean isActivated;
 }

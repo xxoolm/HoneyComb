@@ -10,26 +10,40 @@
             name="bee"
             type="github.tornaco.practice.honeycomb.data.Bee" />
 
+        <variable
+            name="listener"
+            type="github.tornaco.practice.honeycomb.start.OnBeeItemClickListener" />
+
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?selectableItemBackground"
+        android:minHeight="@dimen/bee_item_height"
+        android:onClick="@{() -> listener.onBeeItemClick(bee)}"
         tools:context=".start.StartActivity">
 
         <ImageView
             android:id="@+id/iv_icon"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:beeIcon="@{bee}" />
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/bee_item_margin"
+            android:beeIcon="@{bee}"
+            tools:src="@mipmap/ic_launcher_round" />
 
         <TextView
             android:id="@+id/tv_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_icon"
-            android:layout_centerHorizontal="true"
-            android:text="@{bee.name}" />
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/bee_item_margin"
+            android:layout_toEndOf="@id/iv_icon"
+            android:text="@{bee.name}"
+            tools:text="Tornaco" />
     </RelativeLayout>
 </layout>

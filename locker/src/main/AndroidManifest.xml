@@ -22,7 +22,7 @@
             android:name=".ui.start.StartActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="github.tornaco.practice.honeycomb.locker.action.START" />
+                <action android:name="github.tornaco.practice.honeycomb.bee.action.START" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
