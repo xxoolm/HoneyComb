@@ -16,6 +16,7 @@ import androidx.databinding.ObservableBoolean;
 import androidx.recyclerview.widget.RecyclerView;
 import github.tornaco.practice.honeycomb.R;
 import github.tornaco.practice.honeycomb.data.Bee;
+import github.tornaco.practice.honeycomb.start.StartViewModel;
 import github.tornaco.practice.honeycomb.start.adapter.BeeAdapter;
 
 public class StartDataBinding {
@@ -52,9 +53,12 @@ public class StartDataBinding {
     }
 
     @BindingAdapter("android:statusText")
-    public static void setStatusImage(TextView textView, ObservableBoolean isActive) {
-        textView.setText(isActive.get()
-                ? R.string.status_active
-                : R.string.status_not_active);
+    public static void setStatusText(TextView textView, StartViewModel viewModel) {
+        textView.setText(viewModel.getIsCombActivated().get()
+                ? textView.getResources().getString(R.string.status_active, viewModel.getCombVersionName())
+                : textView.getResources().getString(R.string.status_not_active));
+        textView.setTextColor(viewModel.getIsCombActivated().get()
+                ? textView.getResources().getColor(R.color.md_green_600)
+                : textView.getResources().getColor(R.color.md_red_600));
     }
 }

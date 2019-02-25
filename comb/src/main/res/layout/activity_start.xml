@@ -33,20 +33,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/md_grey_100"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/common_view_margin_small"
-                        android:statusText="@{viewmodel.isCombActivated}"
-                        tools:text="@string/status_active" />
-                </LinearLayout>
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -60,6 +46,22 @@
                         tools:src="@drawable/ic_check_circle_black_24dp" />
 
                 </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/md_white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/common_view_margin_small"
+                        android:statusText="@{viewmodel}"
+                        android:textStyle="bold"
+                        tools:text="@string/status_active" />
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
