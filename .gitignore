@@ -12,3 +12,6 @@
 .idea
 *.class
 */build
+.classpath
+.settings/
+.project
