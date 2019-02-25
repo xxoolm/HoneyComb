@@ -16,17 +16,19 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/md_grey_300"
         tools:context=".start.StartActivity">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/status_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/common_view_margin_small"
+            android:statusCardBackgroundColor="@{viewmodel.isCombActivated}"
             app:cardCornerRadius="@dimen/common_view_corner_radius"
             app:cardElevation="@dimen/common_view_corner_radius">
 
             <LinearLayout
-                android:id="@+id/modules_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -34,7 +36,52 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/md_grey_50">
+                    android:background="@color/md_grey_100"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/common_view_margin_small"
+                        android:statusText="@{viewmodel.isCombActivated}"
+                        tools:text="@string/status_active" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="@dimen/status_image_height"
+                        android:layout_height="@dimen/status_image_height"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/common_view_margin_default"
+                        android:statusImage="@{viewmodel.isCombActivated}"
+                        tools:src="@drawable/ic_check_circle_black_24dp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/status_card"
+            android:layout_margin="@dimen/common_view_margin_small"
+            android:background="@color/md_white"
+            app:cardCornerRadius="@dimen/common_view_corner_radius"
+            app:cardElevation="@dimen/common_view_corner_radius">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/md_grey_100">
 
                     <TextView
                         android:layout_width="wrap_content"
