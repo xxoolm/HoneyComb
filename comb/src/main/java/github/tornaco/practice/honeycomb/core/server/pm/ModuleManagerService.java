@@ -16,6 +16,8 @@ import androidx.core.app.NotificationManagerCompat;
 import github.tornaco.practice.honeycomb.BuildConfig;
 import github.tornaco.practice.honeycomb.app.AppResources;
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
+import github.tornaco.practice.honeycomb.core.server.build.Drawables;
+import github.tornaco.practice.honeycomb.core.server.build.FWStrings;
 import github.tornaco.practice.honeycomb.core.server.data.PreferenceManagerService;
 import github.tornaco.practice.honeycomb.core.server.event.EventBus;
 import github.tornaco.practice.honeycomb.core.server.i.SystemService;
@@ -87,7 +89,7 @@ public class ModuleManagerService extends IModuleManager.Stub
         Logger.d("showNewModuleInstalledNotification %s %s", pkgName, path);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_ID_MODULE_INSTALLED);
         AppResources appResources = new AppResources(context, BuildConfig.APPLICATION_ID);
-        NotificationHelper.overrideNotificationAppName(builder, appResources.getString("notification_override_module_manager"));
+        NotificationHelper.overrideNotificationAppName(builder, appResources.getString(FWStrings.NOTIFICATION_OVERRIDE_MODULE_MANAGER));
 
         Intent disableBroadcastIntent = new Intent("");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
@@ -104,7 +106,7 @@ public class ModuleManagerService extends IModuleManager.Stub
                 .build();
 
         if (OSUtils.isMOrAbove()) {
-            // n.setSmallIcon(new AppResources(context).loadIconFromAPMApp("ic_power_settings_new_black_24dp"));
+            n.setSmallIcon(appResources.getIcon(Drawables.IC_INFO_WHITE_24DP));
         }
 
         NotificationManagerCompat.from(context).notify(NotificationIdFactory.allocateNotificationId(), n);

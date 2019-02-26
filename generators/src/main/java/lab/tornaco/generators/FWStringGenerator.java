@@ -14,8 +14,9 @@ import java.util.List;
 
 public class FWStringGenerator {
 
-    private static final String INPUT_XML_PATH = "/Users/hguo/Workspace/HoneyComb/comb/src/main/res/values/fw-strings.xml";
-    private static final String OUTPUT_XML_PATH = "/Users/hguo/Workspace/HoneyComb/comb/src/main/java/github/tornaco/practice/honeycomb/core/server/build/FWStrings.java";
+    private static final String PROJECT_DIR = System.getProperty("user.dir");
+    private static final String INPUT_XML_PATH = PROJECT_DIR + "/comb/src/main/res/values/fw-strings.xml";
+    private static final String OUTPUT_XML_PATH = PROJECT_DIR + "/comb/src/main/java/github/tornaco/practice/honeycomb/core/server/build/FWStrings.java";
 
     public static void main(String... args) throws DocumentException, IOException {
         createFile();
