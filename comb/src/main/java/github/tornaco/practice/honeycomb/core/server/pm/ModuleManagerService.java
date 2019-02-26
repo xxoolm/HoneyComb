@@ -1,18 +1,31 @@
 package github.tornaco.practice.honeycomb.core.server.pm;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.RemoteException;
 
 import org.newstand.logger.Logger;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.core.server.data.PreferenceManagerService;
+import github.tornaco.practice.honeycomb.core.server.event.EventBus;
 import github.tornaco.practice.honeycomb.core.server.i.SystemService;
+import github.tornaco.practice.honeycomb.core.server.notification.NotificationHelper;
+import github.tornaco.practice.honeycomb.core.server.notification.NotificationIdFactory;
 import github.tornaco.practice.honeycomb.pm.IModuleManager;
+import github.tornaco.practice.honeycomb.util.OSUtils;
 
-public class ModuleManagerService extends IModuleManager.Stub implements SystemService {
+public class ModuleManagerService extends IModuleManager.Stub
+        implements SystemService, PackageChangeListener.OnModuleInstalledListener {
+
+    private static final String NOTIFICATION_ID_MODULE_INSTALLED = "comb.notification.module.installed";
 
     private Context context;
     private PreferenceManagerService preferenceManagerService;
@@ -25,7 +38,7 @@ public class ModuleManagerService extends IModuleManager.Stub implements SystemS
 
     @Override
     public void onSystemReady() {
-
+        registerReceivers();
     }
 
     @Override
@@ -52,5 +65,46 @@ public class ModuleManagerService extends IModuleManager.Stub implements SystemS
 
     private void enforceCallingPermissions() {
         // TODO: 2019/2/24 Check perm.
+    }
+
+    private void registerReceivers() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        intentFilter.addAction(Intent.ACTION_PACKAGE_CHANGED);
+        intentFilter.addDataScheme("package");
+        EventBus.getInstance().registerEventSubscriber(intentFilter, new PackageChangeListener(context, this));
+    }
+
+    @Override
+    public void onNewModuleInstalled(String pkgName, String path) {
+        showNewModuleInstalledNotification(pkgName, path);
+    }
+
+    private void showNewModuleInstalledNotification(String pkgName, String path) {
+        Logger.d("showNewModuleInstalledNotification %s %s", pkgName, path);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_ID_MODULE_INSTALLED);
+        // TODO: 2019/2/26 Name
+        NotificationHelper.overrideNotificationAppName(builder, "Comb");
+
+        Intent disableBroadcastIntent = new Intent("");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                context,
+                NotificationIdFactory.allocateNotificationId(),
+                disableBroadcastIntent,
+                0);
+
+        Notification n = builder
+                .addAction(0, "立即重启", pendingIntent)
+                .setContentTitle("需要重启")
+                .setContentText("你现在需要重启你的设备已完成更新。")
+                .setSmallIcon(android.R.drawable.stat_sys_warning)
+                .build();
+
+        if (OSUtils.isMOrAbove()) {
+            // n.setSmallIcon(new AppResources(context).loadIconFromAPMApp("ic_power_settings_new_black_24dp"));
+        }
+
+        NotificationManagerCompat.from(context).notify(NotificationIdFactory.allocateNotificationId(), n);
     }
 }

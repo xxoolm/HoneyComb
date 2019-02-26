@@ -6,6 +6,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
@@ -38,6 +40,12 @@ public class BeeRepo {
             }
 
         }
+        Collections.sort(res, (bee1, bee2) -> {
+            if (bee1.isActivated() == bee2.isActivated()) {
+                return 0;
+            }
+            return bee1.isActivated() ? -1 : 1;
+        });
         return res;
     }
 
