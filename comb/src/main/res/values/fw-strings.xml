@@ -1,3 +1,4 @@
 <resources>
     <string name="tips_current_activity_view">当前活动</string>
+    <string name="notification_override_module_manager">Comb-Module</string>
 </resources>

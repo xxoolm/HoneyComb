@@ -1,4 +1,4 @@
-include ':comb', ':locker', ':sdk', ':common-ui', ':replacer'
+include ':comb', ':locker', ':sdk', ':common-ui', ':replacer', ':generators'
 include ':third-party:colorpicker'
 include ':third-party:dateformatter'
 include ':third-party:imagepicker'

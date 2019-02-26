@@ -13,6 +13,8 @@ import org.newstand.logger.Logger;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import github.tornaco.practice.honeycomb.BuildConfig;
+import github.tornaco.practice.honeycomb.app.AppResources;
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.core.server.data.PreferenceManagerService;
 import github.tornaco.practice.honeycomb.core.server.event.EventBus;
@@ -84,8 +86,8 @@ public class ModuleManagerService extends IModuleManager.Stub
     private void showNewModuleInstalledNotification(String pkgName, String path) {
         Logger.d("showNewModuleInstalledNotification %s %s", pkgName, path);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_ID_MODULE_INSTALLED);
-        // TODO: 2019/2/26 Name
-        NotificationHelper.overrideNotificationAppName(builder, "Comb");
+        AppResources appResources = new AppResources(context, BuildConfig.APPLICATION_ID);
+        NotificationHelper.overrideNotificationAppName(builder, appResources.getString("notification_override_module_manager"));
 
         Intent disableBroadcastIntent = new Intent("");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
