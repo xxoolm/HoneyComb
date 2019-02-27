@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.PowerManager;
 import android.os.RemoteException;
 
 import org.newstand.logger.Logger;
+
+import java.util.Objects;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -23,6 +26,9 @@ import github.tornaco.practice.honeycomb.core.server.event.EventBus;
 import github.tornaco.practice.honeycomb.core.server.i.SystemService;
 import github.tornaco.practice.honeycomb.core.server.notification.NotificationHelper;
 import github.tornaco.practice.honeycomb.core.server.notification.NotificationIdFactory;
+import github.tornaco.practice.honeycomb.core.server.os.SystemServerThread;
+import github.tornaco.practice.honeycomb.event.Event;
+import github.tornaco.practice.honeycomb.event.IEventSubscriber;
 import github.tornaco.practice.honeycomb.pm.IModuleManager;
 import github.tornaco.practice.honeycomb.util.OSUtils;
 
@@ -30,6 +36,8 @@ public class ModuleManagerService extends IModuleManager.Stub
         implements SystemService, PackageChangeListener.OnModuleInstalledListener {
 
     private static final String NOTIFICATION_ID_MODULE_INSTALLED = "comb.notification.module.installed";
+    private static final String ACTION_ACTIVATE_MODULE = "comb.action.activate.module";
+    private static final String ACTION_ACTIVATE_MODULE_AND_REBOOT = "comb.action.activate.module.reboot";
 
     private Context context;
     private PreferenceManagerService preferenceManagerService;
@@ -42,7 +50,8 @@ public class ModuleManagerService extends IModuleManager.Stub
 
     @Override
     public void onSystemReady() {
-        registerReceivers();
+        registerPackageReceivers();
+        registerActionReceivers();
     }
 
     @Override
@@ -71,7 +80,7 @@ public class ModuleManagerService extends IModuleManager.Stub
         // TODO: 2019/2/24 Check perm.
     }
 
-    private void registerReceivers() {
+    private void registerPackageReceivers() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
         intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
@@ -80,9 +89,50 @@ public class ModuleManagerService extends IModuleManager.Stub
         EventBus.getInstance().registerEventSubscriber(intentFilter, new PackageChangeListener(context, this));
     }
 
+    private void registerActionReceivers() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_ACTIVATE_MODULE);
+        intentFilter.addAction(ACTION_ACTIVATE_MODULE_AND_REBOOT);
+        EventBus.getInstance().registerEventSubscriber(intentFilter, new IEventSubscriber.Stub() {
+            @Override
+            public void onEvent(Event e) throws RemoteException {
+                Logger.d("registerActionReceivers onEvent %s", e);
+                if (ACTION_ACTIVATE_MODULE.equals(e.getIntent().getAction())) {
+                    Intent intent = e.getIntent();
+                    String pkgName = intent.getStringExtra("package_name");
+                    String path = intent.getStringExtra("path");
+                    setModuleActive(pkgName);
+                } else if (ACTION_ACTIVATE_MODULE_AND_REBOOT.equals(e.getIntent().getAction())) {
+                    SystemServerThread.getHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                            Objects.requireNonNull(pm).reboot(null);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
     @Override
     public void onNewModuleInstalled(String pkgName, String path) {
-        showNewModuleInstalledNotification(pkgName, path);
+        SystemServerThread.getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                showNewModuleInstalledNotification(pkgName, path);
+            }
+        });
+    }
+
+    @Override
+    public void onNewModuleUpdate(String pkgName, String path) {
+        SystemServerThread.getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                showNewModuleInstalledNotification(pkgName, path);
+            }
+        });
     }
 
     private void showNewModuleInstalledNotification(String pkgName, String path) {
@@ -90,25 +140,18 @@ public class ModuleManagerService extends IModuleManager.Stub
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_ID_MODULE_INSTALLED);
         AppResources appResources = new AppResources(context, BuildConfig.APPLICATION_ID);
         NotificationHelper.overrideNotificationAppName(builder, appResources.getString(FWStrings.NOTIFICATION_OVERRIDE_MODULE_MANAGER));
-
-        Intent disableBroadcastIntent = new Intent("");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context,
-                NotificationIdFactory.allocateNotificationId(),
-                disableBroadcastIntent,
-                0);
-
+        Intent combAppIntent = context.getPackageManager().getLaunchIntentForPackage(BuildConfig.APPLICATION_ID);
         Notification n = builder
-                .addAction(0, "立即重启", pendingIntent)
-                .setContentTitle("需要重启")
-                .setContentText("你现在需要重启你的设备已完成更新。")
-                .setSmallIcon(android.R.drawable.stat_sys_warning)
+                .setContentTitle(appResources.getString(FWStrings.NOTIFICATION_TITLE_MODULE_INSTALLED))
+                .setContentText(appResources.getString(FWStrings.NOTIFICATION_CONTENT_MODULE_INSTALLED))
+                .setSmallIcon(NotificationHelper.DEFAULE_NOTIFICATION_ICON)
+                .setContentIntent(PendingIntent.getActivity(context, NotificationIdFactory.allocateNotificationId(), combAppIntent, 0))
+                .setAutoCancel(true)
                 .build();
 
         if (OSUtils.isMOrAbove()) {
             n.setSmallIcon(appResources.getIcon(Drawables.IC_INFO_WHITE_24DP));
         }
-
         NotificationManagerCompat.from(context).notify(NotificationIdFactory.allocateNotificationId(), n);
     }
 }

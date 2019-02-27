@@ -84,7 +84,7 @@ public class HoneyCombService implements HoneyComb {
 
     @Override
     public boolean allowBroadcastIntentSending(IApplicationThread applicationThread, Intent intent) {
-        Logger.v("allowBroadcastIntentSending? %s %s", applicationThread, intent);
+        Logger.i("allowBroadcastIntentSending? %s %s", applicationThread, intent);
         if (intent.getAction() == null) {
             return true;
         }

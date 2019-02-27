@@ -48,13 +48,16 @@ public class PackageChangeListener extends IEventSubscriber.Stub {
             return;
         }
 
-        if (e.getIntent().getAction().equals(Intent.ACTION_PACKAGE_ADDED)
-                || e.getIntent().getAction().equals(Intent.ACTION_PACKAGE_CHANGED)) {
+        if (e.getIntent().getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {
             listener.onNewModuleInstalled(pkgName, apkPath);
+        } else if (e.getIntent().getAction().equals(Intent.ACTION_PACKAGE_CHANGED)) {
+            listener.onNewModuleUpdate(pkgName, apkPath);
         }
     }
 
     interface OnModuleInstalledListener {
         void onNewModuleInstalled(String pkgName, String path);
+
+        void onNewModuleUpdate(String pkgName, String path);
     }
 }

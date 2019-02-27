@@ -39,7 +39,7 @@ public class DrawableGenerator {
         File dir = new File(INPUT_PATH);
         File[] drawables = dir.listFiles();
         for (File file : drawables) {
-            String line = String.format("    public static final String %s = \"%s\";\n", Files.getNameWithoutExtension(file.getPath()).toUpperCase(), file.getName());
+            String line = String.format("    public static final String %s = \"%s\";\n", Files.getNameWithoutExtension(file.getPath()).toUpperCase(), Files.getNameWithoutExtension(file.getPath()));
             Files.asByteSink(new File(OUTPUT_JAVA_PATH), FileWriteMode.APPEND)
                     .write(line.getBytes());
         }
