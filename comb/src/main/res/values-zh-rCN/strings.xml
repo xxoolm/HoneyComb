@@ -3,5 +3,6 @@
     <string name="status_active">版本为%1$s的Comb已激活</string>
     <string name="status_not_active">未激活</string>
     <string name="app_name_locker">应用锁</string>
-    <string name="module_header_title">我的模块</string>
+    <string name="module_header_title_activated">已启用</string>
+    <string name="module_header_title_not_activated">未启用</string>
 </resources>

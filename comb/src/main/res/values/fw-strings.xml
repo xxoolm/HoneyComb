@@ -4,7 +4,7 @@
     <string name="notification_intent_activate_module">激活</string>
     <string name="notification_intent_activate_module_and_reboot">激活并重启</string>
     <string name="notification_title_module_installed">新模块</string>
-    <string name="notification_content_module_installed">新的模块已经安装，你需要激活并重启</string>
+    <string name="notification_content_module_installed">新的Comb模块已经安装</string>
     <string name="notification_title_module_updated">模块更新</string>
-    <string name="notification_content_module_updated">模块已更新，你需要激活并重启</string>
+    <string name="notification_content_module_updated">模块Comb已经更新</string>
 </resources>
