@@ -11,10 +11,10 @@ import java.util.Locale;
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.locker.app.LockerContext;
 import github.tornaco.practice.honeycomb.locker.app.LockerManager;
-import github.tornaco.practice.honeycomb.locker.util.ExecutorUtils;
 import github.tornaco.practice.honeycomb.locker.util.PkgUtils;
 import github.tornaco.practice.honeycomb.pm.AppInfo;
 import github.tornaco.practice.honeycomb.pm.PackageManager;
+import github.tornaco.practice.honeycomb.util.ExecutorUtils;
 
 public class AppsRepo implements AppDataSource {
 

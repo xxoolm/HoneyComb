@@ -1,4 +1,4 @@
-package github.tornaco.practice.honeycomb.locker.util;
+package github.tornaco.practice.honeycomb.util;
 
 import android.os.Handler;
 import android.os.Looper;

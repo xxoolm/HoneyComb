@@ -34,7 +34,12 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void setupView() {
-        RecyclerView recyclerView = binding.recycler;
+        RecyclerView recyclerView = binding.recyclerActivated;
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(new BeeAdapter());
+
+        recyclerView = binding.recyclerNotActivated;
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(new BeeAdapter());

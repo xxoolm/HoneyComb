@@ -1,6 +1,7 @@
 package github.tornaco.practice.honeycomb.core.server.os;
 
 import android.content.Context;
+import android.os.PowerManager;
 
 import github.tornaco.practice.honeycomb.core.server.i.SystemService;
 import github.tornaco.practice.honeycomb.os.IPowerManager;
@@ -25,7 +26,10 @@ public class PowerManagerService extends IPowerManager.Stub implements SystemSer
 
     @Override
     public void reboot() {
-
+        SystemServerThread.getHandler().post(() -> {
+            PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            powerManager.reboot(null);
+        });
     }
 
     @Override

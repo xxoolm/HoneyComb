@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import androidx.annotation.Nullable;
 import github.tornaco.practice.honeycomb.am.IActivityManager;
-import github.tornaco.practice.honeycomb.device.IPowerManager;
+import github.tornaco.practice.honeycomb.os.IPowerManager;
 import github.tornaco.practice.honeycomb.pm.IPackageManager;
 
 public interface HoneyComb extends SystemService {

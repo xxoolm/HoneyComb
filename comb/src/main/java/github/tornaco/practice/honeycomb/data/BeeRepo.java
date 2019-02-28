@@ -7,11 +7,13 @@ import android.content.pm.PackageManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.pm.ModuleManager;
+import github.tornaco.practice.honeycomb.util.ExecutorUtils;
+import github.tornaco.practice.honeycomb.util.callback.Callback1;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -21,7 +23,7 @@ public class BeeRepo {
 
     private Context context;
 
-    public List<Bee> getAll() {
+    public List<Bee> get(boolean activated) {
         HoneyCombContext honeyCombContext = HoneyCombContext.createContext();
         ModuleManager moduleManager = honeyCombContext.getModuleManager();
         List<Bee> res = new ArrayList<>();
@@ -31,8 +33,11 @@ public class BeeRepo {
 
         for (ApplicationInfo app : applicationInfos) {
             if (app.enabled && app.metaData != null && app.metaData.containsKey("combmodule")) {
+                if (activated != (moduleManager != null && moduleManager.isModuleActivated(app.packageName))) {
+                    continue;
+                }
                 res.add(Bee.builder()
-                        .isActivated(moduleManager != null && moduleManager.isModuleActivated(app.packageName))
+                        .isActivated(activated)
                         .name(String.valueOf(app.loadLabel(pm)))
                         .pkgName(app.packageName)
                         .starter(new Intent(ACTION_BEE_STARTER).setPackage(app.packageName).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
@@ -47,6 +52,14 @@ public class BeeRepo {
             return bee1.isActivated() ? -1 : 1;
         });
         return res;
+    }
+
+    public void getActivated(@NonNull Callback1<List<Bee>> callback) {
+        ExecutorUtils.io().execute(() -> callback.onResult(get(true)));
+    }
+
+    public void getNotActivated(@NonNull Callback1<List<Bee>> callback) {
+        ExecutorUtils.io().execute(() -> callback.onResult(get(false)));
     }
 
 }

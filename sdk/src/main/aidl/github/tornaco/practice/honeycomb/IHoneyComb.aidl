@@ -1,9 +1,5 @@
 package github.tornaco.practice.honeycomb;
 
-import github.tornaco.practice.honeycomb.data.IPreferenceManager;
-import github.tornaco.practice.honeycomb.am.IActivityManager;
-import github.tornaco.practice.honeycomb.device.IPowerManager;
-import github.tornaco.practice.honeycomb.pm.IPackageManager;
 import github.tornaco.practice.honeycomb.event.IEventSubscriber;
 
 interface IHoneyComb {

@@ -25,13 +25,6 @@ public final class SystemServerThread extends HandlerThread {
 
     }
 
-    public static SystemServerThread get() {
-        synchronized (SystemServerThread.class) {
-            ensureThreadLocked();
-            return sInstance;
-        }
-    }
-
     public static Handler getHandler() {
         synchronized (SystemServerThread.class) {
             ensureThreadLocked();
