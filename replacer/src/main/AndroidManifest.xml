@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <meta-data
-            android:name="combmodule"
+            android:name="comb_module"
             android:value="true" />
     </application>
 

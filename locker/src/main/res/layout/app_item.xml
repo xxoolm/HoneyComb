@@ -14,7 +14,8 @@
   ~ limitations under the License.
   -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -50,8 +51,8 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/common_view_margin_default"
-            android:src="@mipmap/ic_launcher_round"
-            app:iconFromPackage="@{app.pkgName}" />
+            app:iconFromPackage="@{app.pkgName}"
+            tools:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/title"

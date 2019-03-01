@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
+import org.newstand.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +25,7 @@ public class BeeRepo {
 
     private Context context;
 
-    public List<Bee> get(boolean activated) {
+    private List<Bee> get(boolean activated) {
         HoneyCombContext honeyCombContext = HoneyCombContext.createContext();
         ModuleManager moduleManager = honeyCombContext.getModuleManager();
         List<Bee> res = new ArrayList<>();
@@ -32,16 +34,22 @@ public class BeeRepo {
                 pm.getInstalledApplications(PackageManager.GET_META_DATA);
 
         for (ApplicationInfo app : applicationInfos) {
-            if (app.enabled && app.metaData != null && app.metaData.containsKey("combmodule")) {
+            if (app.enabled && app.metaData != null && app.metaData.containsKey("comb_module")) {
                 if (activated != (moduleManager != null && moduleManager.isModuleActivated(app.packageName))) {
                     continue;
                 }
-                res.add(Bee.builder()
+                String icon = app.metaData.getString("bee_icon");
+                Bee bee = Bee.builder()
                         .isActivated(activated)
                         .name(String.valueOf(app.loadLabel(pm)))
                         .pkgName(app.packageName)
-                        .starter(new Intent(ACTION_BEE_STARTER).setPackage(app.packageName).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-                        .build());
+                        .icon(icon)
+                        .starter(new Intent(ACTION_BEE_STARTER)
+                                .setPackage(app.packageName)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                        .build();
+                res.add(bee);
+                Logger.i("Found a bee %s", bee);
             }
 
         }

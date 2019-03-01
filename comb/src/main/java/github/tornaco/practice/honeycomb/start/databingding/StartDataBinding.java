@@ -1,5 +1,6 @@
 package github.tornaco.practice.honeycomb.start.databingding;
 
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,7 +36,11 @@ public class StartDataBinding {
 
     @BindingAdapter("android:beeIcon")
     public static void setBeeIcon(ImageView imageView, Bee bee) {
-        ImageLoader.getInstance().displayImage("launcher://" + bee.getPkgName(), imageView, OPTIONS);
+        if (!TextUtils.isEmpty(bee.getIcon())) {
+            ImageLoader.getInstance().displayImage("cross_app://" + bee.getPkgName() + ":" + bee.getIcon(), imageView, OPTIONS);
+        } else {
+            ImageLoader.getInstance().displayImage("launcher://" + bee.getPkgName(), imageView, OPTIONS);
+        }
     }
 
     @BindingAdapter("android:statusCardBackgroundColor")

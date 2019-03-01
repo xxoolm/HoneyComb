@@ -8,15 +8,19 @@
     <application
         android:name=".LockerApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher_round"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
         <meta-data
-            android:name="combmodule"
+            android:name="comb_module"
             android:value="true" />
+
+        <meta-data
+            android:name="bee_icon"
+            android:value="ic_lock_black_24dp" />
 
         <activity
             android:name=".ui.start.StartActivity"

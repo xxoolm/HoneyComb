@@ -20,6 +20,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -47,6 +48,8 @@ import java.util.Objects;
 
 import github.tornaco.android.common.util.ApkUtil;
 import github.tornaco.honeycomb.common.util.BitmapUtils;
+
+import static android.content.Context.CONTEXT_IGNORE_SECURITY;
 
 /**
  * Provides retrieving of {@link InputStream} of image by URI from network or file system or app resources.<br />
@@ -110,6 +113,8 @@ public class BaseImageDownloader implements ImageDownloader {
                 return getStreamFromDrawable(imageUri, extra);
             case LAUNCHER:
                 return getStreamFromLauncher(imageUri, extra);
+            case CROSS_APP:
+                return getStreamFromCrossApp(imageUri, extra);
             case UNKNOWN:
             default:
                 return getStreamFromOtherSource(imageUri, extra);
@@ -292,6 +297,19 @@ public class BaseImageDownloader implements ImageDownloader {
         Drawable d = ApkUtil.loadIconByPkgName(context, pkg);
         Bitmap b = BitmapUtils.getBitmap(context, d);
         return BitmapUtils.Bitmap2InputStream(Objects.requireNonNull(b));
+    }
+
+    protected InputStream getStreamFromCrossApp(String imageUri, Object extra) {
+        String pkgAndRes = Scheme.CROSS_APP.crop(imageUri);
+        String[] strings = pkgAndRes.split(":");
+        try {
+            Context appConetxt = context.createPackageContext(strings[0], CONTEXT_IGNORE_SECURITY);
+            int resId = appConetxt.getResources().getIdentifier(strings[1], "drawable", strings[0]);
+            Bitmap bitmap = BitmapFactory.decodeResource(appConetxt.getResources(), resId);
+            return BitmapUtils.Bitmap2InputStream(Objects.requireNonNull(bitmap));
+        } catch (Throwable e) {
+            return null;
+        }
     }
 
     /**

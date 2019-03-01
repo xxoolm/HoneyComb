@@ -52,6 +52,7 @@ public interface ImageDownloader {
         ASSETS("assets"),
         DRAWABLE("drawable"),
         LAUNCHER("launcher"),
+        CROSS_APP("cross_app"),
         UNKNOWN("");
 
         private String scheme;
