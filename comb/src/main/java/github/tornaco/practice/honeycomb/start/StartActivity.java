@@ -38,11 +38,6 @@ public class StartActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(new BeeAdapter());
-
-        recyclerView = binding.recyclerNotActivated;
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new BeeAdapter());
     }
 
     public static StartViewModel obtainViewModel(FragmentActivity activity) {

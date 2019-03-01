@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -13,133 +12,48 @@
 
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/md_grey_300"
-        tools:context=".start.StartActivity">
+        android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/status_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/common_view_margin_small"
-            android:statusCardBackgroundColor="@{viewmodel.isCombActivated}"
-            app:cardCornerRadius="@dimen/common_view_corner_radius"
-            app:cardElevation="@dimen/common_view_corner_radius">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="@dimen/status_image_height"
-                        android:layout_height="@dimen/status_image_height"
-                        android:layout_centerInParent="true"
-                        android:layout_margin="@dimen/common_view_margin_default"
-                        android:statusImage="@{viewmodel.isCombActivated}"
-                        tools:src="@drawable/ic_check_circle_black_24dp" />
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/md_white"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="@dimen/common_view_margin_small"
-                        android:statusText="@{viewmodel}"
-                        android:textStyle="bold"
-                        tools:text="@string/status_active" />
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/activated_card"
-            android:layout_below="@id/status_card"
-            android:layout_margin="@dimen/common_view_margin_small"
-            android:background="@color/md_white"
-            app:cardCornerRadius="@dimen/common_view_corner_radius"
-            app:cardElevation="@dimen/common_view_corner_radius">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/md_grey_100">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/common_view_margin_small"
-                        android:text="@string/module_header_title_activated" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_activated"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:bees="@{viewmodel.activatedBees}" />
-            </LinearLayout>
-
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/activated_card"
-            android:id="@+id/not_activated_card"
             android:layout_margin="@dimen/common_view_margin_small"
             android:background="@color/md_white"
             app:cardCornerRadius="@dimen/common_view_corner_radius"
             app:cardElevation="@dimen/common_view_corner_radius">
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_activated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/md_grey_100">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/common_view_margin_small"
-                        android:text="@string/module_header_title_not_activated" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_not_activated"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:bees="@{viewmodel.notActivatedBees}" />
-            </LinearLayout>
-
+                android:bees="@{viewmodel.notActivatedBees}" />
 
         </androidx.cardview.widget.CardView>
 
-    </RelativeLayout>
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <com.google.android.material.bottomappbar.BottomAppBar
+                android:id="@+id/bottom_app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_gravity="bottom"
+                app:backgroundTint="@color/primary"
+                app:fabAlignmentMode="center" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:activeStatusFabImage="@{viewmodel.isCombActivated}"
+                app:fabSize="normal"
+                app:layout_anchor="@+id/bottom_app_bar" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </LinearLayout>
 </layout>

@@ -1,9 +1,9 @@
 package github.tornaco.practice.honeycomb.start.databingding;
 
-import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -36,11 +36,7 @@ public class StartDataBinding {
 
     @BindingAdapter("android:beeIcon")
     public static void setBeeIcon(ImageView imageView, Bee bee) {
-        if (!TextUtils.isEmpty(bee.getIcon())) {
-            ImageLoader.getInstance().displayImage("cross_app://" + bee.getPkgName() + ":" + bee.getIcon(), imageView, OPTIONS);
-        } else {
-            ImageLoader.getInstance().displayImage("launcher://" + bee.getPkgName(), imageView, OPTIONS);
-        }
+        ImageLoader.getInstance().displayImage("launcher://" + bee.getPkgName(), imageView, OPTIONS);
     }
 
     @BindingAdapter("android:statusCardBackgroundColor")
@@ -50,9 +46,9 @@ public class StartDataBinding {
                 : card.getResources().getColor(R.color.md_red_600));
     }
 
-    @BindingAdapter("android:statusImage")
-    public static void setStatusImage(ImageView imageView, ObservableBoolean isActive) {
-        imageView.setImageResource(isActive.get()
+    @BindingAdapter("android:activeStatusFabImage")
+    public static void setActiveStatusFabImage(FloatingActionButton fab, ObservableBoolean isActive) {
+        fab.setImageResource(isActive.get()
                 ? R.drawable.ic_check_circle_white_24dp
                 : R.drawable.ic_info_white_24dp);
     }

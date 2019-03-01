@@ -18,10 +18,6 @@
             android:name="comb_module"
             android:value="true" />
 
-        <meta-data
-            android:name="bee_icon"
-            android:value="ic_lock_black_24dp" />
-
         <activity
             android:name=".ui.start.StartActivity"
             android:exported="true">
