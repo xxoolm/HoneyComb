@@ -39,11 +39,13 @@ public class BeeRepo {
                     continue;
                 }
                 String icon = app.metaData.getString("bee_icon");
+                String iconBackground = app.metaData.getString("bee_icon_bg");
                 Bee bee = Bee.builder()
                         .isActivated(activated)
                         .name(String.valueOf(app.loadLabel(pm)))
                         .pkgName(app.packageName)
                         .icon(icon)
+                        .iconBackground(iconBackground)
                         .starter(new Intent(ACTION_BEE_STARTER)
                                 .setPackage(app.packageName)
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))

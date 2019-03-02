@@ -26,9 +26,13 @@ public class StartDataBinding {
 
     @BindingAdapter("android:beeIcon")
     public static void setBeeIcon(ImageView imageView, Bee bee) {
-        int resId = getDrawableResId(bee.getIcon());
-        if (resId > 0) {
-            imageView.setImageResource(resId);
+        int iconId = getDrawableResId(bee.getIcon());
+        if (iconId > 0) {
+            imageView.setImageResource(iconId);
+        }
+        int backgroundId = getDrawableResId(bee.getIconBackground());
+        if (backgroundId > 0) {
+            imageView.setBackgroundResource(backgroundId);
         }
     }
 

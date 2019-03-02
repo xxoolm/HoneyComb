@@ -17,4 +17,5 @@ public class Bee {
     private String pkgName;
     private boolean isActivated;
     private String icon;
+    private String iconBackground;
 }
