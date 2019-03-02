@@ -19,21 +19,24 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/common_view_margin_small"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?selectableItemBackground"
         android:minHeight="@dimen/common_grid_item_height"
         android:onClick="@{() -> listener.onBeeItemClick(bee)}"
-        android:padding="@dimen/common_view_margin_small"
         tools:context=".start.StartActivity">
 
         <ImageView
             android:id="@+id/iv_icon"
-            android:layout_width="@dimen/list_item_app_icon_w"
-            android:layout_height="@dimen/list_item_app_icon_h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/circle_bg_red"
             android:beeIcon="@{bee}"
-            tools:src="@mipmap/ic_launcher_round" />
+            android:padding="@dimen/common_view_margin_default"
+            android:src="@drawable/ic_android_line" />
 
         <TextView
             android:id="@+id/tv_label"
@@ -44,6 +47,7 @@
             android:layout_marginStart="@dimen/common_view_margin_small"
             android:layout_marginEnd="@dimen/common_view_margin_small"
             android:text="@{bee.name}"
+            android:visibility="gone"
             tools:text="Tornaco" />
 
     </RelativeLayout>

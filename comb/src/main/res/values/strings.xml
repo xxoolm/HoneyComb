@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Comb</string>
+    <string name="app_name">X Comb</string>
     <string name="status_active">版本为%1$s的Comb已激活</string>
     <string name="status_not_active">未激活</string>
     <string name="app_name_locker">应用锁</string>

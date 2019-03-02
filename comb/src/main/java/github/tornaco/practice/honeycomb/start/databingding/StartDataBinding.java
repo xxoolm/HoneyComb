@@ -3,10 +3,8 @@ package github.tornaco.practice.honeycomb.start.databingding;
 import android.content.res.ColorStateList;
 import android.widget.ImageView;
 
+import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,12 +18,6 @@ import github.tornaco.practice.honeycomb.start.adapter.BeeAdapter;
 
 public class StartDataBinding {
 
-    private final static DisplayImageOptions OPTIONS = new DisplayImageOptions.Builder()
-            .resetViewBeforeLoading(true)
-            .cacheOnDisk(true)
-            .displayer(new FadeInBitmapDisplayer(300))
-            .build();
-
     @BindingAdapter("android:bees")
     public static void setBees(RecyclerView recyclerView, List<Bee> list) {
         BeeAdapter beeAdapter = (BeeAdapter) recyclerView.getAdapter();
@@ -34,18 +26,38 @@ public class StartDataBinding {
 
     @BindingAdapter("android:beeIcon")
     public static void setBeeIcon(ImageView imageView, Bee bee) {
-        ImageLoader.getInstance().displayImage("launcher://" + bee.getPkgName(), imageView, OPTIONS);
+        int resId = getDrawableResId(bee.getIcon());
+        if (resId > 0) {
+            imageView.setImageResource(resId);
+        }
     }
 
     @BindingAdapter("android:activeStatusFabImage")
     public static void setActiveStatusFabImage(FloatingActionButton fab, ObservableBoolean isActive) {
         fab.setImageResource(isActive.get()
-                ? R.drawable.ic_check_circle_white_24dp
-                : R.drawable.ic_info_white_24dp);
-        fab.setSupportBackgroundTintList(ColorStateList.valueOf(
-                fab.getResources().getColor(isActive.get()
-                        ? R.color.md_green_600
-                        : R.color.md_red_600)));
+                ? R.drawable.ic_checkbox_circle_fill
+                : R.drawable.ic_forbid_fill);
+        if (!isActive.get()) {
+            fab.setSupportBackgroundTintList(ColorStateList.valueOf(fab.getResources().getColor(R.color.md_red_600)));
+        } else {
+            fab.setSupportBackgroundTintList(ColorStateList.valueOf(fab.getResources().getColor(R.color.md_green_600)));
+        }
+    }
 
+    @BindingAdapter("android:fabAlignmentMode")
+    public static void setFabAlignMode(BottomAppBar bottomAppBar, ObservableBoolean isActive) {
+        bottomAppBar.setFabAlignmentMode(isActive.get()
+                ? BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+                : BottomAppBar.FAB_ALIGNMENT_MODE_CENTER);
+    }
+
+    private static int getDrawableResId(String fieldName) {
+        int id = -1;
+        try {
+            Class cls = R.drawable.class;
+            id = (Integer) cls.getField(fieldName).get(null);
+        } catch (Exception ignored) {
+        }
+        return id;
     }
 }
