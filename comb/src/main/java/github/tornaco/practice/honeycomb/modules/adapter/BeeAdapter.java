@@ -2,6 +2,7 @@ package github.tornaco.practice.honeycomb.modules.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Checkable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import github.tornaco.practice.honeycomb.data.Bee;
 import github.tornaco.practice.honeycomb.databinding.BeeItemCheckableBinding;
 import github.tornaco.practice.honeycomb.databingding.BeeWireable;
+import github.tornaco.practice.honeycomb.modules.ModulesViewModel;
+import lombok.Setter;
 
 public class BeeAdapter extends RecyclerView.Adapter<BeeAdapter.BeeViewHolder>
         implements BeeWireable {
 
+    @Setter
+    private ModulesViewModel viewModel;
     private final List<Bee> bees = new ArrayList<>();
 
     @Override
@@ -35,6 +40,10 @@ public class BeeAdapter extends RecyclerView.Adapter<BeeAdapter.BeeViewHolder>
     public void onBindViewHolder(@NonNull BeeViewHolder holder, int position) {
         holder.beeItemBinding.setBee(bees.get(position));
         holder.beeItemBinding.setListener(bee -> holder.beeItemBinding.moduleSwitch.performClick());
+        holder.beeItemBinding.moduleSwitch.setOnClickListener(view -> {
+            boolean checked = ((Checkable) view).isChecked();
+            viewModel.setModuleActivated(bees.get(holder.getAdapterPosition()), checked);
+        });
         holder.beeItemBinding.executePendingBindings();
     }
 

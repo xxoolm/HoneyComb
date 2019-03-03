@@ -65,12 +65,12 @@ public class ModuleManagerService extends IModuleManager.Stub
     }
 
     @Override
-    public void setModuleActive(String pkgName) throws RemoteException {
+    public void setModuleActive(String pkgName, boolean active) throws RemoteException {
         enforceCallingPermissions();
         PackageManager pm = context.getPackageManager();
         try {
             ApplicationInfo applicationInfo = pm.getApplicationInfo(pkgName, PackageManager.GET_META_DATA);
-            preferenceManagerService.putString(pkgName, applicationInfo.publicSourceDir);
+            preferenceManagerService.putString(pkgName, active ? applicationInfo.publicSourceDir : null);
         } catch (PackageManager.NameNotFoundException e) {
             Logger.e("setModuleActive NameNotFoundException %s", e);
         }
@@ -101,7 +101,7 @@ public class ModuleManagerService extends IModuleManager.Stub
                     Intent intent = e.getIntent();
                     String pkgName = intent.getStringExtra("package_name");
                     String path = intent.getStringExtra("path");
-                    setModuleActive(pkgName);
+                    setModuleActive(pkgName, true);
                 } else if (ACTION_ACTIVATE_MODULE_AND_REBOOT.equals(e.getIntent().getAction())) {
                     SystemServerThread.getHandler().post(new Runnable() {
                         @Override

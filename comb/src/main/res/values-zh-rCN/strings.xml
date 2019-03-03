@@ -6,7 +6,8 @@
     <string name="module_header_title_activated">已启用</string>
     <string name="module_header_title_not_activated">未启用</string>
     <string name="active_module_not_found">未找到已启用的模块</string>
-    <string name="title_modules">模块</string>
+    <string name="title_modules">已下载</string>
     <string name="title_settings">设置</string>
     <string name="title_about">关于</string>
+    <string name="title_show_current_activity">显示当前活动</string>
 </resources>

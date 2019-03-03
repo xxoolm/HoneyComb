@@ -30,18 +30,18 @@ public class ModuleManager extends IModuleManager.Stub {
 
     @Override
     @SneakyThrows
-    public void setModuleActive(String pkgName) {
-        requireModuleManager().or(DUMMY).setModuleActive(pkgName);
+    public void setModuleActive(String pkgName, boolean active) {
+        requireModuleManager().or(DUMMY).setModuleActive(pkgName, active);
     }
 
     private static class DummyModuleManager extends IModuleManager.Stub {
         @Override
-        public boolean isModuleActivated(String pkgName) throws RemoteException {
+        public boolean isModuleActivated(String pkgName) {
             return false;
         }
 
         @Override
-        public void setModuleActive(String pkgName) throws RemoteException {
+        public void setModuleActive(String pkgName, boolean active) {
 
         }
     }

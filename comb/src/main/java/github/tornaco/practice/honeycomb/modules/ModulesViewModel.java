@@ -27,6 +27,13 @@ public class ModulesViewModel extends AndroidViewModel {
         });
     }
 
+    public void setModuleActivated(Bee bee, boolean activated) {
+        boolean isPresent = honeyCombContext.getHoneyCombManager().isPresent();
+        if (isPresent) {
+            honeyCombContext.getModuleManager().setModuleActive(bee.getPkgName(), activated);
+        }
+    }
+
     public ObservableArrayList<Bee> getBees() {
         return bees;
     }

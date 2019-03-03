@@ -1,7 +1,6 @@
 package github.tornaco.practice.honeycomb.start;
 
 import android.app.Application;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
@@ -35,10 +34,6 @@ public class StartViewModel extends AndroidViewModel {
             StartViewModel.this.activatedBees.clear();
             StartViewModel.this.activatedBees.addAll(bees);
             isActivatedEmpty.set(activatedBees.isEmpty());
-        });
-        beeRepo.getNotActivated(bees -> {
-            StartViewModel.this.notActivatedBees.clear();
-            StartViewModel.this.notActivatedBees.addAll(bees);
         });
         isCombActivated.set(honeyCombContext.getHoneyCombManager().isPresent());
     }

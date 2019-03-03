@@ -18,7 +18,6 @@ import github.tornaco.practice.honeycomb.modules.adapter.BeeAdapter;
 public class ModuleListActivity extends BaseDefaultMenuItemHandlingAppCompatActivity {
 
     private ActivityModulesBinding binding;
-    private ModulesViewModel viewModel;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, ModuleListActivity.class);
@@ -36,7 +35,7 @@ public class ModuleListActivity extends BaseDefaultMenuItemHandlingAppCompatActi
     }
 
     private void setupViewModel() {
-        viewModel = obtainViewModel(this);
+        ModulesViewModel viewModel = obtainViewModel(this);
         binding.setViewmodel(viewModel);
         binding.executePendingBindings();
         viewModel.start();
@@ -47,7 +46,9 @@ public class ModuleListActivity extends BaseDefaultMenuItemHandlingAppCompatActi
         RecyclerView recyclerView = binding.recycler;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new BeeAdapter());
+        BeeAdapter adapter = new BeeAdapter();
+        adapter.setViewModel(obtainViewModel(this));
+        recyclerView.setAdapter(adapter);
     }
 
     public static ModulesViewModel obtainViewModel(FragmentActivity activity) {

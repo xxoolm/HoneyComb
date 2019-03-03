@@ -28,10 +28,14 @@ public class DataBindingAdapters {
         int iconId = getDrawableResId(bee.getIcon());
         if (iconId > 0) {
             imageView.setImageResource(iconId);
+        } else {
+            imageView.setImageResource(R.drawable.ic_android_line);
         }
         int backgroundId = getDrawableResId(bee.getIconBackground());
         if (backgroundId > 0) {
             imageView.setBackgroundResource(backgroundId);
+        } else {
+            imageView.setBackgroundResource(R.drawable.circle_bg_blue);
         }
     }
 

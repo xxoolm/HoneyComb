@@ -36,13 +36,32 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include
-            layout="@layout/layout_no_modules"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/appbar"
             android:layout_marginBottom="?actionBarSize"
-            android:visibility="@{viewmodel.isActivatedEmpty? View.VISIBLE:View.GONE}" />
+            android:visibility="@{viewmodel.isActivatedEmpty.get() ? View.VISIBLE : View.GONE}">
+
+            <ImageView
+                android:id="@+id/iv_bad_mod"
+                android:layout_width="@dimen/list_item_app_icon_w"
+                android:layout_height="@dimen/list_item_app_icon_w"
+                android:src="@drawable/ic_emotion_normal_fill"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_view_margin_middle"
+                android:text="@string/active_module_not_found"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_bad_mod" />
+        </android.support.constraint.ConstraintLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/activated_card"
@@ -50,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/appbar"
             android:layout_margin="@dimen/common_view_margin_small"
-            android:visibility="@{viewmodel.isActivatedEmpty? View.GONE:View.VISIBLE}"
+            android:visibility="@{viewmodel.isActivatedEmpty.get() ? View.GONE : View.VISIBLE}"
             app:cardBackgroundColor="?colorPrimary"
             app:cardCornerRadius="@dimen/common_view_corner_radius"
             app:cardElevation="@dimen/common_view_corner_radius">

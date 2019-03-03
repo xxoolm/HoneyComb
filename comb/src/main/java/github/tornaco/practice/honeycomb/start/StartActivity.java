@@ -16,6 +16,7 @@ import github.tornaco.practice.honeycomb.R;
 import github.tornaco.practice.honeycomb.ViewModelFactory;
 import github.tornaco.practice.honeycomb.databinding.ActivityStartBinding;
 import github.tornaco.practice.honeycomb.modules.ModuleListActivity;
+import github.tornaco.practice.honeycomb.settings.SettingsActivity;
 import github.tornaco.practice.honeycomb.start.adapter.BeeAdapter;
 
 public class StartActivity extends AppCompatActivity {
@@ -34,6 +35,12 @@ public class StartActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        startViewModel.start();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.starts, menu);
         return true;
@@ -43,6 +50,7 @@ public class StartActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
+                SettingsActivity.start(this);
                 return true;
             case R.id.action_modules:
                 ModuleListActivity.start(this);
@@ -55,7 +63,6 @@ public class StartActivity extends AppCompatActivity {
     private void setupViewModel() {
         startViewModel = obtainViewModel(this);
         binding.setViewmodel(startViewModel);
-        startViewModel.start();
         binding.setFabClickListener(v -> showCombActivateInfo());
         binding.executePendingBindings();
     }
