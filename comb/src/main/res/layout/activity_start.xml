@@ -10,16 +10,21 @@
             name="viewmodel"
             type="github.tornaco.practice.honeycomb.start.StartViewModel" />
 
+        <variable
+            name="fabClickListener"
+            type="android.view.View.OnClickListener" />
+
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:background="?colorPrimary">
 
             <androidx.appcompat.widget.Toolbar
@@ -31,25 +36,60 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <include
+            layout="@layout/layout_no_modules"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/appbar"
+            android:layout_marginBottom="?actionBarSize"
+            android:visibility="@{viewmodel.isActivatedEmpty? View.VISIBLE:View.GONE}" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/activated_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/appbar"
             android:layout_margin="@dimen/common_view_margin_small"
-            android:background="?colorPrimary"
+            android:visibility="@{viewmodel.isActivatedEmpty? View.GONE:View.VISIBLE}"
+            app:cardBackgroundColor="?colorPrimary"
             app:cardCornerRadius="@dimen/common_view_corner_radius"
             app:cardElevation="@dimen/common_view_corner_radius">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_activated"
+            <LinearLayout
+                android:id="@+id/category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?colorPrimary"
-                android:bees="@{viewmodel.notActivatedBees}" />
+                android:orientation="vertical">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/category_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dashboard_category_title_height"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/dashboard_category_title_margin_start"
+                        android:paddingEnd="@dimen/dashboard_category_title_margin_start"
+                        android:singleLine="true"
+                        android:text="@string/module_header_title_activated"
+                        android:textAppearance="@style/TextAppearance.CategoryTitle"
+                        android:textColor="?colorAccent" />
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_activated"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:bees="@{viewmodel.activatedBees}" />
+
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/bottom_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -66,9 +106,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:activeStatusFabImage="@{viewmodel.isCombActivated}"
+                android:onClickListener="@{fabClickListener}"
                 app:fabSize="normal"
                 app:layout_anchor="@+id/bottom_app_bar" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </layout>

@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -19,6 +21,7 @@ import github.tornaco.practice.honeycomb.start.adapter.BeeAdapter;
 public class StartActivity extends AppCompatActivity {
 
     private ActivityStartBinding binding;
+    private StartViewModel startViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +53,10 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void setupViewModel() {
-        StartViewModel startViewModel = obtainViewModel(this);
+        startViewModel = obtainViewModel(this);
         binding.setViewmodel(startViewModel);
         startViewModel.start();
+        binding.setFabClickListener(v -> showCombActivateInfo());
         binding.executePendingBindings();
     }
 
@@ -62,6 +66,14 @@ public class StartActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(new BeeAdapter());
+    }
+
+    private void showCombActivateInfo() {
+        Snackbar.make(binding.bottomAppBar,
+                startViewModel.getIsCombActivated().get()
+                        ? getString(R.string.status_active, startViewModel.getCombVersionName())
+                        : getString(R.string.status_not_active),
+                Snackbar.LENGTH_LONG).show();
     }
 
     public static StartViewModel obtainViewModel(FragmentActivity activity) {

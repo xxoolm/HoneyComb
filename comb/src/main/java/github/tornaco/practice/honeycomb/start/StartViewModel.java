@@ -1,6 +1,7 @@
 package github.tornaco.practice.honeycomb.start;
 
 import android.app.Application;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
@@ -9,11 +10,17 @@ import androidx.lifecycle.AndroidViewModel;
 import github.tornaco.practice.honeycomb.app.HoneyCombContext;
 import github.tornaco.practice.honeycomb.data.Bee;
 import github.tornaco.practice.honeycomb.data.BeeRepo;
+import lombok.Getter;
 
 public class StartViewModel extends AndroidViewModel {
     private BeeRepo beeRepo;
+    @Getter
+    private ObservableBoolean isActivatedEmpty = new ObservableBoolean(false);
+    @Getter
     private ObservableArrayList<Bee> activatedBees = new ObservableArrayList<>();
+    @Getter
     private ObservableArrayList<Bee> notActivatedBees = new ObservableArrayList<>();
+    @Getter
     private ObservableBoolean isCombActivated = new ObservableBoolean(false);
     private HoneyCombContext honeyCombContext;
 
@@ -27,28 +34,13 @@ public class StartViewModel extends AndroidViewModel {
         beeRepo.getActivated(bees -> {
             StartViewModel.this.activatedBees.clear();
             StartViewModel.this.activatedBees.addAll(bees);
+            isActivatedEmpty.set(activatedBees.isEmpty());
         });
         beeRepo.getNotActivated(bees -> {
             StartViewModel.this.notActivatedBees.clear();
             StartViewModel.this.notActivatedBees.addAll(bees);
         });
         isCombActivated.set(honeyCombContext.getHoneyCombManager().isPresent());
-    }
-
-    public void startBee(Bee bee) {
-        getApplication().startActivity(bee.getStarter());
-    }
-
-    public ObservableArrayList<Bee> getActivatedBees() {
-        return activatedBees;
-    }
-
-    public ObservableArrayList<Bee> getNotActivatedBees() {
-        return notActivatedBees;
-    }
-
-    public ObservableBoolean getIsCombActivated() {
-        return isCombActivated;
     }
 
     public String getCombVersionName() {

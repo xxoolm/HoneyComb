@@ -20,4 +20,11 @@
 
     <dimen name="common_view_elevation">3dp</dimen>
     <dimen name="common_view_corner_radius">0dp</dimen>
+
+    <!-- Dashboard category title layout height -->
+    <dimen name="dashboard_category_title_height">48dp</dimen>
+
+    <!-- Dashboard category title margin start -->
+    <dimen name="dashboard_category_title_margin_start">16dp</dimen>
+    <dimen name="dashboard_category_title_margin_end">16dp</dimen>
 </resources>

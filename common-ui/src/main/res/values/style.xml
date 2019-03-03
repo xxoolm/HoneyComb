@@ -17,6 +17,10 @@
 
     </style>
 
+    <style name="TextAppearance.CategoryTitle" parent="TextAppearance.Small">
+        <!--<item name="android:textColor">?colorAccent</item>-->
+    </style>
+
     <style name="TextAppearance.Medium" parent="@style/TextAppearance.AppCompat.Medium" />
 
     <style name="TextAppearance.Small" parent="@style/TextAppearance.AppCompat.Small" />
