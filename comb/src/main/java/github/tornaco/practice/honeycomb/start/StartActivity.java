@@ -3,6 +3,7 @@ package github.tornaco.practice.honeycomb.start;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import github.tornaco.practice.honeycomb.R;
 import github.tornaco.practice.honeycomb.ViewModelFactory;
 import github.tornaco.practice.honeycomb.databinding.ActivityStartBinding;
+import github.tornaco.practice.honeycomb.modules.ModuleListActivity;
 import github.tornaco.practice.honeycomb.start.adapter.BeeAdapter;
 
 public class StartActivity extends AppCompatActivity {
@@ -32,6 +34,19 @@ public class StartActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.starts, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_modules:
+                ModuleListActivity.start(this);
+                return true;
+            default:
+                return false;
+        }
     }
 
     private void setupViewModel() {

@@ -53,14 +53,7 @@ public class BeeRepo {
                 res.add(bee);
                 Logger.i("Found a bee %s", bee);
             }
-
         }
-        Collections.sort(res, (bee1, bee2) -> {
-            if (bee1.isActivated() == bee2.isActivated()) {
-                return 0;
-            }
-            return bee1.isActivated() ? -1 : 1;
-        });
         return res;
     }
 
@@ -70,6 +63,20 @@ public class BeeRepo {
 
     public void getNotActivated(@NonNull Callback1<List<Bee>> callback) {
         ExecutorUtils.io().execute(() -> callback.onResult(get(false)));
+    }
+
+    public void getAll(@NonNull Callback1<List<Bee>> callback) {
+        ExecutorUtils.io().execute(() -> {
+            List<Bee> res = get(true);
+            res.addAll(get(false));
+            Collections.sort(res, (bee1, bee2) -> {
+                if (bee1.isActivated() == bee2.isActivated()) {
+                    return 0;
+                }
+                return bee1.isActivated() ? -1 : 1;
+            });
+            callback.onResult(res);
+        });
     }
 
 }

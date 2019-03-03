@@ -6,6 +6,7 @@ import android.app.Application;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import github.tornaco.practice.honeycomb.data.BeeRepo;
+import github.tornaco.practice.honeycomb.modules.ModulesViewModel;
 import github.tornaco.practice.honeycomb.start.StartViewModel;
 
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
@@ -37,6 +38,10 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         if (modelClass.isAssignableFrom(StartViewModel.class)) {
             //noinspection unchecked
             return (T) new StartViewModel(application, beeRepo);
+        }
+        if (modelClass.isAssignableFrom(ModulesViewModel.class)) {
+            //noinspection unchecked
+            return (T) new ModulesViewModel(application, beeRepo);
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }

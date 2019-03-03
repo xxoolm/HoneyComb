@@ -5,4 +5,7 @@
     <string name="app_name_locker">应用锁</string>
     <string name="module_header_title_activated">已启用</string>
     <string name="module_header_title_not_activated">未启用</string>
+    <string name="title_modules">模块</string>
+    <string name="title_settings">设置</string>
+    <string name="title_about">关于</string>
 </resources>

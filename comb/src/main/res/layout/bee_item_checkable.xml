@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="bee"
+            type="github.tornaco.practice.honeycomb.data.Bee" />
+
+        <variable
+            name="listener"
+            type="github.tornaco.practice.honeycomb.start.OnBeeItemClickListener" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/common_view_margin_small"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?selectableItemBackground"
+        android:minHeight="@dimen/common_grid_item_height"
+        android:onClick="@{() -> listener.onBeeItemClick(bee)}"
+        tools:context=".start.StartActivity">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/common_view_margin_default"
+            android:background="@drawable/circle_bg_red"
+            android:beeIcon="@{bee}"
+            android:padding="@dimen/common_view_margin_middle"
+            android:src="@drawable/ic_android_line" />
+
+        <TextView
+            android:id="@+id/tv_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/common_view_margin_small"
+            android:layout_marginEnd="@dimen/common_view_margin_small"
+            android:layout_toEndOf="@id/iv_icon"
+            android:text="@{bee.name}"
+            android:textColor="?textColorMain"
+            tools:text="Tornaco" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/module_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/common_view_margin_default"
+            android:layout_toEndOf="@id/tv_label" />
+
+    </RelativeLayout>
+</layout>

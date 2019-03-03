@@ -6,13 +6,20 @@
     <item
         android:id="@+id/action_modules"
         android:icon="@drawable/ic_apps_fill"
-        android:title="@string/app_name"
+        android:title="@string/title_modules"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings_fill"
-        android:title="@string/app_name"
-        app:showAsAction="ifRoom"
+        android:title="@string/title_settings"
+        app:showAsAction="never"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/action_about"
+        android:icon="@drawable/ic_information_fill"
+        android:title="@string/title_about"
+        app:showAsAction="never"
         tools:ignore="AlwaysShowAction" />
 
 </menu>
