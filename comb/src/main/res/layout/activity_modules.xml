@@ -20,12 +20,15 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?colorPrimary">
+            android:background="?colorPrimary"
+            android:theme="?appbarTheme">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
+                app:popupTheme="?appbarPopupTheme"
+                app:theme="?toolbarTheme"
                 app:title="@string/title_modules"
                 app:titleTextColor="?menuIconTint" />
 
@@ -36,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/common_view_margin_small"
-            android:background="@color/md_white"
+            android:background="?colorPrimary"
             app:cardCornerRadius="@dimen/common_view_corner_radius"
             app:cardElevation="@dimen/common_view_corner_radius">
 
@@ -44,6 +47,7 @@
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?colorPrimary"
                 android:bees="@{viewmodel.bees}" />
 
         </androidx.cardview.widget.CardView>

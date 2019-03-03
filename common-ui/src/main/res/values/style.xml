@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="menuIconTint">@color/md_white</item>
+        <item name="appbarPopupTheme">@style/PopupOverlay</item>
+        <item name="appbarTheme">@style/AppBarOverlay</item>
+        <item name="toolbarTheme">@style/ToolbarThemeCommon</item>
+        <item name="textSizeListPrimary">@dimen/list_item_main_text_size_normal</item>
+        <item name="android:textColorSecondary">@color/md_white</item>
+        <item name="android:textColorPrimary">@color/md_white</item>
+        <item name="android:windowBackground">@color/primary_dark</item>
+
+    </style>
+
     <style name="TextAppearance.Medium" parent="@style/TextAppearance.AppCompat.Medium" />
 
     <style name="TextAppearance.Small" parent="@style/TextAppearance.AppCompat.Small" />
@@ -25,5 +41,17 @@
         <item name="switchBarTextColor">@android:color/white</item>
     </style>
 
+    <style name="ToolbarThemeCommon">
+        <item name="android:textColorSecondary">?menuIconTint</item>
+        <item name="android:textColorPrimary">?menuIconTint</item>
+        <item name="colorControlNormal">?menuIconTint</item>
+        <!--<item name="colorControlActivated">?torMenuIconTintColor</item>-->
+        <item name="android:colorControlNormal">?menuIconTint</item>
+        <!--<item name="android:colorControlActivated">?torMenuIconTintColor</item>-->
+    </style>
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat" />
 
 </resources>

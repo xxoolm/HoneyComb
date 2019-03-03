@@ -2,4 +2,8 @@
 <resources>
     <attr name="menuIconTint" format="color" />
     <attr name="textColorMain" format="color" />
+    <attr name="appbarPopupTheme" format="reference" />
+    <attr name="appbarTheme" format="reference" />
+    <attr name="toolbarTheme" format="reference" />
+    <attr name="textSizeListPrimary" format="dimension" />
 </resources>

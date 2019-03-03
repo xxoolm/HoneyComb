@@ -1,4 +1,4 @@
-package github.tornaco.practice.honeycomb.start.adapter;
+package github.tornaco.practice.honeycomb.modules.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -9,9 +9,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import github.tornaco.practice.honeycomb.data.Bee;
-import github.tornaco.practice.honeycomb.databinding.BeeItemBinding;
+import github.tornaco.practice.honeycomb.databinding.BeeItemCheckableBinding;
 import github.tornaco.practice.honeycomb.databingding.BeeWireable;
-import github.tornaco.practice.honeycomb.start.OnBeeItemClickListener;
 
 public class BeeAdapter extends RecyclerView.Adapter<BeeAdapter.BeeViewHolder>
         implements BeeWireable {
@@ -28,19 +27,14 @@ public class BeeAdapter extends RecyclerView.Adapter<BeeAdapter.BeeViewHolder>
     @NonNull
     @Override
     public BeeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new BeeViewHolder(BeeItemBinding.inflate(
+        return new BeeViewHolder(BeeItemCheckableBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull BeeViewHolder holder, int position) {
         holder.beeItemBinding.setBee(bees.get(position));
-        holder.beeItemBinding.setListener(new OnBeeItemClickListener() {
-            @Override
-            public void onBeeItemClick(Bee bee) {
-                holder.itemView.getContext().startActivity(bee.getStarter());
-            }
-        });
+        holder.beeItemBinding.setListener(bee -> holder.beeItemBinding.moduleSwitch.performClick());
         holder.beeItemBinding.executePendingBindings();
     }
 
@@ -50,15 +44,12 @@ public class BeeAdapter extends RecyclerView.Adapter<BeeAdapter.BeeViewHolder>
     }
 
     static class BeeViewHolder extends RecyclerView.ViewHolder {
-        private BeeItemBinding beeItemBinding;
+        private BeeItemCheckableBinding beeItemBinding;
 
-        public BeeViewHolder(@NonNull BeeItemBinding beeItemBinding) {
+        BeeViewHolder(@NonNull BeeItemCheckableBinding beeItemBinding) {
             super(beeItemBinding.getRoot());
             this.beeItemBinding = beeItemBinding;
         }
 
-        public BeeItemBinding getBeeItemBinding() {
-            return beeItemBinding;
-        }
     }
 }

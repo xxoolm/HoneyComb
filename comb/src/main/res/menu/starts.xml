@@ -12,7 +12,7 @@
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings_fill"
         android:title="@string/title_settings"
-        app:showAsAction="never"
+        app:showAsAction="always"
         tools:ignore="AlwaysShowAction" />
 
     <item

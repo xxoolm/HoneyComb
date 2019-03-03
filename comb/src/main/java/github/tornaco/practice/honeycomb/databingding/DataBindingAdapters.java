@@ -1,4 +1,4 @@
-package github.tornaco.practice.honeycomb.start.databingding;
+package github.tornaco.practice.honeycomb.databingding;
 
 import android.content.res.ColorStateList;
 import android.widget.ImageView;
@@ -14,13 +14,12 @@ import androidx.databinding.ObservableBoolean;
 import androidx.recyclerview.widget.RecyclerView;
 import github.tornaco.practice.honeycomb.R;
 import github.tornaco.practice.honeycomb.data.Bee;
-import github.tornaco.practice.honeycomb.start.adapter.BeeAdapter;
 
-public class StartDataBinding {
+public class DataBindingAdapters {
 
     @BindingAdapter("android:bees")
-    public static void setBees(RecyclerView recyclerView, List<Bee> list) {
-        BeeAdapter beeAdapter = (BeeAdapter) recyclerView.getAdapter();
+    public static void seBees(RecyclerView recyclerView, List<Bee> list) {
+        BeeWireable beeAdapter = (BeeWireable) recyclerView.getAdapter();
         Objects.requireNonNull(beeAdapter).updateBee(list);
     }
 

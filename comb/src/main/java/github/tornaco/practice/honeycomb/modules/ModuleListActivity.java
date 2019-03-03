@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import github.tornaco.honeycomb.common.ui.BaseDefaultMenuItemHandlingAppCompatActivity;
 import github.tornaco.practice.honeycomb.ViewModelFactory;
 import github.tornaco.practice.honeycomb.databinding.ActivityModulesBinding;
-import github.tornaco.practice.honeycomb.start.adapter.BeeAdapter;
+import github.tornaco.practice.honeycomb.modules.adapter.BeeAdapter;
 
 public class ModuleListActivity extends BaseDefaultMenuItemHandlingAppCompatActivity {
 
@@ -32,6 +32,7 @@ public class ModuleListActivity extends BaseDefaultMenuItemHandlingAppCompatActi
         setContentView(binding.getRoot());
         setupRecycler();
         setupViewModel();
+        showHomeAsUpNavigator();
     }
 
     private void setupViewModel() {

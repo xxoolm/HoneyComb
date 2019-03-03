@@ -26,7 +26,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                android:text="@string/app_name"
                 app:title="@string/app_name"
                 app:titleTextColor="?menuIconTint" />
 
@@ -37,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/common_view_margin_small"
-            android:background="@color/md_white"
+            android:background="?colorPrimary"
             app:cardCornerRadius="@dimen/common_view_corner_radius"
             app:cardElevation="@dimen/common_view_corner_radius">
 
@@ -45,6 +44,7 @@
                 android:id="@+id/recycler_activated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="?colorPrimary"
                 android:bees="@{viewmodel.notActivatedBees}" />
 
         </androidx.cardview.widget.CardView>
@@ -59,7 +59,7 @@
                 android:layout_height="?actionBarSize"
                 android:layout_gravity="bottom"
                 android:fabAlignmentMode="@{viewmodel.isCombActivated}"
-                app:backgroundTint="@color/primary" />
+                app:backgroundTint="?colorPrimary" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"

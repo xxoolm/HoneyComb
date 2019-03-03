@@ -43,11 +43,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/common_view_margin_small"
+            android:layout_marginStart="@dimen/common_view_margin_middle"
             android:layout_marginEnd="@dimen/common_view_margin_small"
             android:layout_toEndOf="@id/iv_icon"
             android:text="@{bee.name}"
-            android:textColor="?textColorMain"
+            android:textSize="?textSizeListPrimary"
+            android:textColor="?android:textColorPrimary"
             tools:text="Tornaco" />
 
         <androidx.appcompat.widget.SwitchCompat
@@ -57,7 +58,9 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/common_view_margin_default"
-            android:layout_toEndOf="@id/tv_label" />
+            android:layout_toEndOf="@id/tv_label"
+            android:clickable="false"
+            android:focusable="false" />
 
     </RelativeLayout>
 </layout>
